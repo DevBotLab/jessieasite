@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jessie Minecraft SMP — Инновационный Ванильный Сервер</title>
+    <title>Jessie Minecraft SMP — Премиум Ванильный Сервер</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -44,16 +44,12 @@
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
         }
 
         /* Анимации */
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-10px) rotate(1deg); }
-            66% { transform: translateY(-5px) rotate(-1deg); }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
         @keyframes glow {
@@ -78,16 +74,6 @@
             }
         }
 
-        @keyframes typewriter {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -1000px 0; }
-            100% { background-position: 1000px 0; }
-        }
-
         /* Компоненты */
         .glass {
             background: rgba(255, 255, 255, 0.05);
@@ -96,26 +82,26 @@
             border-radius: 20px;
         }
 
-        .neon-border {
-            border: 2px solid var(--primary);
-            box-shadow: var(--shadow-glow);
-            position: relative;
+        .btn {
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .neon-border::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border: 2px solid transparent;
-            border-radius: inherit;
-            background: var(--gradient-1);
-            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-            mask-composite: exclude;
-            -webkit-mask-composite: destination-out;
-            animation: glow 3s ease-in-out infinite;
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-float);
         }
 
         /* Навигация */
@@ -129,12 +115,6 @@
             z-index: 1000;
             padding: 1rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .navbar.scrolled {
-            padding: 0.5rem 0;
-            background: rgba(15, 15, 35, 0.98);
         }
 
         .nav-container {
@@ -155,7 +135,6 @@
             background-clip: text;
             color: transparent;
             text-decoration: none;
-            animation: glow 4s ease-in-out infinite;
         }
 
         .nav-links {
@@ -170,36 +149,12 @@
             font-weight: 600;
             padding: 0.75rem 1.5rem;
             border-radius: 50px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-1);
-            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: -1;
-        }
-
-        .nav-link:hover::before {
-            left: 0;
+            transition: all 0.3s ease;
         }
 
         .nav-link:hover {
-            color: var(--light-1);
-            transform: translateY(-2px);
-        }
-
-        .auth-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+            background: var(--primary);
+            color: white;
         }
 
         .notification-bell {
@@ -217,7 +172,6 @@
 
         .notification-bell:hover {
             background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
         }
 
         .notification-count {
@@ -236,56 +190,6 @@
             animation: glow 2s ease-in-out infinite;
         }
 
-        .btn {
-            background: var(--gradient-1);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-float);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary);
-            color: white;
-        }
-
         /* Герой секция */
         .hero {
             min-height: 100vh;
@@ -296,25 +200,9 @@
             position: relative;
             overflow: hidden;
             padding: 6rem 2rem;
-        }
-
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             background: 
                 radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
+                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
         }
 
         .hero-title {
@@ -326,14 +214,13 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: glow 3s ease-in-out infinite, slideUp 1s ease-out;
+            animation: glow 3s ease-in-out infinite;
         }
 
         .hero-subtitle {
             font-size: 1.5rem;
             margin-bottom: 2rem;
             opacity: 0.9;
-            animation: slideUp 1s ease-out 0.2s both;
         }
 
         .server-info {
@@ -342,7 +229,6 @@
             gap: 1rem;
             margin: 2rem 0;
             flex-wrap: wrap;
-            animation: slideUp 1s ease-out 0.4s both;
         }
 
         .info-badge {
@@ -351,30 +237,6 @@
             border-radius: 25px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .info-badge:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .server-address {
-            font-family: 'Courier New', monospace;
-            font-size: 1.2rem;
-            background: var(--gradient-2);
-            padding: 1rem 2rem;
-            border-radius: 15px;
-            margin: 1rem 0;
-            display: inline-block;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            animation: slideUp 1s ease-out 0.6s both;
-        }
-
-        .server-address:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-glow);
         }
 
         /* Сезон таймер */
@@ -384,7 +246,6 @@
             border-radius: 20px;
             margin: 2rem 0;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: slideUp 1s ease-out 0.8s both;
         }
 
         .timer-grid {
@@ -399,12 +260,6 @@
             padding: 1rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .timer-unit:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px);
         }
 
         .timer-value {
@@ -432,88 +287,32 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 999;
             display: none;
-            overflow: hidden;
         }
 
         .notification-panel.show {
             display: block;
-            animation: slideUp 0.3s ease-out;
         }
 
         .notification-header {
             padding: 1rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .notification-list {
-            max-height: 400px;
-            overflow-y: auto;
         }
 
         .notification-item {
             padding: 1rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: background 0.3s ease;
         }
 
-        .notification-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .notification-item:last-child {
-            border-bottom: none;
-        }
-
-        /* Адаптивность */
         @media (max-width: 768px) {
-            .nav-links {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .hero-title {
-                font-size: 2.5rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-
-            .timer-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-
-            .notification-panel {
-                width: 300px;
-                right: 10px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .nav-container {
-                padding: 0 1rem;
-            }
-
-            .hero {
-                padding: 4rem 1rem;
-            }
-
-            .hero-title {
-                font-size: 2rem;
-            }
-
-            .timer-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .hero-title { font-size: 2.5rem; }
+            .timer-grid { grid-template-columns: repeat(3, 1fr); }
+            .notification-panel { width: 300px; right: 10px; }
         }
     </style>
 </head>
 <body>
     <!-- Навигация -->
-    <nav class="navbar" id="navbar">
+    <nav class="navbar">
         <div class="nav-container">
             <a href="/" class="logo">JMSMP</a>
             <div class="nav-links">
@@ -521,120 +320,72 @@
                 <a href="/team" class="nav-link">Команда</a>
                 <a href="/wiki" class="nav-link">Вики</a>
                 <a href="/faq" class="nav-link">FAQ</a>
+                <a href="/profile" class="btn">Профиль</a>
                 
-                <div class="auth-section">
-                    <div class="notification-bell" id="notificationBell">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-count hidden" id="notificationCount">3</span>
-                    </div>
-                    <a href="/profile" class="btn btn-secondary">
-                        <i class="fas fa-user"></i> Профиль
-                    </a>
+                <div class="notification-bell" id="notificationBell">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count" id="notificationCount">3</span>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Панель уведомлений -->
+    <!-- Уведомления -->
     <div class="notification-panel glass" id="notificationPanel">
         <div class="notification-header">
             <h3>Уведомления</h3>
-            <button onclick="closeNotifications()" style="background: none; border: none; color: var(--light-2); cursor: pointer;">
-                <i class="fas fa-times"></i>
-            </button>
         </div>
-        <div class="notification-list">
+        <div id="notificationList">
             <div class="notification-item">
-                <div style="font-weight: 600; color: var(--primary);">Новый сезон начинается!</div>
-                <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Приготовьтесь к новым приключениям</div>
-                <div style="font-size: 0.8rem; color: var(--accent); margin-top: 0.5rem;">2 часа назад</div>
-            </div>
-            <div class="notification-item">
-                <div style="font-weight: 600; color: var(--success);">Анкета одобрена!</div>
-                <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Добро пожаловать на сервер</div>
-                <div style="font-size: 0.8rem; color: var(--accent); margin-top: 0.5rem;">1 день назад</div>
-            </div>
-            <div class="notification-item">
-                <div style="font-weight: 600; color: var(--warning);">Обновление системы</div>
-                <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Добавлены новые функции</div>
-                <div style="font-size: 0.8rem; color: var(--accent); margin-top: 0.5rem;">3 дня назад</div>
+                <strong>Добро пожаловать!</strong>
+                <p>Сервер Jessie SMP запущен</p>
+                <small>Сегодня, 10:30</small>
             </div>
         </div>
     </div>
 
     <!-- Герой секция -->
     <section class="hero">
-        <div class="hero-bg"></div>
         <div class="hero-content">
-            <h1 class="hero-title">Jessie Minecraft SMP</h1>
-            <p class="hero-subtitle">ИННОВАЦИОННЫЙ ВАНИЛЬНЫЙ СЕРВЕР С ПРЕМИУМ ДИЗАЙНОМ</p>
+            <h1 class="hero-title">JESSIE MINECRAFT SMP</h1>
+            <p class="hero-subtitle">ПРЕМИУМ ВАНИЛЬНЫЙ СЕРВЕР С ИННОВАЦИОННЫМ ДИЗАЙНОМ</p>
             
             <div class="server-info">
                 <span class="info-badge">🎮 Minecraft 1.21.8</span>
-                <span class="info-badge">⚡ Ванильный геймплей</span>
+                <span class="info-badge">⚡ Чистый ванильный геймплей</span>
                 <span class="info-badge">🌍 Онлайн 24/7</span>
             </div>
 
-            <div class="server-address" onclick="copyServerIP()">
-                <i class="fas fa-copy"></i> play.jessiesmp.online:25565
-            </div>
-
             <div class="season-timer glass">
-                <h3 style="margin-bottom: 1rem; color: var(--primary);">🚀 До нового сезона осталось:</h3>
+                <h3>🚀 До окончания сезона осталось:</h3>
                 <div class="timer-grid" id="seasonTimer">
-                    <div class="timer-unit">
-                        <span class="timer-value" id="years">1</span>
-                        <span class="timer-label">лет</span>
-                    </div>
-                    <div class="timer-unit">
-                        <span class="timer-value" id="months">3</span>
-                        <span class="timer-label">месяцев</span>
-                    </div>
-                    <div class="timer-unit">
-                        <span class="timer-value" id="weeks">1</span>
-                        <span class="timer-label">недель</span>
-                    </div>
-                    <div class="timer-unit">
-                        <span class="timer-value" id="days">6</span>
-                        <span class="timer-label">дней</span>
-                    </div>
-                    <div class="timer-unit">
-                        <span class="timer-value" id="hours">21</span>
-                        <span class="timer-label">часов</span>
-                    </div>
-                    <div class="timer-unit">
-                        <span class="timer-value" id="minutes">45</span>
-                        <span class="timer-label">минут</span>
-                    </div>
+                    <!-- Таймер будет здесь -->
                 </div>
             </div>
 
-            <div class="hero-actions" style="animation: slideUp 1s ease-out 1s both;">
-                <button class="btn" onclick="startPlaying()" style="margin-right: 1rem;">
+            <div class="hero-actions">
+                <button class="btn" onclick="startPlaying()">
                     <i class="fas fa-play"></i> Начать играть
                 </button>
-                <button class="btn btn-secondary" onclick="openApplicationModal()">
+                <a href="/profile#application" class="btn" style="background: var(--accent); margin-left: 1rem;">
                     <i class="fas fa-file-alt"></i> Заполнить анкету
-                </button>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Дополнительные секции будут здесь -->
-
     <script>
-        // Инициализация
         class JMSMPApp {
             constructor() {
+                this.userId = localStorage.getItem('userId') || 'user_' + Date.now();
                 this.notifications = [];
                 this.init();
             }
 
-            init() {
+            async init() {
                 this.setupEventListeners();
+                await this.loadNotifications();
                 this.startSeasonTimer();
-                this.loadNotifications();
-                this.setupScrollEffects();
             }
 
             setupEventListeners() {
@@ -644,35 +395,77 @@
                     this.toggleNotifications();
                 });
 
-                // Закрытие уведомлений по клику вне области
-                document.addEventListener('click', () => {
-                    this.closeNotifications();
-                });
-
-                // Скролл навигации
-                window.addEventListener('scroll', () => {
-                    this.handleScroll();
-                });
-            }
-
-            setupScrollEffects() {
-                // Параллакс эффект для фона
-                window.addEventListener('scroll', () => {
-                    const scrolled = window.pageYOffset;
-                    const heroBg = document.querySelector('.hero-bg');
-                    if (heroBg) {
-                        heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.notification-panel') && !e.target.closest('.notification-bell')) {
+                        this.closeNotifications();
                     }
                 });
             }
 
-            handleScroll() {
-                const navbar = document.getElementById('navbar');
-                if (window.scrollY > 100) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
+            async loadNotifications() {
+                try {
+                    const response = await fetch(`/api/notifications/${this.userId}`);
+                    const data = await response.json();
+                    this.notifications = data.notifications || [];
+                    this.updateNotificationUI();
+                } catch (error) {
+                    console.error('Ошибка загрузки уведомлений:', error);
+                    // Используем заглушки
+                    this.notifications = [
+                        {
+                            id: '1',
+                            title: 'Добро пожаловать на Jessie SMP!',
+                            message: 'Сервер успешно запущен. Присоединяйтесь к нашему сообществу!',
+                            type: 'welcome',
+                            createdAt: new Date().toISOString(),
+                            read: false
+                        }
+                    ];
+                    this.updateNotificationUI();
                 }
+            }
+
+            updateNotificationUI() {
+                const unreadCount = this.notifications.filter(n => !n.read).length;
+                const countElement = document.getElementById('notificationCount');
+                const listElement = document.getElementById('notificationList');
+
+                countElement.textContent = unreadCount;
+                countElement.style.display = unreadCount > 0 ? 'flex' : 'none';
+
+                // Обновляем список уведомлений
+                listElement.innerHTML = this.notifications.map(notif => `
+                    <div class="notification-item" onclick="markAsRead('${notif.id}')">
+                        <strong style="color: ${this.getNotificationColor(notif.type)}">${notif.title}</strong>
+                        <p>${notif.message}</p>
+                        <small>${this.formatDate(notif.createdAt)}</small>
+                    </div>
+                `).join('');
+            }
+
+            getNotificationColor(type) {
+                const colors = {
+                    'welcome': '#10b981',
+                    'info': '#6366f1', 
+                    'warning': '#f59e0b',
+                    'error': '#ef4444',
+                    'update': '#ec4899'
+                };
+                return colors[type] || '#6366f1';
+            }
+
+            formatDate(dateString) {
+                const date = new Date(dateString);
+                const now = new Date();
+                const diffMs = now - date;
+                const diffMins = Math.floor(diffMs / (1000 * 60));
+                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+                if (diffMins < 60) return `${diffMins} мин. назад`;
+                if (diffHours < 24) return `${diffHours} час. назад`;
+                if (diffDays < 7) return `${diffDays} дн. назад`;
+                return date.toLocaleDateString('ru-RU');
             }
 
             toggleNotifications() {
@@ -684,41 +477,83 @@
                 document.getElementById('notificationPanel').classList.remove('show');
             }
 
-            loadNotifications() {
-                // Загрузка уведомлений из localStorage
-                const saved = localStorage.getItem('jmsmp_notifications');
-                if (saved) {
-                    this.notifications = JSON.parse(saved);
-                    this.updateNotificationBadge();
-                }
-            }
-
-            updateNotificationBadge() {
-                const unread = this.notifications.filter(n => !n.read).length;
-                const badge = document.getElementById('notificationCount');
-                if (unread > 0) {
-                    badge.textContent = unread;
-                    badge.classList.remove('hidden');
-                } else {
-                    badge.classList.add('hidden');
+            async markAsRead(notificationId) {
+                try {
+                    await fetch('/api/notifications/mark-read', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            notificationId, 
+                            userId: this.userId 
+                        })
+                    });
+                    await this.loadNotifications(); // Перезагружаем уведомления
+                } catch (error) {
+                    console.error('Ошибка отметки уведомления:', error);
                 }
             }
 
             startSeasonTimer() {
-                setInterval(() => {
-                    this.updateSeasonTimer();
-                }, 1000);
+                this.updateSeasonTimer();
+                setInterval(() => this.updateSeasonTimer(), 1000);
             }
 
-            updateSeasonTimer() {
-                const endDate = new Date('2026-03-31T23:59:59');
+            async updateSeasonTimer() {
+                try {
+                    const response = await fetch('/api/season-countdown');
+                    const data = await response.json();
+                    
+                    if (data.ended) {
+                        document.getElementById('seasonTimer').innerHTML = 
+                            '<div style="text-align: center; color: var(--success); font-size: 1.5rem;">🎉 Сезон завершен!</div>';
+                        return;
+                    }
+
+                    document.getElementById('seasonTimer').innerHTML = `
+                        <div class="timer-unit">
+                            <span class="timer-value">${data.years}</span>
+                            <span class="timer-label">лет</span>
+                        </div>
+                        <div class="timer-unit">
+                            <span class="timer-value">${data.months}</span>
+                            <span class="timer-label">месяцев</span>
+                        </div>
+                        <div class="timer-unit">
+                            <span class="timer-value">${data.weeks}</span>
+                            <span class="timer-label">недель</span>
+                        </div>
+                        <div class="timer-unit">
+                            <span class="timer-value">${data.days}</span>
+                            <span class="timer-label">дней</span>
+                        </div>
+                        <div class="timer-unit">
+                            <span class="timer-value">${data.hours.toString().padStart(2, '0')}</span>
+                            <span class="timer-label">часов</span>
+                        </div>
+                        <div class="timer-unit">
+                            <span class="timer-value">${data.minutes.toString().padStart(2, '0')}</span>
+                            <span class="timer-label">минут</span>
+                        </div>
+                    `;
+                } catch (error) {
+                    console.error('Ошибка загрузки таймера:', error);
+                    // Резервный таймер
+                    this.updateFallbackTimer();
+                }
+            }
+
+            updateFallbackTimer() {
+                const endDate = new Date(Date.now() + 
+                    (365 * 24 * 60 * 60 * 1000) + 
+                    (3 * 30 * 24 * 60 * 60 * 1000) + 
+                    (4 * 7 * 24 * 60 * 60 * 1000) + 
+                    (2 * 24 * 60 * 60 * 1000) + 
+                    (17 * 60 * 60 * 1000) + 
+                    (52 * 60 * 1000)
+                );
+                
                 const now = new Date();
                 const diff = endDate - now;
-
-                if (diff <= 0) {
-                    document.getElementById('seasonTimer').innerHTML = '<div style="text-align: center; color: var(--success); font-size: 1.5rem;">🎉 Новый сезон начался!</div>';
-                    return;
-                }
 
                 const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
                 const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
@@ -727,51 +562,52 @@
                 const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
-                document.getElementById('years').textContent = years;
-                document.getElementById('months').textContent = months;
-                document.getElementById('weeks').textContent = weeks;
-                document.getElementById('days').textContent = days;
-                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seasonTimer').innerHTML = `
+                    <div class="timer-unit">
+                        <span class="timer-value">${years}</span>
+                        <span class="timer-label">лет</span>
+                    </div>
+                    <div class="timer-unit">
+                        <span class="timer-value">${months}</span>
+                        <span class="timer-label">месяцев</span>
+                    </div>
+                    <div class="timer-unit">
+                        <span class="timer-value">${weeks}</span>
+                        <span class="timer-label">недель</span>
+                    </div>
+                    <div class="timer-unit">
+                        <span class="timer-value">${days}</span>
+                        <span class="timer-label">дней</span>
+                    </div>
+                    <div class="timer-unit">
+                        <span class="timer-value">${hours.toString().padStart(2, '0')}</span>
+                        <span class="timer-label">часов</span>
+                    </div>
+                    <div class="timer-unit">
+                        <span class="timer-value">${minutes.toString().padStart(2, '0')}</span>
+                        <span class="timer-label">минут</span>
+                    </div>
+                `;
             }
         }
 
         // Глобальные функции
-        function copyServerIP() {
-            navigator.clipboard.writeText('play.jessiesmp.online:25565').then(() => {
-                const address = document.querySelector('.server-address');
-                const originalText = address.innerHTML;
-                address.innerHTML = '<i class="fas fa-check"></i> IP скопирован!';
-                address.style.background = 'var(--success)';
-                setTimeout(() => {
-                    address.innerHTML = originalText;
-                    address.style.background = '';
-                }, 2000);
-            });
-        }
-
         function startPlaying() {
-            // Открытие лаунчера или инструкции
-            window.open('https://tlauncher.org/', '_blank');
+            window.open('https://easylauncher.org/', '_blank');
         }
 
-        function openApplicationModal() {
-            // Переход на страницу профиля для заполнения анкеты
-            window.location.href = '/profile#application';
+        function markAsRead(notificationId) {
+            window.jmsmpApp.markAsRead(notificationId);
         }
 
-        function closeNotifications() {
-            document.getElementById('notificationPanel').classList.remove('show');
-        }
-
-        // Запуск приложения
+        // Инициализация
         document.addEventListener('DOMContentLoaded', () => {
-            new JMSMPApp();
+            window.jmsmpApp = new JMSMPApp();
             
-            // Анимация появления элементов
-            const animatedElements = document.querySelectorAll('.hero-title, .hero-subtitle, .server-info, .server-address, .season-timer, .hero-actions');
-            animatedElements.forEach((el, index) => {
-                el.style.animationDelay = `${index * 0.2}s`;
+            // Анимация появления
+            const elements = document.querySelectorAll('.hero-title, .hero-subtitle, .server-info, .season-timer, .hero-actions');
+            elements.forEach((el, index) => {
+                el.style.animation = `slideUp 0.6s ease-out ${index * 0.2}s both`;
             });
         });
     </script>
