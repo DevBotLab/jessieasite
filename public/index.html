@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jessie Minecraft SMP — ЗДЕСЬ НОВЫЕ ПРИКЛЮЧЕНИЯ</title>
+    
+    <!-- Оптимизация для SEO -->
+    <meta name="description" content="Jessie Minecraft SMP - приватный ванильный сервер Minecraft. Присоединяйтесь к нашему сообществу!">
+    <meta name="keywords" content="minecraft, сервер, SMP, ванила, Jessie, JMSMP">
+    
+    <style>
+        /* НОВАЯ ЦВЕТОВАЯ ПАЛИТРА */
+        :root {
+            --primary-color: #182AA8;
+            --secondary-color: #AA00AA;
+            --accent-color: #2D439D;
+            --light-blue: #426F84;
+            --light-gray: #DEDEDE;
+            --text-color: #333333;
+            --bg-color: #f9f9f9;
+            --section-bg: #ffffff;
+            --success-color: #27ae60;
+            --error-color: #e74c3c;
+            --warning-color: #f39c12;
+        }
+        
+        /* СБРОС И БАЗОВЫЕ СТИЛИ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', 'Helvetica', sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ШАПКА */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 30px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+        
+        .project-name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .project-subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+        
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .social-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .auth-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.25);
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+        
+        .auth-button:hover {
+            background: rgba(255,255,255,0.35);
+            transform: translateY(-2px);
+        }
+        
+        .server-info {
+            margin: 25px 0;
+        }
+        
+        .version-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 5px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .server-address {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            border: 2px solid var(--accent-color);
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .server-address:hover {
+            background: var(--accent-color);
+            transform: scale(1.03);
+        }
+        
+        .countdown {
+            margin: 30px 0;
+            font-size: 1.3rem;
+            background: rgba(255,255,255,0.15);
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+        
+        .scroll-down {
+            margin-top: 40px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
+        }
+        
+        /* ОСНОВНЫЕ РАЗДЕЛЫ */
+        section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h2 {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+            font-size: 2.2rem;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--light-blue));
+        }
+        
+        /* ШАГИ */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .step {
+            text-align: center;
+            padding: 25px;
+            background: var(--light-gray);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--light-blue);
+        }
+        
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .step-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .step-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            border: none;
+        }
+        
+        .step-button:hover {
+            background: linear-gradient(135deg, var(--accent-color), var(--light-blue));
+            transform: scale(1.05);
+        }
+        
+        /* ФОРМА АНКЕТЫ */
+        .application-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--section-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--light-gray);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .submit-button {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(24, 42, 168, 0.3);
+        }
+        
+        .submit-button:disabled {
+            background: var(--light-gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* СТАТУС АНКЕТЫ */
+        .application-status {
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            background: var(--warning-color);
+            color: white;
+        }
+        
+        .status-approved {
+            background: var(--success-color);
+            color: white;
+        }
+        
+        .status-rejected {
+            background: var(--error-color);
+            color: white;
+        }
+        
+        .profile-section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        /* МОДАЛЬНОЕ ОКНО */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .close-modal {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+        
+        /* ФУТЕР */
+        footer {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+        
+        footer p {
+            opacity: 0.9;
+        }
+        
+        /* УТИЛИТЫ */
+        .hidden {
+            display: none;
+        }
+        
+        .text-center { text-align: center; }
+        
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 768px) {
+            header { padding: 60px 0; }
+            .logo { width: 120px; height: 120px; font-size: 1.5rem; }
+            .project-name { font-size: 2rem; }
+            .project-subtitle { font-size: 1.2rem; }
+            .section-title h2 { font-size: 1.8rem; }
+            .steps { grid-template-columns: 1fr; }
+            .container { padding: 0 15px; }
+            .application-form { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ШАПКА -->
+    <header>
+        <div class="container">
+            <div class="logo">JMSMP</div>
+            <h1 class="project-name">Jessie Minecraft SMP</h1>
+            <p class="project-subtitle">ЗДЕСЬ НОВЫЕ ПРИКЛЮЧЕНИЯ</p>
+            
+            <div class="server-info">
+                <span class="version-badge">Minecraft 1.21.4</span>
+                <span class="version-badge">Ванильный сервер</span>
+                <span class="version-badge">Лицензия не требуется</span>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-link" title="Discord">D</a>
+                <a href="#" class="social-link" title="Telegram">T</a>
+                <a href="#" class="social-link" title="VK">VK</a>
+                <a href="#" class="social-link" title="Поддержка">S</a>
+            </div>
+            
+            <a href="#" class="auth-button" id="profile-btn">Профиль</a>
+            
+            <div class="server-address" id="server-ip-header">play.jessiesmp.online:25565</div>
+            
+            <div class="countdown">
+                До конца сезона осталось: <span id="countdown-timer">30 дней 12:34:56</span>
+            </div>
+            
+            <a href="#how-to-play" class="scroll-down">
+                ▼
+            </a>
+        </div>
+    </header>
+
+    <!-- ПРОФИЛЬ -->
+    <section class="profile-section hidden" id="profile-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>ПРОФИЛЬ ИГРОКА</h2>
+            </div>
+            
+            <div class="application-status" id="application-status">
+                <!-- Статус анкеты будет отображаться здесь -->
+            </div>
+            
+            <div class="text-center">
+                <button class="step-button" id="create-application-btn">Создать анкету</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- КАК НАЧАТЬ ИГРАТЬ -->
+    <section class="how-to-play" id="how-to-play">
+        <div class="container">
+            <div class="section-title">
+                <h2>КАК НАЧАТЬ ИГРАТЬ?</h2>
+                <p><strong>ЗАПОЛНЯЙ. ИГРАЙ. КАЙФУЙ.</strong></p>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <h3>ЗАПОЛНИТЕ АНКЕТУ</h3>
+                    <p>Для игры на сервере Jessie Minecraft SMP нужна версия <span class="highlight">1.21.4</span></p>
+                    <button class="step-button" id="application-btn">заполнить анкету</button>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <h3>УСТАНОВИТЕ ЛАУНЧЕР</h3>
+                    <p>Рекомендуем удобный лаунчер для лучшего опыта игры</p>
+                    <a href="#" class="step-button">скачать</a>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <h3>ДОБАВЬТЕ СЕРВЕР</h3>
+                    <p>Нажмите чтобы скопировать IP-адрес сервера</p>
+                    <a href="#" class="step-button" id="copy-server-btn">скопировать IP</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ФОРМА АНКЕТЫ (МОДАЛЬНОЕ ОКНО) -->
+    <div class="modal" id="application-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h2>АНКЕТА ДЛЯ СЕРВЕРА</h2>
+            <form id="application-form" class="application-form">
+                <div class="form-group">
+                    <label for="nickname">Никнейм в Minecraft:</label>
+                    <input type="text" id="nickname" name="nickname" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="age">Ваш возраст:</label>
+                    <input type="number" id="age" name="age" min="12" max="99" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="experience">Опыт игры в Minecraft:</label>
+                    <select id="experience" name="experience" required>
+                        <option value="">Выберите вариант</option>
+                        <option value="новичок">Новичок (менее 6 месяцев)</option>
+                        <option value="опытный">Опытный (6 месяцев - 2 года)</option>
+                        <option value="ветеран">Ветеран (более 2 лет)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="playstyle">Предпочитаемый стиль игры:</label>
+                    <select id="playstyle" name="playstyle" required>
+                        <option value="">Выберите вариант</option>
+                        <option value="строитель">Строитель</option>
+                        <option value="исследователь">Исследователь</option>
+                        <option value="редстоун">Редстоун/техник</option>
+                        <option value="фермер">Фермер</option>
+                        <option value="pvp">PvP</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="about">Расскажите о себе:</label>
+                    <textarea id="about" name="about" placeholder="Почему хотите играть на нашем сервере?" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="telegram">Telegram username (опционально):</label>
+                    <input type="text" id="telegram" name="telegram" placeholder="@username">
+                </div>
+                
+                <button type="submit" class="submit-button" id="submit-application">Отправить анкету</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ДОРОЖНАЯ КАРТА -->
+    <section class="roadmap">
+        <div class="container">
+            <div class="section-title">
+                <h2>Дорожная карта</h2>
+                <p>Развитие сервера по месяцам</p>
+            </div>
+            
+            <div class="roadmap-items">
+                <!-- ... остальной контент ... -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ФУТЕР -->
+    <footer>
+        <div class="container">
+            <p>Jessie Minecraft SMP (JMSMP) — Приватный ванильный сервер Minecraft 1.21.4</p>
+            <p>© 2024 Jessie SMP Project. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Переменные состояния
+        let userApplication = null;
+        const userId = localStorage.getItem('userId') || generateUserId();
+
+        // Генерация ID пользователя
+        function generateUserId() {
+            const id = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('userId', id);
+            return id;
+        }
+
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Модальное окно анкеты
+        const applicationModal = document.getElementById('application-modal');
+        const applicationBtn = document.getElementById('application-btn');
+        const createApplicationBtn = document.getElementById('create-application-btn');
+        const closeModal = document.getElementById('close-modal');
+        const profileBtn = document.getElementById('profile-btn');
+        const profileSection = document.getElementById('profile-section');
+        const applicationForm = document.getElementById('application-form');
+        const applicationStatus = document.getElementById('application-status');
+
+        // Открытие модального окна
+        function openApplicationModal() {
+            applicationModal.style.display = 'flex';
+            // Проверяем есть ли уже анкета
+            checkApplicationStatus();
+        }
+
+        // Закрытие модального окна
+        function closeApplicationModal() {
+            applicationModal.style.display = 'none';
+        }
+
+        applicationBtn.addEventListener('click', openApplicationModal);
+        createApplicationBtn.addEventListener('click', openApplicationModal);
+        closeModal.addEventListener('click', closeApplicationModal);
+
+        // Закрытие по клику вне модального окна
+        window.addEventListener('click', (e) => {
+            if (e.target === applicationModal) {
+                closeApplicationModal();
+            }
+        });
+
+        // Кнопка профиля
+        profileBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            profileSection.classList.toggle('hidden');
+            checkApplicationStatus();
+        });
+
+        // Проверка статуса анкеты
+        async function checkApplicationStatus() {
+            try {
+                const response = await fetch('/api/application/status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId: userId })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status) {
+                    userApplication = data.application;
+                    showApplicationStatus(data.application.status);
+                } else {
+                    userApplication = null;
+                    applicationStatus.innerHTML = '<p>У вас нет активной анкеты</p>';
+                    applicationStatus.className = 'application-status';
+                }
+            } catch (error) {
+                console.error('Ошибка проверки статуса:', error);
+            }
+        }
+
+        // Показ статуса анкеты
+        function showApplicationStatus(status) {
+            let statusText = '';
+            let statusClass = '';
+            
+            switch(status) {
+                case 'pending':
+                    statusText = '⏳ Ваша анкета на рассмотрении';
+                    statusClass = 'status-pending';
+                    break;
+                case 'approved':
+                    statusText = '✅ Ваша анкета принята!';
+                    statusClass = 'status-approved';
+                    break;
+                case 'rejected':
+                    statusText = '❌ Ваша анкета отклонена';
+                    statusClass = 'status-rejected';
+                    break;
+            }
+            
+            applicationStatus.innerHTML = `<p>${statusText}</p>`;
+            applicationStatus.className = `application-status ${statusClass}`;
+        }
+
+        // Отправка анкеты
+        applicationForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitButton = document.getElementById('submit-application');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Отправка...';
+            
+            const formData = new FormData(applicationForm);
+            const applicationData = {
+                userId: userId,
+                nickname: formData.get('nickname'),
+                age: formData.get('age'),
+                experience: formData.get('experience'),
+                playstyle: formData.get('playstyle'),
+                about: formData.get('about'),
+                telegram: formData.get('telegram'),
+                timestamp: new Date().toISOString()
+            };
+            
+            try {
+                const response = await fetch('/api/application/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(applicationData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Анкета успешно отправлена! Ожидайте рассмотрения.');
+                    closeApplicationModal();
+                    checkApplicationStatus();
+                } else {
+                    alert('Ошибка при отправке анкеты: ' + result.error);
+                }
+            } catch (error) {
+                alert('Ошибка соединения. Попробуйте позже.');
+                console.error('Ошибка отправки анкеты:', error);
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Отправить анкету';
+            }
+        });
+
+        // Копирование IP сервера
+        const serverIpHeader = document.getElementById('server-ip-header');
+        const copyBtn = document.getElementById('copy-server-btn');
+        const serverIp = 'play.jessiesmp.online:25565';
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Визуальная обратная связь
+                const originalText = serverIpHeader.textContent;
+                serverIpHeader.textContent = 'Скопировано! ✓';
+                serverIpHeader.style.background = '#27ae60';
+                
+                if (copyBtn) {
+                    copyBtn.textContent = 'Скопировано!';
+                    copyBtn.style.background = '#27ae60';
+                }
+                
+                setTimeout(() => {
+                    serverIpHeader.textContent = originalText;
+                    serverIpHeader.style.background = '';
+                    if (copyBtn) {
+                        copyBtn.textContent = 'скопировать IP';
+                        copyBtn.style.background = '';
+                    }
+                }, 2000);
+            }).catch(err => {
+                console.error('Ошибка копирования: ', err);
+            });
+        }
+        
+        serverIpHeader.addEventListener('click', () => copyToClipboard(serverIp));
+        if (copyBtn) {
+            copyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                copyToClipboard(serverIp);
+            });
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            checkApplicationStatus();
+        });
+    </script>
+</body>
+</html>
