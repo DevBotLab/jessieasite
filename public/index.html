@@ -3,11 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jessie Minecraft SMP — Премиум Ванильный Сервер</title>
+    <title>Jessie Minecraft SMP — Эксклюзивный Ванильный Сервер</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&family=Minecraft&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* Minecraft цвета */
+            --mc-green: #00FF00;
+            --mc-dark-green: #00AA00;
+            --mc-blue: #5555FF;
+            --mc-dark-blue: #0000AA;
+            --mc-red: #FF5555;
+            --mc-gold: #FFAA00;
+            --mc-purple: #AA00AA;
+            --mc-gray: #AAAAAA;
+            --mc-dark-gray: #555555;
+            
+            /* Премиум палитра */
             --primary: #6366f1;
             --primary-dark: #4f46e5;
             --primary-light: #a5b4fc;
@@ -21,10 +33,16 @@
             --dark-3: #16213e;
             --light-1: #f8fafc;
             --light-2: #e2e8f0;
-            --gradient-1: linear-gradient(135deg, var(--primary), var(--secondary));
-            --gradient-2: linear-gradient(135deg, var(--accent), var(--primary));
-            --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3);
-            --shadow-float: 0 20px 40px rgba(0, 0, 0, 0.4);
+            
+            /* Градиенты */
+            --gradient-mc: linear-gradient(135deg, var(--mc-green), var(--mc-blue));
+            --gradient-premium: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-gold: linear-gradient(135deg, var(--mc-gold), var(--warning));
+            
+            /* Тени */
+            --shadow-mc: 0 4px 0 var(--mc-dark-green), 0 8px 16px rgba(0,0,0,0.3);
+            --shadow-premium: 0 20px 40px rgba(0,0,0,0.4);
+            --shadow-glow: 0 0 30px rgba(0, 255, 0, 0.5);
         }
 
         * {
@@ -39,82 +57,117 @@
 
         body {
             font-family: 'Exo 2', sans-serif;
-            background: var(--dark-1);
+            background: 
+                radial-gradient(circle at 0% 0%, var(--dark-1) 0%, var(--dark-2) 50%, var(--dark-3) 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230f0f23"/><g opacity="0.03"><rect x="0" y="0" width="10" height="10" fill="%2300FF00"/><rect x="20" y="0" width="10" height="10" fill="%2300FF00"/><rect x="40" y="0" width="10" height="10" fill="%2300FF00"/><rect x="60" y="0" width="10" height="10" fill="%2300FF00"/><rect x="80" y="0" width="10" height="10" fill="%2300FF00"/></g></svg>');
             color: var(--light-1);
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
         }
 
-        /* Анимации */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+        /* Minecraft шрифт */
+        .mc-font {
+            font-family: 'Minecraft', monospace;
+            image-rendering: pixelated;
         }
 
-        @keyframes glow {
+        /* ПИКСЕЛЬНЫЕ АНИМАЦИИ */
+        @keyframes pixel-float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            25% { transform: translateY(-2px) scale(1.02); }
+            50% { transform: translateY(-4px) scale(1.04); }
+            75% { transform: translateY(-2px) scale(1.02); }
+        }
+
+        @keyframes block-break {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.1) rotate(180deg); opacity: 0.8; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes creeper-float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(2px, -2px) rotate(1deg); }
+            50% { transform: translate(0, -4px) rotate(0deg); }
+            75% { transform: translate(-2px, -2px) rotate(-1deg); }
+        }
+
+        @keyframes redstone-pulse {
             0%, 100% { 
-                text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+                box-shadow: 0 0 10px var(--mc-red),
+                           0 0 20px var(--mc-red),
+                           0 0 30px var(--mc-red);
                 filter: brightness(1);
             }
             50% { 
-                text-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
-                filter: brightness(1.2);
+                box-shadow: 0 0 20px var(--mc-red),
+                           0 0 40px var(--mc-red),
+                           0 0 60px var(--mc-red);
+                filter: brightness(1.3);
             }
         }
 
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes enchant-glitter {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* Компоненты */
-        .glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+        /* БЛОК-СТИЛИ */
+        .block-style {
+            border: 4px solid;
+            border-image: 
+                linear-gradient(45deg, var(--mc-gray), var(--mc-dark-gray)) 1;
+            image-rendering: pixelated;
+            position: relative;
         }
 
-        .btn {
-            background: var(--gradient-1);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+        .block-style::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border: 2px solid rgba(255,255,255,0.1);
+            pointer-events: none;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-float);
+        .grass-block {
+            background: 
+                linear-gradient(to bottom, var(--mc-green) 0%, var(--mc-green) 70%, var(--mc-dark-green) 100%);
+            border-image: 
+                linear-gradient(45deg, var(--mc-dark-green), var(--mc-green)) 1;
         }
 
-        /* Навигация */
+        .diamond-block {
+            background: 
+                linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 50%, var(--primary-dark) 100%);
+            border-image: 
+                linear-gradient(45deg, var(--primary-dark), var(--primary-light)) 1;
+        }
+
+        .redstone-block {
+            background: 
+                linear-gradient(135deg, var(--mc-red) 0%, #FF0000 50%, #AA0000 100%);
+            border-image: 
+                linear-gradient(45deg, #AA0000, var(--mc-red)) 1;
+            animation: redstone-pulse 2s ease-in-out infinite;
+        }
+
+        /* НАВИГАЦИЯ В СТИЛЕ MINECRAFT */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(15, 15, 35, 0.95);
-            backdrop-filter: blur(30px);
+            background: 
+                linear-gradient(to bottom, var(--mc-dark-gray) 0%, var(--dark-1) 100%);
             z-index: 1000;
             padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 4px solid var(--mc-green);
+            image-rendering: pixelated;
         }
 
         .nav-container {
@@ -127,70 +180,79 @@
         }
 
         .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            font-weight: 900;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-family: 'Minecraft', monospace;
+            font-size: 2.5rem;
+            color: var(--mc-green);
+            text-shadow: 2px 2px 0 var(--mc-dark-green);
             text-decoration: none;
+            animation: pixel-float 3s ease-in-out infinite;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 1rem;
             align-items: center;
         }
 
         .nav-link {
-            color: var(--light-2);
+            font-family: 'Minecraft', monospace;
+            color: var(--mc-gray);
             text-decoration: none;
-            font-weight: 600;
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            transition: all 0.3s ease;
+            padding: 0.8rem 1.5rem;
+            background: var(--mc-dark-gray);
+            border: 3px solid var(--mc-gray);
+            border-image: 
+                linear-gradient(45deg, #666, #999) 1;
+            transition: all 0.2s ease;
+            image-rendering: pixelated;
         }
 
         .nav-link:hover {
-            background: var(--primary);
-            color: white;
+            background: var(--mc-gray);
+            color: var(--dark-1);
+            transform: translateY(-2px);
+            border-color: var(--mc-green);
         }
 
         .notification-bell {
             position: relative;
             cursor: pointer;
-            width: 3rem;
-            height: 3rem;
-            border-radius: 50%;
+            width: 3.5rem;
+            height: 3.5rem;
+            background: var(--mc-dark-gray);
+            border: 3px solid var(--mc-gray);
+            border-image: 
+                linear-gradient(45deg, #666, #999) 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            font-family: 'Minecraft', monospace;
+            transition: all 0.2s ease;
         }
 
         .notification-bell:hover {
-            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--mc-gold);
+            animation: pixel-float 0.5s ease;
         }
 
         .notification-count {
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--error);
+            top: -8px;
+            right: -8px;
+            background: var(--mc-red);
             color: white;
-            border-radius: 50%;
-            width: 1.5rem;
-            height: 1.5rem;
-            font-size: 0.8rem;
+            width: 1.8rem;
+            height: 1.8rem;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: glow 2s ease-in-out infinite;
+            border: 2px solid white;
+            font-family: 'Minecraft', monospace;
+            animation: redstone-pulse 1.5s ease-in-out infinite;
         }
 
-        /* Герой секция */
+        /* ГЕРОЙ СЕКЦИЯ С MINECRAFT СТИЛЕМ */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -199,114 +261,253 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            padding: 6rem 2rem;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .mc-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: 
-                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+                radial-gradient(ellipse at 20% 50%, rgba(0,255,0,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(85,85,255,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 80%, rgba(255,85,85,0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .floating-blocks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .floating-block {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: var(--mc-green);
+            border: 3px solid var(--mc-dark-green);
+            animation: creeper-float 6s ease-in-out infinite;
+            opacity: 0.1;
+        }
+
+        .floating-block:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-block:nth-child(2) { top: 60%; left: 80%; animation-delay: 2s; background: var(--mc-blue); border-color: var(--mc-dark-blue); }
+        .floating-block:nth-child(3) { top: 40%; left: 60%; animation-delay: 4s; background: var(--mc-red); border-color: #AA0000; }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
         }
 
         .hero-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: glow 3s ease-in-out infinite;
+            font-family: 'Minecraft', monospace;
+            font-size: 5rem;
+            color: var(--mc-green);
+            text-shadow: 
+                4px 4px 0 var(--mc-dark-green),
+                8px 8px 0 rgba(0,0,0,0.3);
+            margin-bottom: 1.5rem;
+            animation: pixel-float 4s ease-in-out infinite;
+            image-rendering: pixelated;
         }
 
         .hero-subtitle {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
+            font-family: 'Minecraft', monospace;
+            font-size: 1.8rem;
+            color: var(--mc-gold);
+            text-shadow: 2px 2px 0 #AA5500;
+            margin-bottom: 3rem;
+            animation: pixel-float 3s ease-in-out infinite 1s;
         }
 
+        /* СЕРВЕР ИНФО В СТИЛЕ MINECRAFT */
         .server-info {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin: 2rem 0;
+            gap: 1.5rem;
+            margin: 3rem 0;
             flex-wrap: wrap;
         }
 
         .info-badge {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 1.5rem;
-            border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+            font-family: 'Minecraft', monospace;
+            padding: 1rem 2rem;
+            background: var(--mc-dark-gray);
+            border: 3px solid var(--mc-gray);
+            border-image: 
+                linear-gradient(45deg, #666, #999) 1;
+            color: var(--mc-gray);
+            image-rendering: pixelated;
+            transition: all 0.3s ease;
         }
 
-        /* Сезон таймер */
+        .info-badge:hover {
+            transform: translateY(-4px);
+            border-color: var(--mc-green);
+            color: var(--mc-green);
+            animation: pixel-float 0.5s ease;
+        }
+
+        /* СЕЗОН ТАЙМЕР В СТИЛЕ MINECRAFT */
         .season-timer {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-radius: 20px;
-            margin: 2rem 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--mc-dark-gray);
+            border: 4px solid var(--mc-gray);
+            border-image: 
+                linear-gradient(45deg, #555, #777) 1;
+            padding: 2.5rem;
+            margin: 3rem auto;
+            max-width: 800px;
+            image-rendering: pixelated;
+        }
+
+        .timer-title {
+            font-family: 'Minecraft', monospace;
+            font-size: 2rem;
+            color: var(--mc-gold);
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 0 #AA5500;
         }
 
         .timer-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
         }
 
         .timer-unit {
             text-align: center;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            padding: 1.5rem 1rem;
+            background: var(--dark-1);
+            border: 3px solid var(--mc-green);
+            border-image: 
+                linear-gradient(45deg, var(--mc-dark-green), var(--mc-green)) 1;
+            transition: all 0.3s ease;
+        }
+
+        .timer-unit:hover {
+            animation: pixel-float 0.6s ease;
+            border-color: var(--mc-gold);
         }
 
         .timer-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
+            font-family: 'Minecraft', monospace;
+            font-size: 3rem;
+            color: var(--mc-green);
             display: block;
+            text-shadow: 2px 2px 0 var(--mc-dark-green);
         }
 
         .timer-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-top: 0.5rem;
+            font-family: 'Minecraft', monospace;
+            font-size: 1rem;
+            color: var(--mc-gray);
+            margin-top: 0.8rem;
         }
 
-        /* Уведомления */
+        /* КНОПКИ В СТИЛЕ MINECRAFT */
+        .mc-button {
+            font-family: 'Minecraft', monospace;
+            background: var(--mc-dark-gray);
+            border: 3px solid var(--mc-gray);
+            border-image: 
+                linear-gradient(45deg, #666, #999) 1;
+            color: var(--mc-gray);
+            padding: 1.2rem 2.5rem;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            image-rendering: pixelated;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 0 1rem;
+        }
+
+        .mc-button:hover {
+            background: var(--mc-gray);
+            color: var(--dark-1);
+            transform: translateY(-4px);
+            border-color: var(--mc-green);
+            animation: pixel-float 0.4s ease;
+        }
+
+        .mc-button.play {
+            background: var(--mc-dark-green);
+            border-color: var(--mc-green);
+            color: var(--mc-green);
+        }
+
+        .mc-button.play:hover {
+            background: var(--mc-green);
+            color: var(--dark-1);
+            animation: redstone-pulse 0.8s ease-in-out;
+        }
+
+        /* УВЕДОМЛЕНИЯ В СТИЛЕ MINECRAFT */
         .notification-panel {
             position: fixed;
-            top: 80px;
+            top: 90px;
             right: 20px;
-            width: 350px;
-            background: var(--dark-2);
-            border-radius: 15px;
-            box-shadow: var(--shadow-float);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 400px;
+            background: var(--mc-dark-gray);
+            border: 4px solid var(--mc-gray);
+            border-image: 
+                linear-gradient(45deg, #555, #777) 1;
             z-index: 999;
             display: none;
+            image-rendering: pixelated;
         }
 
         .notification-panel.show {
             display: block;
+            animation: block-break 0.3s ease reverse;
         }
 
         .notification-header {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            background: var(--dark-1);
+            border-bottom: 3px solid var(--mc-gray);
+            font-family: 'Minecraft', monospace;
+            font-size: 1.3rem;
+            color: var(--mc-green);
         }
 
         .notification-item {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.2rem;
+            border-bottom: 2px solid var(--mc-dark-gray);
+            font-family: 'Minecraft', monospace;
+            transition: all 0.2s ease;
         }
 
+        .notification-item:hover {
+            background: rgba(0,255,0,0.1);
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        /* АДАПТИВНОСТЬ */
         @media (max-width: 768px) {
-            .hero-title { font-size: 2.5rem; }
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.3rem; }
             .timer-grid { grid-template-columns: repeat(3, 1fr); }
-            .notification-panel { width: 300px; right: 10px; }
+            .timer-value { font-size: 2rem; }
+            .notification-panel { width: 320px; right: 10px; }
+            .nav-links { flex-wrap: wrap; justify-content: center; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 2.2rem; }
+            .timer-grid { grid-template-columns: repeat(2, 1fr); }
+            .mc-button { padding: 1rem 1.5rem; font-size: 1.1rem; margin: 0.5rem; }
         }
     </style>
 </head>
@@ -316,11 +517,11 @@
         <div class="nav-container">
             <a href="/" class="logo">JMSMP</a>
             <div class="nav-links">
-                <a href="/" class="nav-link">Главная</a>
-                <a href="/team" class="nav-link">Команда</a>
-                <a href="/wiki" class="nav-link">Вики</a>
-                <a href="/faq" class="nav-link">FAQ</a>
-                <a href="/profile" class="btn">Профиль</a>
+                <a href="/" class="nav-link">🏠 ГЛАВНАЯ</a>
+                <a href="/team" class="nav-link">👥 КОМАНДА</a>
+                <a href="/wiki" class="nav-link">📚 ВИКИ</a>
+                <a href="/faq" class="nav-link">❓ FAQ</a>
+                <a href="/profile" class="nav-link">👤 ПРОФИЛЬ</a>
                 
                 <div class="notification-bell" id="notificationBell">
                     <i class="fas fa-bell"></i>
@@ -330,52 +531,57 @@
         </div>
     </nav>
 
+    <!-- Плавающие блоки -->
+    <div class="floating-blocks">
+        <div class="floating-block"></div>
+        <div class="floating-block"></div>
+        <div class="floating-block"></div>
+    </div>
+
     <!-- Уведомления -->
-    <div class="notification-panel glass" id="notificationPanel">
+    <div class="notification-panel" id="notificationPanel">
         <div class="notification-header">
-            <h3>Уведомления</h3>
+            <span>🔔 УВЕДОМЛЕНИЯ</span>
         </div>
         <div id="notificationList">
-            <div class="notification-item">
-                <strong>Добро пожаловать!</strong>
-                <p>Сервер Jessie SMP запущен</p>
-                <small>Сегодня, 10:30</small>
-            </div>
+            <!-- Уведомления загружаются через JS -->
         </div>
     </div>
 
     <!-- Герой секция -->
     <section class="hero">
+        <div class="mc-background"></div>
+        
         <div class="hero-content">
             <h1 class="hero-title">JESSIE MINECRAFT SMP</h1>
-            <p class="hero-subtitle">ПРЕМИУМ ВАНИЛЬНЫЙ СЕРВЕР С ИННОВАЦИОННЫМ ДИЗАЙНОМ</p>
+            <p class="hero-subtitle">ЭКСКЛЮЗИВНЫЙ ВАНИЛЬНЫЙ СЕРВЕР ПРЕМИУМ КЛАССА</p>
             
             <div class="server-info">
-                <span class="info-badge">🎮 Minecraft 1.21.8</span>
-                <span class="info-badge">⚡ Чистый ванильный геймплей</span>
-                <span class="info-badge">🌍 Онлайн 24/7</span>
+                <span class="info-badge">⛏️ MINECRAFT 1.21.8</span>
+                <span class="info-badge">🔮 ЧИСТЫЙ ВАНИЛА</span>
+                <span class="info-badge">🌐 ОНЛАЙН 24/7</span>
             </div>
 
-            <div class="season-timer glass">
-                <h3>🚀 До окончания сезона осталось:</h3>
+            <div class="season-timer">
+                <div class="timer-title">⏰ ДО КОНЦА СЕЗОНА:</div>
                 <div class="timer-grid" id="seasonTimer">
-                    <!-- Таймер будет здесь -->
+                    <!-- Таймер загружается через JS -->
                 </div>
             </div>
 
             <div class="hero-actions">
-                <button class="btn" onclick="startPlaying()">
-                    <i class="fas fa-play"></i> Начать играть
+                <button class="mc-button play" onclick="startPlaying()">
+                    <i class="fas fa-play"></i> ИГРАТЬ СЕЙЧАС
                 </button>
-                <a href="/profile#application" class="btn" style="background: var(--accent); margin-left: 1rem;">
-                    <i class="fas fa-file-alt"></i> Заполнить анкету
+                <a href="/profile#application" class="mc-button">
+                    <i class="fas fa-file-alt"></i> ЗАПОЛНИТЬ АНКЕТУ
                 </a>
             </div>
         </div>
     </section>
 
     <script>
-        class JMSMPApp {
+        class UltraJMSMP {
             constructor() {
                 this.userId = localStorage.getItem('userId') || 'user_' + Date.now();
                 this.notifications = [];
@@ -386,6 +592,7 @@
                 this.setupEventListeners();
                 await this.loadNotifications();
                 this.startSeasonTimer();
+                this.createFloatingBlocks();
             }
 
             setupEventListeners() {
@@ -400,29 +607,93 @@
                         this.closeNotifications();
                     }
                 });
+
+                // Minecraft звуки при наведении
+                document.querySelectorAll('.nav-link, .mc-button, .info-badge').forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        this.playMCSound('hover');
+                    });
+                });
+            }
+
+            playMCSound(type) {
+                // Виртуальные звуки Minecraft
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                if (type === 'hover') {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = 800;
+                    oscillator.type = 'square';
+                    
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.1);
+                }
+            }
+
+            createFloatingBlocks() {
+                const container = document.querySelector('.floating-blocks');
+                for (let i = 0; i < 8; i++) {
+                    const block = document.createElement('div');
+                    block.className = 'floating-block';
+                    block.style.left = Math.random() * 90 + '%';
+                    block.style.top = Math.random() * 90 + '%';
+                    block.style.animationDelay = Math.random() * 6 + 's';
+                    block.style.background = this.getRandomMCColor();
+                    container.appendChild(block);
+                }
+            }
+
+            getRandomMCColor() {
+                const colors = ['var(--mc-green)', 'var(--mc-blue)', 'var(--mc-red)', 'var(--mc-gold)', 'var(--mc-purple)'];
+                return colors[Math.floor(Math.random() * colors.length)];
             }
 
             async loadNotifications() {
                 try {
                     const response = await fetch(`/api/notifications/${this.userId}`);
                     const data = await response.json();
-                    this.notifications = data.notifications || [];
+                    this.notifications = data.notifications || this.getDefaultNotifications();
                     this.updateNotificationUI();
                 } catch (error) {
-                    console.error('Ошибка загрузки уведомлений:', error);
-                    // Используем заглушки
-                    this.notifications = [
-                        {
-                            id: '1',
-                            title: 'Добро пожаловать на Jessie SMP!',
-                            message: 'Сервер успешно запущен. Присоединяйтесь к нашему сообществу!',
-                            type: 'welcome',
-                            createdAt: new Date().toISOString(),
-                            read: false
-                        }
-                    ];
+                    this.notifications = this.getDefaultNotifications();
                     this.updateNotificationUI();
                 }
+            }
+
+            getDefaultNotifications() {
+                return [
+                    {
+                        id: '1',
+                        title: '🎮 ДОБРО ПОЖАЛОВАТЬ НА JESSIE SMP!',
+                        message: 'Сервер запущен! Присоединяйтесь к нашему комьюнити',
+                        type: 'welcome',
+                        createdAt: new Date().toISOString(),
+                        read: false
+                    },
+                    {
+                        id: '2',
+                        title: '⏰ НОВЫЙ СЕЗОН АКТИВЕН!',
+                        message: 'Текущий сезон продлится до марта 2026 года',
+                        type: 'info', 
+                        createdAt: new Date(Date.now() - 86400000).toISOString(),
+                        read: false
+                    },
+                    {
+                        id: '3',
+                        title: '🔔 ОБНОВЛЕНИЕ СИСТЕМЫ!',
+                        message: 'Добавлена ультра-премиум система уведомлений',
+                        type: 'update',
+                        createdAt: new Date(Date.now() - 172800000).toISOString(),
+                        read: false
+                    }
+                ];
             }
 
             updateNotificationUI() {
@@ -433,44 +704,47 @@
                 countElement.textContent = unreadCount;
                 countElement.style.display = unreadCount > 0 ? 'flex' : 'none';
 
-                // Обновляем список уведомлений
                 listElement.innerHTML = this.notifications.map(notif => `
-                    <div class="notification-item" onclick="markAsRead('${notif.id}')">
-                        <strong style="color: ${this.getNotificationColor(notif.type)}">${notif.title}</strong>
-                        <p>${notif.message}</p>
-                        <small>${this.formatDate(notif.createdAt)}</small>
+                    <div class="notification-item" onclick="ultraApp.markAsRead('${notif.id}')">
+                        <strong style="color: ${this.getNotificationColor(notif.type)}; display: block; margin-bottom: 0.5rem;">
+                            ${notif.title}
+                        </strong>
+                        <span style="color: var(--mc-gray); font-size: 0.9rem;">
+                            ${notif.message}
+                        </span>
+                        <div style="color: var(--mc-dark-gray); font-size: 0.8rem; margin-top: 0.5rem;">
+                            ${this.formatDate(notif.createdAt)}
+                        </div>
                     </div>
                 `).join('');
             }
 
             getNotificationColor(type) {
                 const colors = {
-                    'welcome': '#10b981',
-                    'info': '#6366f1', 
-                    'warning': '#f59e0b',
-                    'error': '#ef4444',
-                    'update': '#ec4899'
+                    'welcome': 'var(--mc-green)',
+                    'info': 'var(--mc-blue)',
+                    'warning': 'var(--mc-gold)',
+                    'error': 'var(--mc-red)',
+                    'update': 'var(--mc-purple)'
                 };
-                return colors[type] || '#6366f1';
+                return colors[type] || 'var(--mc-gray)';
             }
 
             formatDate(dateString) {
                 const date = new Date(dateString);
                 const now = new Date();
-                const diffMs = now - date;
-                const diffMins = Math.floor(diffMs / (1000 * 60));
-                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-                if (diffMins < 60) return `${diffMins} мин. назад`;
-                if (diffHours < 24) return `${diffHours} час. назад`;
-                if (diffDays < 7) return `${diffDays} дн. назад`;
+                const diff = now - date;
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                
+                if (hours < 1) return 'Только что';
+                if (hours < 24) return `${hours} ч. назад`;
                 return date.toLocaleDateString('ru-RU');
             }
 
             toggleNotifications() {
                 const panel = document.getElementById('notificationPanel');
                 panel.classList.toggle('show');
+                this.playMCSound('click');
             }
 
             closeNotifications() {
@@ -482,14 +756,14 @@
                     await fetch('/api/notifications/mark-read', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ 
-                            notificationId, 
-                            userId: this.userId 
-                        })
+                        body: JSON.stringify({ notificationId, userId: this.userId })
                     });
-                    await this.loadNotifications(); // Перезагружаем уведомления
+                    await this.loadNotifications();
                 } catch (error) {
-                    console.error('Ошибка отметки уведомления:', error);
+                    console.log('Оффлайн режим: уведомление отмечено как прочитанное');
+                    const notif = this.notifications.find(n => n.id === notificationId);
+                    if (notif) notif.read = true;
+                    this.updateNotificationUI();
                 }
             }
 
@@ -504,40 +778,43 @@
                     const data = await response.json();
                     
                     if (data.ended) {
-                        document.getElementById('seasonTimer').innerHTML = 
-                            '<div style="text-align: center; color: var(--success); font-size: 1.5rem;">🎉 Сезон завершен!</div>';
+                        document.getElementById('seasonTimer').innerHTML = `
+                            <div style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                                <span style="font-family: 'Minecraft', monospace; font-size: 2rem; color: var(--mc-gold);">
+                                    🎉 НОВЫЙ СЕЗОН НАЧАЛСЯ!
+                                </span>
+                            </div>
+                        `;
                         return;
                     }
 
                     document.getElementById('seasonTimer').innerHTML = `
                         <div class="timer-unit">
                             <span class="timer-value">${data.years}</span>
-                            <span class="timer-label">лет</span>
+                            <span class="timer-label">ЛЕТ</span>
                         </div>
                         <div class="timer-unit">
                             <span class="timer-value">${data.months}</span>
-                            <span class="timer-label">месяцев</span>
+                            <span class="timer-label">МЕСЯЦЕВ</span>
                         </div>
                         <div class="timer-unit">
                             <span class="timer-value">${data.weeks}</span>
-                            <span class="timer-label">недель</span>
+                            <span class="timer-label">НЕДЕЛЬ</span>
                         </div>
                         <div class="timer-unit">
                             <span class="timer-value">${data.days}</span>
-                            <span class="timer-label">дней</span>
+                            <span class="timer-label">ДНЕЙ</span>
                         </div>
                         <div class="timer-unit">
                             <span class="timer-value">${data.hours.toString().padStart(2, '0')}</span>
-                            <span class="timer-label">часов</span>
+                            <span class="timer-label">ЧАСОВ</span>
                         </div>
                         <div class="timer-unit">
                             <span class="timer-value">${data.minutes.toString().padStart(2, '0')}</span>
-                            <span class="timer-label">минут</span>
+                            <span class="timer-label">МИНУТ</span>
                         </div>
                     `;
                 } catch (error) {
-                    console.error('Ошибка загрузки таймера:', error);
-                    // Резервный таймер
                     this.updateFallbackTimer();
                 }
             }
@@ -565,27 +842,27 @@
                 document.getElementById('seasonTimer').innerHTML = `
                     <div class="timer-unit">
                         <span class="timer-value">${years}</span>
-                        <span class="timer-label">лет</span>
+                        <span class="timer-label">ЛЕТ</span>
                     </div>
                     <div class="timer-unit">
                         <span class="timer-value">${months}</span>
-                        <span class="timer-label">месяцев</span>
+                        <span class="timer-label">МЕСЯЦЕВ</span>
                     </div>
                     <div class="timer-unit">
                         <span class="timer-value">${weeks}</span>
-                        <span class="timer-label">недель</span>
+                        <span class="timer-label">НЕДЕЛЬ</span>
                     </div>
                     <div class="timer-unit">
                         <span class="timer-value">${days}</span>
-                        <span class="timer-label">дней</span>
+                        <span class="timer-label">ДНЕЙ</span>
                     </div>
                     <div class="timer-unit">
                         <span class="timer-value">${hours.toString().padStart(2, '0')}</span>
-                        <span class="timer-label">часов</span>
+                        <span class="timer-label">ЧАСОВ</span>
                     </div>
                     <div class="timer-unit">
                         <span class="timer-value">${minutes.toString().padStart(2, '0')}</span>
-                        <span class="timer-label">минут</span>
+                        <span class="timer-label">МИНУТ</span>
                     </div>
                 `;
             }
@@ -597,17 +874,17 @@
         }
 
         function markAsRead(notificationId) {
-            window.jmsmpApp.markAsRead(notificationId);
+            window.ultraApp.markAsRead(notificationId);
         }
 
         // Инициализация
         document.addEventListener('DOMContentLoaded', () => {
-            window.jmsmpApp = new JMSMPApp();
+            window.ultraApp = new UltraJMSMP();
             
-            // Анимация появления
+            // Анимация появления элементов
             const elements = document.querySelectorAll('.hero-title, .hero-subtitle, .server-info, .season-timer, .hero-actions');
             elements.forEach((el, index) => {
-                el.style.animation = `slideUp 0.6s ease-out ${index * 0.2}s both`;
+                el.style.animation = `block-break 0.6s ease ${index * 0.2}s reverse both`;
             });
         });
     </script>
