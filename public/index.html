@@ -1,870 +1,382 @@
 <!DOCTYPE html>
-<html lang="ru" class="no-js">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jessie SMP — Уникальный Ванильный Сервер</title>
+    <title>Jessie Minecraft SMP — Ванильный сервер</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Премиум палитра */
-            --cosmic-purple: #182AA8;
-            --neon-pink: #AA00AA;
-            --deep-blue: #2D439D;
-            --cyber-teal: #426F84;
-            --platinum: #DEDEDE;
-            --void-black: #0a0a15;
-            --stellar-gray: #1a1a2e;
-            --nebula-dark: #16213e;
-            
-            /* Глубинные градиенты */
-            --gradient-cosmic: linear-gradient(135deg, var(--cosmic-purple), var(--neon-pink), var(--deep-blue));
-            --gradient-nebula: linear-gradient(135deg, var(--neon-pink), var(--cyber-teal), var(--cosmic-purple));
-            --gradient-stellar: linear-gradient(135deg, var(--deep-blue), var(--cosmic-purple), var(--neon-pink));
-            --gradient-void: linear-gradient(135deg, var(--void-black), var(--nebula-dark), var(--stellar-gray));
-            
-            /* Голографические эффекты */
-            --hologram-glow: 0 0 40px rgba(24, 42, 168, 0.6), 0 0 80px rgba(170, 0, 170, 0.4), 0 0 120px rgba(45, 67, 157, 0.2);
-            --neon-shadow: 0 0 30px currentColor, 0 0 60px currentColor, 0 0 90px currentColor;
-            --depth-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 15px 30px rgba(0, 0, 0, 0.4);
+            --primary: #182AA8;
+            --secondary: #AA00AA;
+            --accent: #2D439D;
+            --light-blue: #426F84;
+            --light-gray: #DEDEDE;
+            --dark-bg: #0a0a15;
+            --section-bg: #1a1a2e;
+            --card-bg: #16213e;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
+            font-family: 'Arial', sans-serif;
         }
 
         body {
-            font-family: 'Rajdhani', sans-serif;
-            background: var(--void-black);
-            color: var(--platinum);
+            background-color: var(--dark-bg);
+            color: var(--light-gray);
             line-height: 1.6;
-            overflow-x: hidden;
-            min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(24, 42, 168, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(170, 0, 170, 0.12) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(45, 67, 157, 0.1) 0%, transparent 50%),
-                linear-gradient(135deg, var(--void-black) 0%, var(--nebula-dark) 100%);
         }
 
-        /* КОСМИЧЕСКИЕ АНИМАЦИИ */
-        @keyframes cosmic-float {
-            0%, 100% { 
-                transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-                filter: hue-rotate(0deg);
-            }
-            25% { 
-                transform: translate3d(2px, -3px, 10px) rotate(1deg) scale(1.02);
-                filter: hue-rotate(90deg);
-            }
-            50% { 
-                transform: translate3d(0, -5px, 20px) rotate(0deg) scale(1.05);
-                filter: hue-rotate(180deg);
-            }
-            75% { 
-                transform: translate3d(-2px, -3px, 10px) rotate(-1deg) scale(1.02);
-                filter: hue-rotate(270deg);
-            }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        @keyframes hologram-flicker {
-            0%, 100% { 
-                opacity: 1;
-                filter: brightness(1) contrast(1);
-            }
-            50% { 
-                opacity: 0.95;
-                filter: brightness(1.2) contrast(1.1);
-            }
-        }
-
-        @keyframes quantum-entangle {
-            0% { 
-                transform: translateX(0) scale(1);
-                opacity: 1;
-            }
-            25% { 
-                transform: translateX(20px) scale(1.1);
-                opacity: 0.8;
-            }
-            50% { 
-                transform: translateX(-15px) scale(1.2);
-                opacity: 0.6;
-            }
-            75% { 
-                transform: translateX(10px) scale(1.1);
-                opacity: 0.8;
-            }
-            100% { 
-                transform: translateX(0) scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes starlight-twinkle {
-            0%, 100% { 
-                opacity: 0.3;
-                transform: scale(0.8);
-            }
-            50% { 
-                opacity: 1;
-                transform: scale(1.2);
-            }
-        }
-
-        @keyframes nebula-pulse {
-            0% { 
-                background-position: 0% 50%;
-                filter: hue-rotate(0deg);
-            }
-            50% { 
-                background-position: 100% 50%;
-                filter: hue-rotate(180deg);
-            }
-            100% { 
-                background-position: 0% 50%;
-                filter: hue-rotate(360deg);
-            }
-        }
-
-        @keyframes cyber-scan {
-            0% { 
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            50% { 
-                opacity: 1;
-            }
-            100% { 
-                transform: translateY(100%);
-                opacity: 0;
-            }
-        }
-
-        /* ПРЕМИУМ КОМПОНЕНТЫ */
-        .hologram-card {
-            background: linear-gradient(135deg, 
-                rgba(24, 42, 168, 0.1) 0%, 
-                rgba(170, 0, 170, 0.08) 50%, 
-                rgba(45, 67, 157, 0.1) 100%);
-            backdrop-filter: blur(40px);
-            border: 1px solid;
-            border-image: linear-gradient(45deg, var(--cosmic-purple), var(--neon-pink), var(--deep-blue)) 1;
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hologram-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(222, 222, 222, 0.1), 
-                transparent);
-            animation: cyber-scan 3s ease-in-out infinite;
-        }
-
-        .quantum-glow {
-            position: relative;
-        }
-
-        .quantum-glow::after {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: var(--gradient-cosmic);
-            border-radius: inherit;
-            z-index: -1;
-            filter: blur(20px);
-            opacity: 0.7;
-            animation: hologram-flicker 2s ease-in-out infinite;
-        }
-
-        .stellar-particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--platinum);
-            border-radius: 50%;
-            animation: starlight-twinkle 3s ease-in-out infinite;
-            opacity: 0;
-        }
-
-        /* НАВИГАЦИЯ КОСМИЧЕСКОГО УРОВНЯ */
+        /* Навигация */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(135deg, 
-                rgba(24, 42, 168, 0.95) 0%, 
-                rgba(26, 26, 46, 0.98) 100%);
-            backdrop-filter: blur(50px);
-            z-index: 10000;
-            padding: 1.5rem 0;
-            border-bottom: 1px solid;
-            border-image: linear-gradient(90deg, var(--cosmic-purple), var(--neon-pink), var(--deep-blue)) 1;
-            animation: cosmic-float 6s ease-in-out infinite;
+            background: var(--section-bg);
+            z-index: 1000;
+            padding: 15px 0;
+            border-bottom: 2px solid var(--primary);
         }
 
         .nav-container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 0 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            font-weight: 900;
-            background: var(--gradient-cosmic);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
             text-decoration: none;
-            position: relative;
-            animation: quantum-entangle 4s ease-in-out infinite;
-        }
-
-        .logo::after {
-            content: 'JMSMP';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            background: var(--gradient-nebula);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            z-index: -1;
-            filter: blur(3px);
-            opacity: 0.7;
         }
 
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 30px;
             align-items: center;
         }
 
         .nav-link {
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 600;
-            font-size: 1.3rem;
-            color: var(--platinum);
+            color: var(--light-gray);
             text-decoration: none;
-            padding: 1rem 2rem;
-            border-radius: 15px;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-cosmic);
-            transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: -1;
-        }
-
-        .nav-link:hover::before {
-            left: 0;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
         }
 
         .nav-link:hover {
-            color: var(--void-black);
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: var(--hologram-glow);
-            animation: quantum-entangle 0.6s ease;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .notification-bell {
             position: relative;
-            width: 4rem;
-            height: 4rem;
-            background: var(--gradient-stellar);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             cursor: pointer;
-            transition: all 0.4s ease;
-            animation: cosmic-float 4s ease-in-out infinite;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background 0.3s ease;
         }
 
         .notification-bell:hover {
-            transform: scale(1.2) rotate(15deg);
-            box-shadow: var(--hologram-glow);
-            animation: quantum-entangle 0.8s ease;
+            background: rgba(255,255,255,0.1);
         }
 
         .notification-count {
             position: absolute;
-            top: -8px;
-            right: -8px;
-            background: var(--neon-pink);
-            color: var(--platinum);
-            width: 2.2rem;
-            height: 2.2rem;
+            top: -5px;
+            right: -5px;
+            background: var(--accent);
+            color: white;
             border-radius: 50%;
-            font-size: 1rem;
-            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 3px solid var(--void-black);
-            animation: starlight-twinkle 1.5s ease-in-out infinite;
-            box-shadow: 0 0 20px var(--neon-pink);
         }
 
-        /* КОСМИЧЕСКАЯ ГЕРОЙ СЕКЦИЯ */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .btn {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+        }
+
+        /* Шапка */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 120px 0 80px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-            padding: 12rem 3rem 6rem;
+            margin-top: 60px;
         }
 
-        .cosmic-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-void);
-            animation: nebula-pulse 8s ease-in-out infinite;
-            z-index: -2;
-        }
-
-        .particle-field {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            max-width: 1000px;
-        }
-
-        .hero-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 6rem;
-            font-weight: 900;
-            background: var(--gradient-cosmic);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 1.5rem;
-            text-shadow: var(--hologram-glow);
-            animation: cosmic-float 5s ease-in-out infinite;
-            position: relative;
-        }
-
-        .hero-title::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            background: var(--gradient-nebula);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            z-index: -1;
-            filter: blur(8px);
-            opacity: 0.6;
-        }
-
-        .hero-subtitle {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 600;
-            color: var(--platinum);
-            margin-bottom: 3rem;
-            opacity: 0.9;
-            animation: hologram-flicker 3s ease-in-out infinite;
-            text-shadow: 0 0 20px rgba(222, 222, 222, 0.5);
-        }
-
-        /* СЕРВЕР ИНФО КАРТОЧКИ */
         .server-info {
+            margin: 20px 0;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 14px;
+        }
+
+        .server-address {
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-family: monospace;
+            display: inline-block;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .server-address:hover {
+            background: var(--accent);
+        }
+
+        /* Секции */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Как начать играть */
+        .steps {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 4rem 0;
+            gap: 30px;
+            margin-top: 40px;
         }
 
-        .info-card {
-            padding: 2.5rem;
-            border-radius: 25px;
-            background: linear-gradient(135deg, 
-                rgba(24, 42, 168, 0.15) 0%, 
-                rgba(170, 0, 170, 0.12) 100%);
-            backdrop-filter: blur(30px);
-            border: 1px solid;
-            border-image: linear-gradient(45deg, var(--deep-blue), var(--cyber-teal)) 1;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .info-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: var(--hologram-glow);
-            animation: quantum-entangle 0.6s ease;
-        }
-
-        .info-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient-cosmic);
-        }
-
-        /* КОСМИЧЕСКИЙ ТАЙМЕР */
-        .cosmic-timer {
-            background: linear-gradient(135deg, 
-                rgba(45, 67, 157, 0.2) 0%, 
-                rgba(66, 111, 132, 0.15) 100%);
-            backdrop-filter: blur(40px);
-            border: 2px solid;
-            border-image: linear-gradient(45deg, var(--neon-pink), var(--cosmic-purple)) 1;
-            border-radius: 30px;
-            padding: 3rem;
-            margin: 4rem auto;
-            max-width: 900px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .timer-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: var(--gradient-cosmic);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .step {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
             text-align: center;
-            margin-bottom: 2.5rem;
-            animation: cosmic-float 4s ease-in-out infinite;
+            border-top: 4px solid var(--accent);
         }
 
-        .timer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .timer-unit {
-            text-align: center;
-            padding: 2rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .timer-unit:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .timer-value {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            background: var(--gradient-cosmic);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: block;
-            animation: starlight-twinkle 2s ease-in-out infinite;
-        }
-
-        .timer-label {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--cyber-teal);
-            margin-top: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* КВАНТОВЫЕ КНОПКИ */
-        .quantum-button {
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            font-size: 1.4rem;
-            padding: 1.5rem 3rem;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            display: inline-flex;
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
             align-items: center;
-            gap: 1rem;
-            margin: 0 1.5rem;
-            animation: hologram-flicker 3s ease-in-out infinite;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
         }
 
-        .quantum-button.primary {
-            background: var(--gradient-cosmic);
-            color: var(--platinum);
-            box-shadow: var(--hologram-glow);
-        }
-
-        .quantum-button.secondary {
-            background: transparent;
-            border: 2px solid;
-            border-image: linear-gradient(45deg, var(--cyber-teal), var(--deep-blue)) 1;
-            color: var(--cyber-teal);
-        }
-
-        .quantum-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.2), 
-                transparent);
-            transition: left 0.6s ease;
-        }
-
-        .quantum-button:hover::before {
-            left: 100%;
-        }
-
-        .quantum-button:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: var(--hologram-glow), var(--depth-shadow);
-            animation: quantum-entangle 0.6s ease;
-        }
-
-        /* ГОЛОГРАФИЧЕСКИЕ УВЕДОМЛЕНИЯ */
-        .hologram-panel {
+        /* Уведомления */
+        .notification-panel {
             position: fixed;
-            top: 100px;
-            right: 30px;
-            width: 450px;
-            background: linear-gradient(135deg, 
-                rgba(26, 26, 46, 0.95) 0%, 
-                rgba(22, 33, 62, 0.98) 100%);
-            backdrop-filter: blur(50px);
-            border: 2px solid;
-            border-image: linear-gradient(45deg, var(--neon-pink), var(--cosmic-purple)) 1;
-            border-radius: 20px;
-            z-index: 9999;
+            top: 80px;
+            right: 20px;
+            width: 350px;
+            background: var(--section-bg);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 999;
             display: none;
-            box-shadow: var(--hologram-glow), var(--depth-shadow);
-            animation: hologram-flicker 2s ease-in-out infinite;
         }
 
-        .hologram-panel.show {
+        .notification-panel.show {
             display: block;
-            animation: quantum-entangle 0.5s ease;
         }
 
-        .panel-header {
-            padding: 2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            background: var(--gradient-cosmic);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .notification-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--primary);
+            font-weight: bold;
+            color: var(--primary);
         }
 
         .notification-item {
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .notification-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateX(10px);
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .notification-item:last-child {
             border-bottom: none;
         }
 
-        /* АДАПТИВНОСТЬ NEXT LEVEL */
-        @media (max-width: 1200px) {
-            .hero-title { font-size: 4.5rem; }
-            .nav-links { gap: 1.5rem; }
+        .hidden {
+            display: none;
         }
 
         @media (max-width: 768px) {
-            .hero { padding: 10rem 2rem 4rem; }
-            .hero-title { font-size: 3.5rem; }
-            .hero-subtitle { font-size: 1.6rem; }
-            .nav-container { padding: 0 1.5rem; flex-direction: column; gap: 1.5rem; }
-            .nav-links { flex-wrap: wrap; justify-content: center; }
-            .server-info { grid-template-columns: 1fr; }
-            .timer-grid { grid-template-columns: repeat(3, 1fr); }
-            .hologram-panel { width: 350px; right: 15px; }
-        }
-
-        @media (max-width: 480px) {
-            .hero-title { font-size: 2.8rem; }
-            .timer-grid { grid-template-columns: repeat(2, 1fr); }
-            .quantum-button { margin: 0.5rem; padding: 1.2rem 2rem; font-size: 1.2rem; }
-            .cosmic-timer { padding: 2rem; margin: 2rem auto; }
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .steps {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Космические частицы -->
-    <div class="particle-field" id="particleField"></div>
-
-    <!-- Навигация космического уровня -->
+    <!-- Навигация -->
     <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo" data-text="JESSIE SMP">JESSIE SMP</a>
-            
-            <div class="nav-links">
-                <a href="/" class="nav-link">🚀 ГЛАВНАЯ</a>
-                <a href="/team" class="nav-link">👥 КОМАНДА</a>
-                <a href="/wiki" class="nav-link">📚 ВИКИ</a>
-                <a href="/faq" class="nav-link">❓ FAQ</a>
-                <a href="/profile" class="nav-link">👤 ПРОФИЛЬ</a>
-                
-                <div class="notification-bell" id="notificationBell">
-                    <i class="fas fa-bell" style="font-size: 1.5rem;"></i>
-                    <span class="notification-count" id="notificationCount">5</span>
+        <div class="container">
+            <div class="nav-container">
+                <a href="/" class="logo">JMSMP</a>
+                <div class="nav-links">
+                    <a href="/" class="nav-link">Главная</a>
+                    <a href="/team" class="nav-link">Команда</a>
+                    <a href="/wiki" class="nav-link">Вики</a>
+                    <a href="/faq" class="nav-link">FAQ</a>
+                    
+                    <div class="auth-section">
+                        <div class="notification-bell" id="notificationBell">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-count hidden" id="notificationCount">0</span>
+                        </div>
+                        <a href="/profile" class="btn">Профиль</a>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Голографическая панель уведомлений -->
-    <div class="hologram-panel" id="notificationPanel">
-        <div class="panel-header">
-            🔔 КОСМИЧЕСКИЕ УВЕДОМЛЕНИЯ
+    <!-- Уведомления -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <i class="fas fa-bell"></i> Уведомления
         </div>
         <div id="notificationList">
-            <!-- Уведомления загружаются динамически -->
+            <!-- Уведомления загружаются через JS -->
         </div>
     </div>
 
-    <!-- Герой секция космического масштаба -->
-    <section class="hero">
-        <div class="cosmic-background"></div>
-        
-        <div class="hero-content">
-            <h1 class="hero-title" data-text="JESSIE SMP">JESSIE SMP</h1>
-            <p class="hero-subtitle">САМЫЙ ПРОДВИНУТЫЙ ВАНИЛЬНЫЙ СЕРВЕР ВСЕЛЕННОЙ</p>
+    <!-- Шапка -->
+    <header>
+        <div class="container">
+            <h1>Jessie Minecraft SMP</h1>
+            <h2>ЗДЕСЬ НОВЫЕ ПРИКЛЮЧЕНИЯ</h2>
             
             <div class="server-info">
-                <div class="info-card">
-                    <i class="fas fa-gamepad" style="font-size: 3rem; color: var(--neon-pink); margin-bottom: 1rem;"></i>
-                    <h3 style="color: var(--platinum); margin-bottom: 1rem;">MINECRAFT 1.21.8</h3>
-                    <p style="color: var(--cyber-teal);">Современная версия с премиум оптимизацией</p>
-                </div>
-                
-                <div class="info-card">
-                    <i class="fas fa-bolt" style="font-size: 3rem; color: var(--cyber-teal); margin-bottom: 1rem;"></i>
-                    <h3 style="color: var(--platinum); margin-bottom: 1rem;">ЧИСТАЯ ВАНИЛА</h3>
-                    <p style="color: var(--deep-blue);">Аутентичный геймплей без модификаций</p>
-                </div>
-                
-                <div class="info-card">
-                    <i class="fas fa-globe" style="font-size: 3rem; color: var(--cosmic-purple); margin-bottom: 1rem;"></i>
-                    <h3 style="color: var(--platinum); margin-bottom: 1rem;">ОНЛАЙН 24/7</h3>
-                    <p style="color: var(--neon-pink);">Стабильный сервер с защитой от читеров</p>
-                </div>
+                <span class="version-badge">Minecraft 1.21.8</span>
+                <span class="version-badge">Ванильный сервер</span>
+                <span class="version-badge">Лицензия не требуется</span>
             </div>
 
-            <!-- Космический таймер сезона -->
-            <div class="cosmic-timer">
-                <div class="timer-title">⏰ ДО КОНЦА СЕЗОНА ОСТАЛОСЬ</div>
-                <div class="timer-grid" id="seasonTimer">
-                    <!-- Таймер загружается динамически -->
-                </div>
+            <div class="server-address" id="serverAddress" style="display: none;">
+                IP сервера будет доступен после одобрения анкеты
             </div>
 
-            <!-- Квантовые кнопки действий -->
-            <div class="hero-actions">
-                <button class="quantum-button primary" onclick="startPlaying()">
-                    <i class="fas fa-play"></i>
-                    НАЧАТЬ ИГРАТЬ
-                </button>
-                <a href="/profile#application" class="quantum-button secondary">
-                    <i class="fas fa-file-alt"></i>
-                    ЗАПОЛНИТЬ АНКЕТУ
+            <div style="margin-top: 30px;">
+                <a href="/profile#application" class="btn" style="padding: 15px 30px; font-size: 1.1rem;">
+                    Начать играть
                 </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Как начать играть -->
+    <section style="background: var(--section-bg);">
+        <div class="container">
+            <div class="section-title">
+                <h2>КАК НАЧАТЬ ИГРАТЬ?</h2>
+                <p>ЗАПОЛНЯЙ. ИГРАЙ. КАЙФУЙ.</p>
+            </div>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <h3>ЗАПОЛНИТЕ АНКЕТУ</h3>
+                    <p>Для игры на сервере нужна версия 1.21.8</p>
+                    <a href="/profile#application" class="btn" style="margin-top: 15px;">Заполнить</a>
+                </div>
+
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <h3>УСТАНОВИТЕ ЛАУНЧЕР</h3>
+                    <p>Рекомендуем EasyLauncher для лучшего опыта</p>
+                    <a href="https://easylauncher.org/" class="btn" style="margin-top: 15px;">Скачать</a>
+                </div>
+
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <h3>ПОЛУЧИТЕ ДОСТУП</h3>
+                    <p>После одобрения анкеты получите IP сервера</p>
+                    <a href="/profile" class="btn" style="margin-top: 15px;">Профиль</a>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Дополнительные секции... -->
+
     <script>
-        class CosmicJMSMP {
+        class JMSMP {
             constructor() {
                 this.userId = localStorage.getItem('userId') || 'user_' + Date.now();
                 this.notifications = [];
-                this.particles = [];
                 this.init();
             }
 
             init() {
-                this.createParticleField();
                 this.setupEventListeners();
                 this.loadNotifications();
-                this.startSeasonTimer();
-                this.startBackgroundAnimations();
-            }
-
-            createParticleField() {
-                const container = document.getElementById('particleField');
-                for (let i = 0; i < 150; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'stellar-particle';
-                    
-                    // Рандомные свойства частиц
-                    particle.style.left = Math.random() * 100 + '%';
-                    particle.style.top = Math.random() * 100 + '%';
-                    particle.style.animationDelay = Math.random() * 5 + 's';
-                    particle.style.animationDuration = (2 + Math.random() * 3) + 's';
-                    particle.style.width = particle.style.height = (1 + Math.random() * 3) + 'px';
-                    particle.style.background = this.getRandomStarColor();
-                    
-                    container.appendChild(particle);
-                    this.particles.push(particle);
-                }
-            }
-
-            getRandomStarColor() {
-                const colors = [
-                    'var(--platinum)',
-                    'var(--neon-pink)',
-                    'var(--cyber-teal)',
-                    'var(--cosmic-purple)',
-                    'var(--deep-blue)'
-                ];
-                return colors[Math.floor(Math.random() * colors.length)];
+                this.checkServerAccess();
             }
 
             setupEventListeners() {
-                // Уведомления с квантовой анимацией
+                // Уведомления
                 document.getElementById('notificationBell').addEventListener('click', (e) => {
                     e.stopPropagation();
                     this.toggleNotifications();
-                    this.animateBell();
                 });
 
-                // Закрытие по клику вне области
                 document.addEventListener('click', (e) => {
-                    if (!e.target.closest('#notificationPanel') && 
-                        !e.target.closest('#notificationBell')) {
+                    if (!e.target.closest('#notificationPanel') && !e.target.closest('#notificationBell')) {
                         this.closeNotifications();
                     }
-                });
-
-                // Параллакс эффект для частиц
-                window.addEventListener('scroll', () => {
-                    this.updateParallax();
-                });
-
-                // Анимация при наведении на интерактивные элементы
-                this.setupHoverEffects();
-            }
-
-            setupHoverEffects() {
-                const interactiveElements = document.querySelectorAll('.nav-link, .quantum-button, .info-card');
-                
-                interactiveElements.forEach(el => {
-                    el.addEventListener('mouseenter', () => {
-                        el.style.transform = 'translateY(-5px) scale(1.02)';
-                        this.createRippleEffect(el);
-                    });
-                    
-                    el.addEventListener('mouseleave', () => {
-                        el.style.transform = 'translateY(0) scale(1)';
-                    });
-                });
-            }
-
-            createRippleEffect(element) {
-                const ripple = document.createElement('div');
-                ripple.style.cssText = `
-                    position: absolute;
-                    top: 50%; left: 50%;
-                    width: 0; height: 0;
-                    border-radius: 50%;
-                    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-                    transform: translate(-50%, -50%);
-                    animation: ripple-expand 0.6s ease-out;
-                    pointer-events: none;
-                `;
-                
-                element.style.position = 'relative';
-                element.appendChild(ripple);
-                
-                setTimeout(() => ripple.remove(), 600);
-            }
-
-            animateBell() {
-                const bell = document.getElementById('notificationBell');
-                bell.style.animation = 'none';
-                setTimeout(() => {
-                    bell.style.animation = 'quantum-entangle 0.5s ease';
-                }, 10);
-            }
-
-            updateParallax() {
-                const scrolled = window.pageYOffset;
-                const particles = document.querySelectorAll('.stellar-particle');
-                
-                particles.forEach((particle, index) => {
-                    const speed = 0.5 + (index % 3) * 0.2;
-                    particle.style.transform = `translateY(${scrolled * speed * 0.1}px)`;
                 });
             }
 
@@ -872,7 +384,7 @@
                 try {
                     const response = await fetch(`/api/notifications/${this.userId}`);
                     const data = await response.json();
-                    this.notifications = data.notifications || this.getDefaultNotifications();
+                    this.notifications = data.notifications || [];
                     this.updateNotificationUI();
                 } catch (error) {
                     this.notifications = this.getDefaultNotifications();
@@ -881,46 +393,13 @@
             }
 
             getDefaultNotifications() {
-                const now = new Date();
                 return [
                     {
-                        id: 'cosmic_1',
-                        title: '🚀 ДОБРО ПОЖАЛОВАТЬ В КОСМОС JESSIE SMP!',
-                        message: 'Сервер запущен на новом уровне технологий',
-                        type: 'cosmic',
-                        createdAt: now.toISOString(),
-                        read: false
-                    },
-                    {
-                        id: 'cosmic_2',
-                        title: '⏰ СЕЗОН АКТИВЕН!',
-                        message: 'Текущий сезон продлится 1 год 3 месяца 4 недели 2 дня',
-                        type: 'time',
-                        createdAt: new Date(now - 86400000).toISOString(),
-                        read: false
-                    },
-                    {
-                        id: 'cosmic_3', 
-                        title: '🔧 СИСТЕМА ОБНОВЛЕНА',
-                        message: 'Добавлена голографическая система уведомлений',
-                        type: 'update',
-                        createdAt: new Date(now - 172800000).toISOString(),
-                        read: false
-                    },
-                    {
-                        id: 'cosmic_4',
-                        title: '🎮 ЛАУНЧЕР EASYLAUNCHER',
-                        message: 'Рекомендуем использовать EasyLauncher для игры',
+                        id: '1',
+                        title: 'Добро пожаловать на Jessie SMP!',
+                        message: 'Заполните анкету для доступа к серверу',
                         type: 'info',
-                        createdAt: new Date(now - 259200000).toISOString(),
-                        read: false
-                    },
-                    {
-                        id: 'cosmic_5',
-                        title: '🌟 ПРЕМИУМ ДИЗАЙН',
-                        message: 'Сайт полностью переработан с космическим дизайном',
-                        type: 'design',
-                        createdAt: new Date(now - 345600000).toISOString(),
+                        createdAt: new Date().toISOString(),
                         read: false
                     }
                 ];
@@ -932,223 +411,58 @@
                 const listElement = document.getElementById('notificationList');
 
                 countElement.textContent = unreadCount;
-                countElement.style.animation = unreadCount > 0 ? 'starlight-twinkle 1s ease-in-out infinite' : 'none';
+                countElement.classList.toggle('hidden', unreadCount === 0);
 
                 listElement.innerHTML = this.notifications.map(notif => `
-                    <div class="notification-item" onclick="cosmicApp.markAsRead('${notif.id}')">
-                        <div style="display: flex; justify-content: between; align-items: start; margin-bottom: 0.5rem;">
-                            <strong style="color: ${this.getNotificationColor(notif.type)}; font-size: 1.1rem; flex: 1;">
-                                ${notif.title}
-                            </strong>
-                            <span style="color: var(--cyber-teal); font-size: 0.8rem;">
-                                ${this.formatTime(notif.createdAt)}
-                            </span>
-                        </div>
-                        <p style="color: var(--platinum); opacity: 0.8; margin: 0; font-size: 0.9rem;">
-                            ${notif.message}
-                        </p>
-                        ${!notif.read ? '<div style="width: 8px; height: 8px; background: var(--neon-pink); border-radius: 50%; margin-top: 0.5rem;"></div>' : ''}
+                    <div class="notification-item">
+                        <strong>${notif.title}</strong>
+                        <p style="margin: 5px 0; font-size: 0.9rem;">${notif.message}</p>
+                        <small style="color: #666;">${this.formatDate(notif.createdAt)}</small>
                     </div>
                 `).join('');
             }
 
-            getNotificationColor(type) {
-                const colors = {
-                    'cosmic': 'var(--cosmic-purple)',
-                    'time': 'var(--cyber-teal)',
-                    'update': 'var(--neon-pink)',
-                    'info': 'var(--deep-blue)',
-                    'design': 'var(--platinum)'
-                };
-                return colors[type] || 'var(--platinum)';
+            async checkServerAccess() {
+                try {
+                    const response = await fetch(`/api/user-ip/${this.userId}`);
+                    const data = await response.json();
+                    
+                    if (data.hasAccess) {
+                        document.getElementById('serverAddress').style.display = 'inline-block';
+                        document.getElementById('serverAddress').textContent = data.ip;
+                        document.getElementById('serverAddress').onclick = () => this.copyToClipboard(data.ip);
+                    }
+                } catch (error) {
+                    console.log('Ошибка проверки доступа:', error);
+                }
             }
 
-            formatTime(dateString) {
-                const date = new Date(dateString);
-                const now = new Date();
-                const diffHours = Math.floor((now - date) / (1000 * 60 * 60));
-                
-                if (diffHours < 1) return 'Только что';
-                if (diffHours < 24) return `${diffHours}ч назад`;
-                if (diffHours < 168) return `${Math.floor(diffHours/24)}д назад`;
-                return date.toLocaleDateString('ru-RU');
+            formatDate(dateString) {
+                return new Date(dateString).toLocaleDateString('ru-RU');
             }
 
             toggleNotifications() {
-                const panel = document.getElementById('notificationPanel');
-                panel.classList.toggle('show');
+                document.getElementById('notificationPanel').classList.toggle('show');
             }
 
             closeNotifications() {
                 document.getElementById('notificationPanel').classList.remove('show');
             }
 
-            async markAsRead(notificationId) {
-                try {
-                    await fetch('/api/notifications/mark-read', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ notificationId, userId: this.userId })
-                    });
-                    
-                    // Локальное обновление
-                    const notif = this.notifications.find(n => n.id === notificationId);
-                    if (notif) notif.read = true;
-                    this.updateNotificationUI();
-                    
-                } catch (error) {
-                    console.log('Оффлайн режим: уведомление прочитано');
-                    const notif = this.notifications.find(n => n.id === notificationId);
-                    if (notif) notif.read = true;
-                    this.updateNotificationUI();
-                }
-            }
-
-            startSeasonTimer() {
-                this.updateSeasonTimer();
-                setInterval(() => this.updateSeasonTimer(), 1000);
-            }
-
-            async updateSeasonTimer() {
-                try {
-                    const response = await fetch('/api/season-countdown');
-                    const data = await response.json();
-                    
-                    if (data.ended) {
-                        document.getElementById('seasonTimer').innerHTML = `
-                            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
-                                <div style="font-size: 2.5rem; color: var(--neon-pink); margin-bottom: 1rem;">🎉</div>
-                                <div style="font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--neon-pink);">
-                                    НОВЫЙ СЕЗОН АКТИВЕН!
-                                </div>
-                            </div>
-                        `;
-                        return;
-                    }
-
-                    document.getElementById('seasonTimer').innerHTML = `
-                        <div class="timer-unit">
-                            <span class="timer-value">${data.years}</span>
-                            <span class="timer-label">Лет</span>
-                        </div>
-                        <div class="timer-unit">
-                            <span class="timer-value">${data.months}</span>
-                            <span class="timer-label">Месяцев</span>
-                        </div>
-                        <div class="timer-unit">
-                            <span class="timer-value">${data.weeks}</span>
-                            <span class="timer-label">Недель</span>
-                        </div>
-                        <div class="timer-unit">
-                            <span class="timer-value">${data.days}</span>
-                            <span class="timer-label">Дней</span>
-                        </div>
-                        <div class="timer-unit">
-                            <span class="timer-value">${data.hours.toString().padStart(2, '0')}</span>
-                            <span class="timer-label">Часов</span>
-                        </div>
-                        <div class="timer-unit">
-                            <span class="timer-value">${data.minutes.toString().padStart(2, '0')}</span>
-                            <span class="timer-label">Минут</span>
-                        </div>
-                    `;
-                } catch (error) {
-                    this.updateFallbackTimer();
-                }
-            }
-
-            updateFallbackTimer() {
-                const endDate = new Date(Date.now() + 
-                    (365 * 24 * 60 * 60 * 1000) + 
-                    (3 * 30 * 24 * 60 * 60 * 1000) + 
-                    (4 * 7 * 24 * 60 * 60 * 1000) + 
-                    (2 * 24 * 60 * 60 * 1000) + 
-                    (17 * 60 * 60 * 1000) + 
-                    (52 * 60 * 1000)
-                );
-                
-                const now = new Date();
-                const diff = endDate - now;
-
-                const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
-                const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
-                const weeks = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24 * 7));
-                const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-                document.getElementById('seasonTimer').innerHTML = `
-                    <div class="timer-unit">
-                        <span class="timer-value">${years}</span>
-                        <span class="timer-label">Лет</span>
-                    </div>
-                    <div class="timer-unit">
-                        <span class="timer-value">${months}</span>
-                        <span class="timer-label">Месяцев</span>
-                    </div>
-                    <div class="timer-unit">
-                        <span class="timer-value">${weeks}</span>
-                        <span class="timer-label">Недель</span>
-                    </div>
-                    <div class="timer-unit">
-                        <span class="timer-value">${days}</span>
-                        <span class="timer-label">Дней</span>
-                    </div>
-                    <div class="timer-unit">
-                        <span class="timer-value">${hours.toString().padStart(2, '0')}</span>
-                        <span class="timer-label">Часов</span>
-                    </div>
-                    <div class="timer-unit">
-                        <span class="timer-value">${minutes.toString().padStart(2, '0')}</span>
-                        <span class="timer-label">Минут</span>
-                    </div>
-                `;
-            }
-
-            startBackgroundAnimations() {
-                // Анимация градиента фона
-                const background = document.querySelector('.cosmic-background');
-                setInterval(() => {
-                    background.style.filter = `hue-rotate(${Date.now() * 0.01}deg)`;
-                }, 50);
+            copyToClipboard(text) {
+                navigator.clipboard.writeText(text).then(() => {
+                    const original = document.getElementById('serverAddress').textContent;
+                    document.getElementById('serverAddress').textContent = 'Скопировано!';
+                    setTimeout(() => {
+                        document.getElementById('serverAddress').textContent = original;
+                    }, 2000);
+                });
             }
         }
 
-        // Глобальные функции
-        function startPlaying() {
-            window.open('https://easylauncher.org/', '_blank');
-        }
-
-        function markAsRead(notificationId) {
-            window.cosmicApp.markAsRead(notificationId);
-        }
-
-        // Добавляем стиль для ripple эффекта
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple-expand {
-                0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-                100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Инициализация при загрузке
+        // Инициализация
         document.addEventListener('DOMContentLoaded', () => {
-            window.cosmicApp = new CosmicJMSMP();
-            
-            // Запускаем анимацию появления элементов
-            const animatedElements = document.querySelectorAll('.hero-title, .hero-subtitle, .server-info, .cosmic-timer, .hero-actions');
-            animatedElements.forEach((el, index) => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(50px)';
-                
-                setTimeout(() => {
-                    el.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                    el.style.opacity = '1';
-                    el.style.transform = 'translateY(0)';
-                }, index * 200);
-            });
+            window.jmsmp = new JMSMP();
         });
     </script>
 </body>
