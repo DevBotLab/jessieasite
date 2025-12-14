@@ -3,46 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jessie Minecraft SMP — Эксклюзивный Ванильный Сервер</title>
+    <title>Jessie SMP — Уникальный Ванильный Сервер</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&family=Minecraft&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Minecraft цвета */
-            --mc-green: #00FF00;
-            --mc-dark-green: #00AA00;
-            --mc-blue: #5555FF;
-            --mc-dark-blue: #0000AA;
-            --mc-red: #FF5555;
-            --mc-gold: #FFAA00;
-            --mc-purple: #AA00AA;
-            --mc-gray: #AAAAAA;
-            --mc-dark-gray: #555555;
-            
             /* Премиум палитра */
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --primary-light: #a5b4fc;
-            --secondary: #ec4899;
-            --accent: #06b6d4;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
-            --dark-1: #0f0f23;
-            --dark-2: #1a1a2e;
-            --dark-3: #16213e;
-            --light-1: #f8fafc;
-            --light-2: #e2e8f0;
+            --cosmic-purple: #182AA8;
+            --neon-pink: #AA00AA;
+            --deep-blue: #2D439D;
+            --cyber-teal: #426F84;
+            --platinum: #DEDEDE;
+            --void-black: #0a0a15;
+            --stellar-gray: #1a1a2e;
+            --nebula-dark: #16213e;
             
-            /* Градиенты */
-            --gradient-mc: linear-gradient(135deg, var(--mc-green), var(--mc-blue));
-            --gradient-premium: linear-gradient(135deg, var(--primary), var(--secondary));
-            --gradient-gold: linear-gradient(135deg, var(--mc-gold), var(--warning));
+            /* Глубинные градиенты */
+            --gradient-cosmic: linear-gradient(135deg, var(--cosmic-purple), var(--neon-pink), var(--deep-blue));
+            --gradient-nebula: linear-gradient(135deg, var(--neon-pink), var(--cyber-teal), var(--cosmic-purple));
+            --gradient-stellar: linear-gradient(135deg, var(--deep-blue), var(--cosmic-purple), var(--neon-pink));
+            --gradient-void: linear-gradient(135deg, var(--void-black), var(--nebula-dark), var(--stellar-gray));
             
-            /* Тени */
-            --shadow-mc: 0 4px 0 var(--mc-dark-green), 0 8px 16px rgba(0,0,0,0.3);
-            --shadow-premium: 0 20px 40px rgba(0,0,0,0.4);
-            --shadow-glow: 0 0 30px rgba(0, 255, 0, 0.5);
+            /* Голографические эффекты */
+            --hologram-glow: 0 0 40px rgba(24, 42, 168, 0.6), 0 0 80px rgba(170, 0, 170, 0.4), 0 0 120px rgba(45, 67, 157, 0.2);
+            --neon-shadow: 0 0 30px currentColor, 0 0 60px currentColor, 0 0 90px currentColor;
+            --depth-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 15px 30px rgba(0, 0, 0, 0.4);
         }
 
         * {
@@ -56,203 +41,307 @@
         }
 
         body {
-            font-family: 'Exo 2', sans-serif;
-            background: 
-                radial-gradient(circle at 0% 0%, var(--dark-1) 0%, var(--dark-2) 50%, var(--dark-3) 100%),
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230f0f23"/><g opacity="0.03"><rect x="0" y="0" width="10" height="10" fill="%2300FF00"/><rect x="20" y="0" width="10" height="10" fill="%2300FF00"/><rect x="40" y="0" width="10" height="10" fill="%2300FF00"/><rect x="60" y="0" width="10" height="10" fill="%2300FF00"/><rect x="80" y="0" width="10" height="10" fill="%2300FF00"/></g></svg>');
-            color: var(--light-1);
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--void-black);
+            color: var(--platinum);
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(24, 42, 168, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(170, 0, 170, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(45, 67, 157, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, var(--void-black) 0%, var(--nebula-dark) 100%);
         }
 
-        /* Minecraft шрифт */
-        .mc-font {
-            font-family: 'Minecraft', monospace;
-            image-rendering: pixelated;
-        }
-
-        /* ПИКСЕЛЬНЫЕ АНИМАЦИИ */
-        @keyframes pixel-float {
-            0%, 100% { transform: translateY(0) scale(1); }
-            25% { transform: translateY(-2px) scale(1.02); }
-            50% { transform: translateY(-4px) scale(1.04); }
-            75% { transform: translateY(-2px) scale(1.02); }
-        }
-
-        @keyframes block-break {
-            0% { transform: scale(1) rotate(0deg); opacity: 1; }
-            50% { transform: scale(1.1) rotate(180deg); opacity: 0.8; }
-            100% { transform: scale(0) rotate(360deg); opacity: 0; }
-        }
-
-        @keyframes creeper-float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(2px, -2px) rotate(1deg); }
-            50% { transform: translate(0, -4px) rotate(0deg); }
-            75% { transform: translate(-2px, -2px) rotate(-1deg); }
-        }
-
-        @keyframes redstone-pulse {
+        /* КОСМИЧЕСКИЕ АНИМАЦИИ */
+        @keyframes cosmic-float {
             0%, 100% { 
-                box-shadow: 0 0 10px var(--mc-red),
-                           0 0 20px var(--mc-red),
-                           0 0 30px var(--mc-red);
-                filter: brightness(1);
+                transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+                filter: hue-rotate(0deg);
+            }
+            25% { 
+                transform: translate3d(2px, -3px, 10px) rotate(1deg) scale(1.02);
+                filter: hue-rotate(90deg);
             }
             50% { 
-                box-shadow: 0 0 20px var(--mc-red),
-                           0 0 40px var(--mc-red),
-                           0 0 60px var(--mc-red);
-                filter: brightness(1.3);
+                transform: translate3d(0, -5px, 20px) rotate(0deg) scale(1.05);
+                filter: hue-rotate(180deg);
+            }
+            75% { 
+                transform: translate3d(-2px, -3px, 10px) rotate(-1deg) scale(1.02);
+                filter: hue-rotate(270deg);
             }
         }
 
-        @keyframes enchant-glitter {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes hologram-flicker {
+            0%, 100% { 
+                opacity: 1;
+                filter: brightness(1) contrast(1);
+            }
+            50% { 
+                opacity: 0.95;
+                filter: brightness(1.2) contrast(1.1);
+            }
         }
 
-        /* БЛОК-СТИЛИ */
-        .block-style {
-            border: 4px solid;
-            border-image: 
-                linear-gradient(45deg, var(--mc-gray), var(--mc-dark-gray)) 1;
-            image-rendering: pixelated;
+        @keyframes quantum-entangle {
+            0% { 
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+            25% { 
+                transform: translateX(20px) scale(1.1);
+                opacity: 0.8;
+            }
+            50% { 
+                transform: translateX(-15px) scale(1.2);
+                opacity: 0.6;
+            }
+            75% { 
+                transform: translateX(10px) scale(1.1);
+                opacity: 0.8;
+            }
+            100% { 
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes starlight-twinkle {
+            0%, 100% { 
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes nebula-pulse {
+            0% { 
+                background-position: 0% 50%;
+                filter: hue-rotate(0deg);
+            }
+            50% { 
+                background-position: 100% 50%;
+                filter: hue-rotate(180deg);
+            }
+            100% { 
+                background-position: 0% 50%;
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        @keyframes cyber-scan {
+            0% { 
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            50% { 
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(100%);
+                opacity: 0;
+            }
+        }
+
+        /* ПРЕМИУМ КОМПОНЕНТЫ */
+        .hologram-card {
+            background: linear-gradient(135deg, 
+                rgba(24, 42, 168, 0.1) 0%, 
+                rgba(170, 0, 170, 0.08) 50%, 
+                rgba(45, 67, 157, 0.1) 100%);
+            backdrop-filter: blur(40px);
+            border: 1px solid;
+            border-image: linear-gradient(45deg, var(--cosmic-purple), var(--neon-pink), var(--deep-blue)) 1;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hologram-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(222, 222, 222, 0.1), 
+                transparent);
+            animation: cyber-scan 3s ease-in-out infinite;
+        }
+
+        .quantum-glow {
             position: relative;
         }
 
-        .block-style::before {
+        .quantum-glow::after {
             content: '';
             position: absolute;
-            top: 2px;
-            left: 2px;
-            right: 2px;
-            bottom: 2px;
-            border: 2px solid rgba(255,255,255,0.1);
-            pointer-events: none;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient-cosmic);
+            border-radius: inherit;
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0.7;
+            animation: hologram-flicker 2s ease-in-out infinite;
         }
 
-        .grass-block {
-            background: 
-                linear-gradient(to bottom, var(--mc-green) 0%, var(--mc-green) 70%, var(--mc-dark-green) 100%);
-            border-image: 
-                linear-gradient(45deg, var(--mc-dark-green), var(--mc-green)) 1;
+        .stellar-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--platinum);
+            border-radius: 50%;
+            animation: starlight-twinkle 3s ease-in-out infinite;
+            opacity: 0;
         }
 
-        .diamond-block {
-            background: 
-                linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 50%, var(--primary-dark) 100%);
-            border-image: 
-                linear-gradient(45deg, var(--primary-dark), var(--primary-light)) 1;
-        }
-
-        .redstone-block {
-            background: 
-                linear-gradient(135deg, var(--mc-red) 0%, #FF0000 50%, #AA0000 100%);
-            border-image: 
-                linear-gradient(45deg, #AA0000, var(--mc-red)) 1;
-            animation: redstone-pulse 2s ease-in-out infinite;
-        }
-
-        /* НАВИГАЦИЯ В СТИЛЕ MINECRAFT */
+        /* НАВИГАЦИЯ КОСМИЧЕСКОГО УРОВНЯ */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: 
-                linear-gradient(to bottom, var(--mc-dark-gray) 0%, var(--dark-1) 100%);
-            z-index: 1000;
-            padding: 1rem 0;
-            border-bottom: 4px solid var(--mc-green);
-            image-rendering: pixelated;
+            background: linear-gradient(135deg, 
+                rgba(24, 42, 168, 0.95) 0%, 
+                rgba(26, 26, 46, 0.98) 100%);
+            backdrop-filter: blur(50px);
+            z-index: 10000;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid;
+            border-image: linear-gradient(90deg, var(--cosmic-purple), var(--neon-pink), var(--deep-blue)) 1;
+            animation: cosmic-float 6s ease-in-out infinite;
         }
 
         .nav-container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-family: 'Minecraft', monospace;
-            font-size: 2.5rem;
-            color: var(--mc-green);
-            text-shadow: 2px 2px 0 var(--mc-dark-green);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gradient-cosmic);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             text-decoration: none;
-            animation: pixel-float 3s ease-in-out infinite;
+            position: relative;
+            animation: quantum-entangle 4s ease-in-out infinite;
+        }
+
+        .logo::after {
+            content: 'JMSMP';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            background: var(--gradient-nebula);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            z-index: -1;
+            filter: blur(3px);
+            opacity: 0.7;
         }
 
         .nav-links {
             display: flex;
-            gap: 1rem;
+            gap: 2.5rem;
             align-items: center;
         }
 
         .nav-link {
-            font-family: 'Minecraft', monospace;
-            color: var(--mc-gray);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: var(--platinum);
             text-decoration: none;
-            padding: 0.8rem 1.5rem;
-            background: var(--mc-dark-gray);
-            border: 3px solid var(--mc-gray);
-            border-image: 
-                linear-gradient(45deg, #666, #999) 1;
-            transition: all 0.2s ease;
-            image-rendering: pixelated;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-cosmic);
+            transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: -1;
+        }
+
+        .nav-link:hover::before {
+            left: 0;
         }
 
         .nav-link:hover {
-            background: var(--mc-gray);
-            color: var(--dark-1);
-            transform: translateY(-2px);
-            border-color: var(--mc-green);
+            color: var(--void-black);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: var(--hologram-glow);
+            animation: quantum-entangle 0.6s ease;
         }
 
         .notification-bell {
             position: relative;
-            cursor: pointer;
-            width: 3.5rem;
-            height: 3.5rem;
-            background: var(--mc-dark-gray);
-            border: 3px solid var(--mc-gray);
-            border-image: 
-                linear-gradient(45deg, #666, #999) 1;
+            width: 4rem;
+            height: 4rem;
+            background: var(--gradient-stellar);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Minecraft', monospace;
-            transition: all 0.2s ease;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            animation: cosmic-float 4s ease-in-out infinite;
         }
 
         .notification-bell:hover {
-            border-color: var(--mc-gold);
-            animation: pixel-float 0.5s ease;
+            transform: scale(1.2) rotate(15deg);
+            box-shadow: var(--hologram-glow);
+            animation: quantum-entangle 0.8s ease;
         }
 
         .notification-count {
             position: absolute;
             top: -8px;
             right: -8px;
-            background: var(--mc-red);
-            color: white;
-            width: 1.8rem;
-            height: 1.8rem;
-            font-size: 0.9rem;
+            background: var(--neon-pink);
+            color: var(--platinum);
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 50%;
+            font-size: 1rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid white;
-            font-family: 'Minecraft', monospace;
-            animation: redstone-pulse 1.5s ease-in-out infinite;
+            border: 3px solid var(--void-black);
+            animation: starlight-twinkle 1.5s ease-in-out infinite;
+            box-shadow: 0 0 20px var(--neon-pink);
         }
 
-        /* ГЕРОЙ СЕКЦИЯ С MINECRAFT СТИЛЕМ */
+        /* КОСМИЧЕСКАЯ ГЕРОЙ СЕКЦИЯ */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -261,398 +350,522 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            padding: 8rem 2rem 4rem;
+            padding: 12rem 3rem 6rem;
         }
 
-        .mc-background {
+        .cosmic-background {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(ellipse at 20% 50%, rgba(0,255,0,0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(85,85,255,0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 40% 80%, rgba(255,85,85,0.05) 0%, transparent 50%);
-            z-index: -1;
+            background: var(--gradient-void);
+            animation: nebula-pulse 8s ease-in-out infinite;
+            z-index: -2;
         }
 
-        .floating-blocks {
+        .particle-field {
             position: absolute;
             width: 100%;
             height: 100%;
-            pointer-events: none;
+            z-index: -1;
         }
-
-        .floating-block {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background: var(--mc-green);
-            border: 3px solid var(--mc-dark-green);
-            animation: creeper-float 6s ease-in-out infinite;
-            opacity: 0.1;
-        }
-
-        .floating-block:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
-        .floating-block:nth-child(2) { top: 60%; left: 80%; animation-delay: 2s; background: var(--mc-blue); border-color: var(--mc-dark-blue); }
-        .floating-block:nth-child(3) { top: 40%; left: 60%; animation-delay: 4s; background: var(--mc-red); border-color: #AA0000; }
 
         .hero-content {
             position: relative;
-            z-index: 2;
-            max-width: 900px;
+            z-index: 10;
+            max-width: 1000px;
         }
 
         .hero-title {
-            font-family: 'Minecraft', monospace;
-            font-size: 5rem;
-            color: var(--mc-green);
-            text-shadow: 
-                4px 4px 0 var(--mc-dark-green),
-                8px 8px 0 rgba(0,0,0,0.3);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6rem;
+            font-weight: 900;
+            background: var(--gradient-cosmic);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 1.5rem;
-            animation: pixel-float 4s ease-in-out infinite;
-            image-rendering: pixelated;
+            text-shadow: var(--hologram-glow);
+            animation: cosmic-float 5s ease-in-out infinite;
+            position: relative;
+        }
+
+        .hero-title::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            background: var(--gradient-nebula);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            z-index: -1;
+            filter: blur(8px);
+            opacity: 0.6;
         }
 
         .hero-subtitle {
-            font-family: 'Minecraft', monospace;
-            font-size: 1.8rem;
-            color: var(--mc-gold);
-            text-shadow: 2px 2px 0 #AA5500;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--platinum);
             margin-bottom: 3rem;
-            animation: pixel-float 3s ease-in-out infinite 1s;
+            opacity: 0.9;
+            animation: hologram-flicker 3s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(222, 222, 222, 0.5);
         }
 
-        /* СЕРВЕР ИНФО В СТИЛЕ MINECRAFT */
+        /* СЕРВЕР ИНФО КАРТОЧКИ */
         .server-info {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 3rem 0;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
         }
 
-        .info-badge {
-            font-family: 'Minecraft', monospace;
-            padding: 1rem 2rem;
-            background: var(--mc-dark-gray);
-            border: 3px solid var(--mc-gray);
-            border-image: 
-                linear-gradient(45deg, #666, #999) 1;
-            color: var(--mc-gray);
-            image-rendering: pixelated;
-            transition: all 0.3s ease;
-        }
-
-        .info-badge:hover {
-            transform: translateY(-4px);
-            border-color: var(--mc-green);
-            color: var(--mc-green);
-            animation: pixel-float 0.5s ease;
-        }
-
-        /* СЕЗОН ТАЙМЕР В СТИЛЕ MINECRAFT */
-        .season-timer {
-            background: var(--mc-dark-gray);
-            border: 4px solid var(--mc-gray);
-            border-image: 
-                linear-gradient(45deg, #555, #777) 1;
+        .info-card {
             padding: 2.5rem;
-            margin: 3rem auto;
-            max-width: 800px;
-            image-rendering: pixelated;
+            border-radius: 25px;
+            background: linear-gradient(135deg, 
+                rgba(24, 42, 168, 0.15) 0%, 
+                rgba(170, 0, 170, 0.12) 100%);
+            backdrop-filter: blur(30px);
+            border: 1px solid;
+            border-image: linear-gradient(45deg, var(--deep-blue), var(--cyber-teal)) 1;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--hologram-glow);
+            animation: quantum-entangle 0.6s ease;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-cosmic);
+        }
+
+        /* КОСМИЧЕСКИЙ ТАЙМЕР */
+        .cosmic-timer {
+            background: linear-gradient(135deg, 
+                rgba(45, 67, 157, 0.2) 0%, 
+                rgba(66, 111, 132, 0.15) 100%);
+            backdrop-filter: blur(40px);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, var(--neon-pink), var(--cosmic-purple)) 1;
+            border-radius: 30px;
+            padding: 3rem;
+            margin: 4rem auto;
+            max-width: 900px;
+            position: relative;
+            overflow: hidden;
         }
 
         .timer-title {
-            font-family: 'Minecraft', monospace;
-            font-size: 2rem;
-            color: var(--mc-gold);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-cosmic);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             text-align: center;
-            margin-bottom: 2rem;
-            text-shadow: 2px 2px 0 #AA5500;
+            margin-bottom: 2.5rem;
+            animation: cosmic-float 4s ease-in-out infinite;
         }
 
         .timer-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 1.5rem;
         }
 
         .timer-unit {
             text-align: center;
-            padding: 1.5rem 1rem;
-            background: var(--dark-1);
-            border: 3px solid var(--mc-green);
-            border-image: 
-                linear-gradient(45deg, var(--mc-dark-green), var(--mc-green)) 1;
+            padding: 2rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .timer-unit:hover {
-            animation: pixel-float 0.6s ease;
-            border-color: var(--mc-gold);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
         .timer-value {
-            font-family: 'Minecraft', monospace;
-            font-size: 3rem;
-            color: var(--mc-green);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: var(--gradient-cosmic);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             display: block;
-            text-shadow: 2px 2px 0 var(--mc-dark-green);
+            animation: starlight-twinkle 2s ease-in-out infinite;
         }
 
         .timer-label {
-            font-family: 'Minecraft', monospace;
-            font-size: 1rem;
-            color: var(--mc-gray);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--cyber-teal);
             margin-top: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        /* КНОПКИ В СТИЛЕ MINECRAFT */
-        .mc-button {
-            font-family: 'Minecraft', monospace;
-            background: var(--mc-dark-gray);
-            border: 3px solid var(--mc-gray);
-            border-image: 
-                linear-gradient(45deg, #666, #999) 1;
-            color: var(--mc-gray);
-            padding: 1.2rem 2.5rem;
+        /* КВАНТОВЫЕ КНОПКИ */
+        .quantum-button {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
             font-size: 1.4rem;
+            padding: 1.5rem 3rem;
+            border: none;
+            border-radius: 15px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            image-rendering: pixelated;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 1rem;
-            margin: 0 1rem;
+            margin: 0 1.5rem;
+            animation: hologram-flicker 3s ease-in-out infinite;
         }
 
-        .mc-button:hover {
-            background: var(--mc-gray);
-            color: var(--dark-1);
-            transform: translateY(-4px);
-            border-color: var(--mc-green);
-            animation: pixel-float 0.4s ease;
+        .quantum-button.primary {
+            background: var(--gradient-cosmic);
+            color: var(--platinum);
+            box-shadow: var(--hologram-glow);
         }
 
-        .mc-button.play {
-            background: var(--mc-dark-green);
-            border-color: var(--mc-green);
-            color: var(--mc-green);
+        .quantum-button.secondary {
+            background: transparent;
+            border: 2px solid;
+            border-image: linear-gradient(45deg, var(--cyber-teal), var(--deep-blue)) 1;
+            color: var(--cyber-teal);
         }
 
-        .mc-button.play:hover {
-            background: var(--mc-green);
-            color: var(--dark-1);
-            animation: redstone-pulse 0.8s ease-in-out;
+        .quantum-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.6s ease;
         }
 
-        /* УВЕДОМЛЕНИЯ В СТИЛЕ MINECRAFT */
-        .notification-panel {
+        .quantum-button:hover::before {
+            left: 100%;
+        }
+
+        .quantum-button:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: var(--hologram-glow), var(--depth-shadow);
+            animation: quantum-entangle 0.6s ease;
+        }
+
+        /* ГОЛОГРАФИЧЕСКИЕ УВЕДОМЛЕНИЯ */
+        .hologram-panel {
             position: fixed;
-            top: 90px;
-            right: 20px;
-            width: 400px;
-            background: var(--mc-dark-gray);
-            border: 4px solid var(--mc-gray);
-            border-image: 
-                linear-gradient(45deg, #555, #777) 1;
-            z-index: 999;
+            top: 100px;
+            right: 30px;
+            width: 450px;
+            background: linear-gradient(135deg, 
+                rgba(26, 26, 46, 0.95) 0%, 
+                rgba(22, 33, 62, 0.98) 100%);
+            backdrop-filter: blur(50px);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, var(--neon-pink), var(--cosmic-purple)) 1;
+            border-radius: 20px;
+            z-index: 9999;
             display: none;
-            image-rendering: pixelated;
+            box-shadow: var(--hologram-glow), var(--depth-shadow);
+            animation: hologram-flicker 2s ease-in-out infinite;
         }
 
-        .notification-panel.show {
+        .hologram-panel.show {
             display: block;
-            animation: block-break 0.3s ease reverse;
+            animation: quantum-entangle 0.5s ease;
         }
 
-        .notification-header {
-            padding: 1.5rem;
-            background: var(--dark-1);
-            border-bottom: 3px solid var(--mc-gray);
-            font-family: 'Minecraft', monospace;
-            font-size: 1.3rem;
-            color: var(--mc-green);
+        .panel-header {
+            padding: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            background: var(--gradient-cosmic);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .notification-item {
-            padding: 1.2rem;
-            border-bottom: 2px solid var(--mc-dark-gray);
-            font-family: 'Minecraft', monospace;
-            transition: all 0.2s ease;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .notification-item:hover {
-            background: rgba(0,255,0,0.1);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(10px);
         }
 
         .notification-item:last-child {
             border-bottom: none;
         }
 
-        /* АДАПТИВНОСТЬ */
+        /* АДАПТИВНОСТЬ NEXT LEVEL */
+        @media (max-width: 1200px) {
+            .hero-title { font-size: 4.5rem; }
+            .nav-links { gap: 1.5rem; }
+        }
+
         @media (max-width: 768px) {
-            .hero-title { font-size: 3rem; }
-            .hero-subtitle { font-size: 1.3rem; }
-            .timer-grid { grid-template-columns: repeat(3, 1fr); }
-            .timer-value { font-size: 2rem; }
-            .notification-panel { width: 320px; right: 10px; }
+            .hero { padding: 10rem 2rem 4rem; }
+            .hero-title { font-size: 3.5rem; }
+            .hero-subtitle { font-size: 1.6rem; }
+            .nav-container { padding: 0 1.5rem; flex-direction: column; gap: 1.5rem; }
             .nav-links { flex-wrap: wrap; justify-content: center; }
+            .server-info { grid-template-columns: 1fr; }
+            .timer-grid { grid-template-columns: repeat(3, 1fr); }
+            .hologram-panel { width: 350px; right: 15px; }
         }
 
         @media (max-width: 480px) {
-            .hero-title { font-size: 2.2rem; }
+            .hero-title { font-size: 2.8rem; }
             .timer-grid { grid-template-columns: repeat(2, 1fr); }
-            .mc-button { padding: 1rem 1.5rem; font-size: 1.1rem; margin: 0.5rem; }
+            .quantum-button { margin: 0.5rem; padding: 1.2rem 2rem; font-size: 1.2rem; }
+            .cosmic-timer { padding: 2rem; margin: 2rem auto; }
         }
     </style>
 </head>
 <body>
-    <!-- Навигация -->
+    <!-- Космические частицы -->
+    <div class="particle-field" id="particleField"></div>
+
+    <!-- Навигация космического уровня -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="/" class="logo">JMSMP</a>
+            <a href="/" class="logo" data-text="JESSIE SMP">JESSIE SMP</a>
+            
             <div class="nav-links">
-                <a href="/" class="nav-link">🏠 ГЛАВНАЯ</a>
+                <a href="/" class="nav-link">🚀 ГЛАВНАЯ</a>
                 <a href="/team" class="nav-link">👥 КОМАНДА</a>
                 <a href="/wiki" class="nav-link">📚 ВИКИ</a>
                 <a href="/faq" class="nav-link">❓ FAQ</a>
                 <a href="/profile" class="nav-link">👤 ПРОФИЛЬ</a>
                 
                 <div class="notification-bell" id="notificationBell">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-count" id="notificationCount">3</span>
+                    <i class="fas fa-bell" style="font-size: 1.5rem;"></i>
+                    <span class="notification-count" id="notificationCount">5</span>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Плавающие блоки -->
-    <div class="floating-blocks">
-        <div class="floating-block"></div>
-        <div class="floating-block"></div>
-        <div class="floating-block"></div>
-    </div>
-
-    <!-- Уведомления -->
-    <div class="notification-panel" id="notificationPanel">
-        <div class="notification-header">
-            <span>🔔 УВЕДОМЛЕНИЯ</span>
+    <!-- Голографическая панель уведомлений -->
+    <div class="hologram-panel" id="notificationPanel">
+        <div class="panel-header">
+            🔔 КОСМИЧЕСКИЕ УВЕДОМЛЕНИЯ
         </div>
         <div id="notificationList">
-            <!-- Уведомления загружаются через JS -->
+            <!-- Уведомления загружаются динамически -->
         </div>
     </div>
 
-    <!-- Герой секция -->
+    <!-- Герой секция космического масштаба -->
     <section class="hero">
-        <div class="mc-background"></div>
+        <div class="cosmic-background"></div>
         
         <div class="hero-content">
-            <h1 class="hero-title">JESSIE MINECRAFT SMP</h1>
-            <p class="hero-subtitle">ЭКСКЛЮЗИВНЫЙ ВАНИЛЬНЫЙ СЕРВЕР ПРЕМИУМ КЛАССА</p>
+            <h1 class="hero-title" data-text="JESSIE SMP">JESSIE SMP</h1>
+            <p class="hero-subtitle">САМЫЙ ПРОДВИНУТЫЙ ВАНИЛЬНЫЙ СЕРВЕР ВСЕЛЕННОЙ</p>
             
             <div class="server-info">
-                <span class="info-badge">⛏️ MINECRAFT 1.21.8</span>
-                <span class="info-badge">🔮 ЧИСТЫЙ ВАНИЛА</span>
-                <span class="info-badge">🌐 ОНЛАЙН 24/7</span>
-            </div>
-
-            <div class="season-timer">
-                <div class="timer-title">⏰ ДО КОНЦА СЕЗОНА:</div>
-                <div class="timer-grid" id="seasonTimer">
-                    <!-- Таймер загружается через JS -->
+                <div class="info-card">
+                    <i class="fas fa-gamepad" style="font-size: 3rem; color: var(--neon-pink); margin-bottom: 1rem;"></i>
+                    <h3 style="color: var(--platinum); margin-bottom: 1rem;">MINECRAFT 1.21.8</h3>
+                    <p style="color: var(--cyber-teal);">Современная версия с премиум оптимизацией</p>
+                </div>
+                
+                <div class="info-card">
+                    <i class="fas fa-bolt" style="font-size: 3rem; color: var(--cyber-teal); margin-bottom: 1rem;"></i>
+                    <h3 style="color: var(--platinum); margin-bottom: 1rem;">ЧИСТАЯ ВАНИЛА</h3>
+                    <p style="color: var(--deep-blue);">Аутентичный геймплей без модификаций</p>
+                </div>
+                
+                <div class="info-card">
+                    <i class="fas fa-globe" style="font-size: 3rem; color: var(--cosmic-purple); margin-bottom: 1rem;"></i>
+                    <h3 style="color: var(--platinum); margin-bottom: 1rem;">ОНЛАЙН 24/7</h3>
+                    <p style="color: var(--neon-pink);">Стабильный сервер с защитой от читеров</p>
                 </div>
             </div>
 
+            <!-- Космический таймер сезона -->
+            <div class="cosmic-timer">
+                <div class="timer-title">⏰ ДО КОНЦА СЕЗОНА ОСТАЛОСЬ</div>
+                <div class="timer-grid" id="seasonTimer">
+                    <!-- Таймер загружается динамически -->
+                </div>
+            </div>
+
+            <!-- Квантовые кнопки действий -->
             <div class="hero-actions">
-                <button class="mc-button play" onclick="startPlaying()">
-                    <i class="fas fa-play"></i> ИГРАТЬ СЕЙЧАС
+                <button class="quantum-button primary" onclick="startPlaying()">
+                    <i class="fas fa-play"></i>
+                    НАЧАТЬ ИГРАТЬ
                 </button>
-                <a href="/profile#application" class="mc-button">
-                    <i class="fas fa-file-alt"></i> ЗАПОЛНИТЬ АНКЕТУ
+                <a href="/profile#application" class="quantum-button secondary">
+                    <i class="fas fa-file-alt"></i>
+                    ЗАПОЛНИТЬ АНКЕТУ
                 </a>
             </div>
         </div>
     </section>
 
     <script>
-        class UltraJMSMP {
+        class CosmicJMSMP {
             constructor() {
                 this.userId = localStorage.getItem('userId') || 'user_' + Date.now();
                 this.notifications = [];
+                this.particles = [];
                 this.init();
             }
 
-            async init() {
+            init() {
+                this.createParticleField();
                 this.setupEventListeners();
-                await this.loadNotifications();
+                this.loadNotifications();
                 this.startSeasonTimer();
-                this.createFloatingBlocks();
+                this.startBackgroundAnimations();
+            }
+
+            createParticleField() {
+                const container = document.getElementById('particleField');
+                for (let i = 0; i < 150; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'stellar-particle';
+                    
+                    // Рандомные свойства частиц
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 5 + 's';
+                    particle.style.animationDuration = (2 + Math.random() * 3) + 's';
+                    particle.style.width = particle.style.height = (1 + Math.random() * 3) + 'px';
+                    particle.style.background = this.getRandomStarColor();
+                    
+                    container.appendChild(particle);
+                    this.particles.push(particle);
+                }
+            }
+
+            getRandomStarColor() {
+                const colors = [
+                    'var(--platinum)',
+                    'var(--neon-pink)',
+                    'var(--cyber-teal)',
+                    'var(--cosmic-purple)',
+                    'var(--deep-blue)'
+                ];
+                return colors[Math.floor(Math.random() * colors.length)];
             }
 
             setupEventListeners() {
-                // Уведомления
+                // Уведомления с квантовой анимацией
                 document.getElementById('notificationBell').addEventListener('click', (e) => {
                     e.stopPropagation();
                     this.toggleNotifications();
+                    this.animateBell();
                 });
 
+                // Закрытие по клику вне области
                 document.addEventListener('click', (e) => {
-                    if (!e.target.closest('.notification-panel') && !e.target.closest('.notification-bell')) {
+                    if (!e.target.closest('#notificationPanel') && 
+                        !e.target.closest('#notificationBell')) {
                         this.closeNotifications();
                     }
                 });
 
-                // Minecraft звуки при наведении
-                document.querySelectorAll('.nav-link, .mc-button, .info-badge').forEach(el => {
+                // Параллакс эффект для частиц
+                window.addEventListener('scroll', () => {
+                    this.updateParallax();
+                });
+
+                // Анимация при наведении на интерактивные элементы
+                this.setupHoverEffects();
+            }
+
+            setupHoverEffects() {
+                const interactiveElements = document.querySelectorAll('.nav-link, .quantum-button, .info-card');
+                
+                interactiveElements.forEach(el => {
                     el.addEventListener('mouseenter', () => {
-                        this.playMCSound('hover');
+                        el.style.transform = 'translateY(-5px) scale(1.02)';
+                        this.createRippleEffect(el);
+                    });
+                    
+                    el.addEventListener('mouseleave', () => {
+                        el.style.transform = 'translateY(0) scale(1)';
                     });
                 });
             }
 
-            playMCSound(type) {
-                // Виртуальные звуки Minecraft
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                if (type === 'hover') {
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    oscillator.frequency.value = 800;
-                    oscillator.type = 'square';
-                    
-                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-                    
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.1);
-                }
+            createRippleEffect(element) {
+                const ripple = document.createElement('div');
+                ripple.style.cssText = `
+                    position: absolute;
+                    top: 50%; left: 50%;
+                    width: 0; height: 0;
+                    border-radius: 50%;
+                    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+                    transform: translate(-50%, -50%);
+                    animation: ripple-expand 0.6s ease-out;
+                    pointer-events: none;
+                `;
+                
+                element.style.position = 'relative';
+                element.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
             }
 
-            createFloatingBlocks() {
-                const container = document.querySelector('.floating-blocks');
-                for (let i = 0; i < 8; i++) {
-                    const block = document.createElement('div');
-                    block.className = 'floating-block';
-                    block.style.left = Math.random() * 90 + '%';
-                    block.style.top = Math.random() * 90 + '%';
-                    block.style.animationDelay = Math.random() * 6 + 's';
-                    block.style.background = this.getRandomMCColor();
-                    container.appendChild(block);
-                }
+            animateBell() {
+                const bell = document.getElementById('notificationBell');
+                bell.style.animation = 'none';
+                setTimeout(() => {
+                    bell.style.animation = 'quantum-entangle 0.5s ease';
+                }, 10);
             }
 
-            getRandomMCColor() {
-                const colors = ['var(--mc-green)', 'var(--mc-blue)', 'var(--mc-red)', 'var(--mc-gold)', 'var(--mc-purple)'];
-                return colors[Math.floor(Math.random() * colors.length)];
+            updateParallax() {
+                const scrolled = window.pageYOffset;
+                const particles = document.querySelectorAll('.stellar-particle');
+                
+                particles.forEach((particle, index) => {
+                    const speed = 0.5 + (index % 3) * 0.2;
+                    particle.style.transform = `translateY(${scrolled * speed * 0.1}px)`;
+                });
             }
 
             async loadNotifications() {
@@ -668,29 +881,46 @@
             }
 
             getDefaultNotifications() {
+                const now = new Date();
                 return [
                     {
-                        id: '1',
-                        title: '🎮 ДОБРО ПОЖАЛОВАТЬ НА JESSIE SMP!',
-                        message: 'Сервер запущен! Присоединяйтесь к нашему комьюнити',
-                        type: 'welcome',
-                        createdAt: new Date().toISOString(),
+                        id: 'cosmic_1',
+                        title: '🚀 ДОБРО ПОЖАЛОВАТЬ В КОСМОС JESSIE SMP!',
+                        message: 'Сервер запущен на новом уровне технологий',
+                        type: 'cosmic',
+                        createdAt: now.toISOString(),
                         read: false
                     },
                     {
-                        id: '2',
-                        title: '⏰ НОВЫЙ СЕЗОН АКТИВЕН!',
-                        message: 'Текущий сезон продлится до марта 2026 года',
-                        type: 'info', 
-                        createdAt: new Date(Date.now() - 86400000).toISOString(),
+                        id: 'cosmic_2',
+                        title: '⏰ СЕЗОН АКТИВЕН!',
+                        message: 'Текущий сезон продлится 1 год 3 месяца 4 недели 2 дня',
+                        type: 'time',
+                        createdAt: new Date(now - 86400000).toISOString(),
                         read: false
                     },
                     {
-                        id: '3',
-                        title: '🔔 ОБНОВЛЕНИЕ СИСТЕМЫ!',
-                        message: 'Добавлена ультра-премиум система уведомлений',
+                        id: 'cosmic_3', 
+                        title: '🔧 СИСТЕМА ОБНОВЛЕНА',
+                        message: 'Добавлена голографическая система уведомлений',
                         type: 'update',
-                        createdAt: new Date(Date.now() - 172800000).toISOString(),
+                        createdAt: new Date(now - 172800000).toISOString(),
+                        read: false
+                    },
+                    {
+                        id: 'cosmic_4',
+                        title: '🎮 ЛАУНЧЕР EASYLAUNCHER',
+                        message: 'Рекомендуем использовать EasyLauncher для игры',
+                        type: 'info',
+                        createdAt: new Date(now - 259200000).toISOString(),
+                        read: false
+                    },
+                    {
+                        id: 'cosmic_5',
+                        title: '🌟 ПРЕМИУМ ДИЗАЙН',
+                        message: 'Сайт полностью переработан с космическим дизайном',
+                        type: 'design',
+                        createdAt: new Date(now - 345600000).toISOString(),
                         read: false
                     }
                 ];
@@ -702,49 +932,51 @@
                 const listElement = document.getElementById('notificationList');
 
                 countElement.textContent = unreadCount;
-                countElement.style.display = unreadCount > 0 ? 'flex' : 'none';
+                countElement.style.animation = unreadCount > 0 ? 'starlight-twinkle 1s ease-in-out infinite' : 'none';
 
                 listElement.innerHTML = this.notifications.map(notif => `
-                    <div class="notification-item" onclick="ultraApp.markAsRead('${notif.id}')">
-                        <strong style="color: ${this.getNotificationColor(notif.type)}; display: block; margin-bottom: 0.5rem;">
-                            ${notif.title}
-                        </strong>
-                        <span style="color: var(--mc-gray); font-size: 0.9rem;">
-                            ${notif.message}
-                        </span>
-                        <div style="color: var(--mc-dark-gray); font-size: 0.8rem; margin-top: 0.5rem;">
-                            ${this.formatDate(notif.createdAt)}
+                    <div class="notification-item" onclick="cosmicApp.markAsRead('${notif.id}')">
+                        <div style="display: flex; justify-content: between; align-items: start; margin-bottom: 0.5rem;">
+                            <strong style="color: ${this.getNotificationColor(notif.type)}; font-size: 1.1rem; flex: 1;">
+                                ${notif.title}
+                            </strong>
+                            <span style="color: var(--cyber-teal); font-size: 0.8rem;">
+                                ${this.formatTime(notif.createdAt)}
+                            </span>
                         </div>
+                        <p style="color: var(--platinum); opacity: 0.8; margin: 0; font-size: 0.9rem;">
+                            ${notif.message}
+                        </p>
+                        ${!notif.read ? '<div style="width: 8px; height: 8px; background: var(--neon-pink); border-radius: 50%; margin-top: 0.5rem;"></div>' : ''}
                     </div>
                 `).join('');
             }
 
             getNotificationColor(type) {
                 const colors = {
-                    'welcome': 'var(--mc-green)',
-                    'info': 'var(--mc-blue)',
-                    'warning': 'var(--mc-gold)',
-                    'error': 'var(--mc-red)',
-                    'update': 'var(--mc-purple)'
+                    'cosmic': 'var(--cosmic-purple)',
+                    'time': 'var(--cyber-teal)',
+                    'update': 'var(--neon-pink)',
+                    'info': 'var(--deep-blue)',
+                    'design': 'var(--platinum)'
                 };
-                return colors[type] || 'var(--mc-gray)';
+                return colors[type] || 'var(--platinum)';
             }
 
-            formatDate(dateString) {
+            formatTime(dateString) {
                 const date = new Date(dateString);
                 const now = new Date();
-                const diff = now - date;
-                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const diffHours = Math.floor((now - date) / (1000 * 60 * 60));
                 
-                if (hours < 1) return 'Только что';
-                if (hours < 24) return `${hours} ч. назад`;
+                if (diffHours < 1) return 'Только что';
+                if (diffHours < 24) return `${diffHours}ч назад`;
+                if (diffHours < 168) return `${Math.floor(diffHours/24)}д назад`;
                 return date.toLocaleDateString('ru-RU');
             }
 
             toggleNotifications() {
                 const panel = document.getElementById('notificationPanel');
                 panel.classList.toggle('show');
-                this.playMCSound('click');
             }
 
             closeNotifications() {
@@ -758,9 +990,14 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ notificationId, userId: this.userId })
                     });
-                    await this.loadNotifications();
+                    
+                    // Локальное обновление
+                    const notif = this.notifications.find(n => n.id === notificationId);
+                    if (notif) notif.read = true;
+                    this.updateNotificationUI();
+                    
                 } catch (error) {
-                    console.log('Оффлайн режим: уведомление отмечено как прочитанное');
+                    console.log('Оффлайн режим: уведомление прочитано');
                     const notif = this.notifications.find(n => n.id === notificationId);
                     if (notif) notif.read = true;
                     this.updateNotificationUI();
@@ -779,10 +1016,11 @@
                     
                     if (data.ended) {
                         document.getElementById('seasonTimer').innerHTML = `
-                            <div style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
-                                <span style="font-family: 'Minecraft', monospace; font-size: 2rem; color: var(--mc-gold);">
-                                    🎉 НОВЫЙ СЕЗОН НАЧАЛСЯ!
-                                </span>
+                            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                                <div style="font-size: 2.5rem; color: var(--neon-pink); margin-bottom: 1rem;">🎉</div>
+                                <div style="font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--neon-pink);">
+                                    НОВЫЙ СЕЗОН АКТИВЕН!
+                                </div>
                             </div>
                         `;
                         return;
@@ -791,27 +1029,27 @@
                     document.getElementById('seasonTimer').innerHTML = `
                         <div class="timer-unit">
                             <span class="timer-value">${data.years}</span>
-                            <span class="timer-label">ЛЕТ</span>
+                            <span class="timer-label">Лет</span>
                         </div>
                         <div class="timer-unit">
                             <span class="timer-value">${data.months}</span>
-                            <span class="timer-label">МЕСЯЦЕВ</span>
+                            <span class="timer-label">Месяцев</span>
                         </div>
                         <div class="timer-unit">
                             <span class="timer-value">${data.weeks}</span>
-                            <span class="timer-label">НЕДЕЛЬ</span>
+                            <span class="timer-label">Недель</span>
                         </div>
                         <div class="timer-unit">
                             <span class="timer-value">${data.days}</span>
-                            <span class="timer-label">ДНЕЙ</span>
+                            <span class="timer-label">Дней</span>
                         </div>
                         <div class="timer-unit">
                             <span class="timer-value">${data.hours.toString().padStart(2, '0')}</span>
-                            <span class="timer-label">ЧАСОВ</span>
+                            <span class="timer-label">Часов</span>
                         </div>
                         <div class="timer-unit">
                             <span class="timer-value">${data.minutes.toString().padStart(2, '0')}</span>
-                            <span class="timer-label">МИНУТ</span>
+                            <span class="timer-label">Минут</span>
                         </div>
                     `;
                 } catch (error) {
@@ -842,29 +1080,37 @@
                 document.getElementById('seasonTimer').innerHTML = `
                     <div class="timer-unit">
                         <span class="timer-value">${years}</span>
-                        <span class="timer-label">ЛЕТ</span>
+                        <span class="timer-label">Лет</span>
                     </div>
                     <div class="timer-unit">
                         <span class="timer-value">${months}</span>
-                        <span class="timer-label">МЕСЯЦЕВ</span>
+                        <span class="timer-label">Месяцев</span>
                     </div>
                     <div class="timer-unit">
                         <span class="timer-value">${weeks}</span>
-                        <span class="timer-label">НЕДЕЛЬ</span>
+                        <span class="timer-label">Недель</span>
                     </div>
                     <div class="timer-unit">
                         <span class="timer-value">${days}</span>
-                        <span class="timer-label">ДНЕЙ</span>
+                        <span class="timer-label">Дней</span>
                     </div>
                     <div class="timer-unit">
                         <span class="timer-value">${hours.toString().padStart(2, '0')}</span>
-                        <span class="timer-label">ЧАСОВ</span>
+                        <span class="timer-label">Часов</span>
                     </div>
                     <div class="timer-unit">
                         <span class="timer-value">${minutes.toString().padStart(2, '0')}</span>
-                        <span class="timer-label">МИНУТ</span>
+                        <span class="timer-label">Минут</span>
                     </div>
                 `;
+            }
+
+            startBackgroundAnimations() {
+                // Анимация градиента фона
+                const background = document.querySelector('.cosmic-background');
+                setInterval(() => {
+                    background.style.filter = `hue-rotate(${Date.now() * 0.01}deg)`;
+                }, 50);
             }
         }
 
@@ -874,17 +1120,34 @@
         }
 
         function markAsRead(notificationId) {
-            window.ultraApp.markAsRead(notificationId);
+            window.cosmicApp.markAsRead(notificationId);
         }
 
-        // Инициализация
+        // Добавляем стиль для ripple эффекта
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple-expand {
+                0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+                100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', () => {
-            window.ultraApp = new UltraJMSMP();
+            window.cosmicApp = new CosmicJMSMP();
             
-            // Анимация появления элементов
-            const elements = document.querySelectorAll('.hero-title, .hero-subtitle, .server-info, .season-timer, .hero-actions');
-            elements.forEach((el, index) => {
-                el.style.animation = `block-break 0.6s ease ${index * 0.2}s reverse both`;
+            // Запускаем анимацию появления элементов
+            const animatedElements = document.querySelectorAll('.hero-title, .hero-subtitle, .server-info, .cosmic-timer, .hero-actions');
+            animatedElements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(50px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 200);
             });
         });
     </script>
