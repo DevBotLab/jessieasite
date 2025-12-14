@@ -1,149 +1,107 @@
 const express = require('express');
 const path = require('path');
-const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
+const TelegramBot = require('node-telegram-bot-api');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Конфигурация
-const CONFIG = {
-    TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN || 'YOUR_BOT_TOKEN',
-    ADMIN_CHAT_ID: process.env.ADMIN_CHAT_ID || 'YOUR_CHAT_ID',
-    MAIN_ADMIN: process.env.MAIN_ADMIN || '@mainadmin'
-};
+// Конфигурация Telegram бота
+const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8316043065:AAEwu5tU3Kc2iAgvNfgScKIf-68tB5I5vI4';
+const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID || '7945088917';
 
-// Инициализация Telegram бота
-let bot;
-if (CONFIG.TELEGRAM_BOT_TOKEN !== 'YOUR_BOT_TOKEN') {
-    bot = new TelegramBot(CONFIG.TELEGRAM_BOT_TOKEN, { polling: true });
+// Инициализация бота только если токен указан
+let bot = null;
+if (BOT_TOKEN && BOT_TOKEN !== 'YOUR_BOT_TOKEN_HERE') {
+    try {
+        bot = new TelegramBot(BOT_TOKEN, { polling: true });
+        console.log('✅ Telegram бот запущен');
+        
+        // Обработчик сообщений
+        bot.on('message', (msg) => {
+            const chatId = msg.chat.id;
+            console.log(`Получено сообщение от ${chatId}: ${msg.text}`);
+        });
+
+        // Обработчик callback запросов для анкет
+        bot.on('callback_query', (callbackQuery) => {
+            const message = callbackQuery.message;
+            const data = callbackQuery.data;
+            const [action, applicationId] = data.split('_');
+            
+            console.log(`Callback: ${action} для анкеты ${applicationId}`);
+            
+            // Здесь будет логика обработки анкет
+            bot.answerCallbackQuery(callbackQuery.id, {
+                text: `Анкета ${action === 'approve' ? 'одобрена' : 'отклонена'}`
+            });
+        });
+
+    } catch (error) {
+        console.error('❌ Ошибка инициализации Telegram бота:', error);
+    }
+} else {
+    console.log('⚠️ Telegram бот не настроен. Укажите BOT_TOKEN в переменных окружения');
 }
 
 // Middleware
 app.use(express.json());
 app.use(express.static('public'));
 
-// Хранение данных (в реальном приложении используйте базу данных)
-const applicationsFile = './data/applications.json';
-const usersFile = './data/users.json';
+// Данные сезона (дата окончания)
+const SEASON_END_DATE = new Date('2026-03-31T23:59:59'); // 31 марта 2026 года
 
-// Создание папки данных если не существует
-if (!fs.existsSync('./data')) {
-    fs.mkdirSync('./data');
-}
-
-// Функции для работы с файлами
-function readApplications() {
-    try {
-        if (fs.existsSync(applicationsFile)) {
-            return JSON.parse(fs.readFileSync(applicationsFile, 'utf8'));
-        }
-    } catch (error) {
-        console.error('Error reading applications:', error);
-    }
-    return [];
-}
-
-function writeApplications(applications) {
-    try {
-        fs.writeFileSync(applicationsFile, JSON.stringify(applications, null, 2));
-        return true;
-    } catch (error) {
-        console.error('Error writing applications:', error);
-        return false;
-    }
-}
-
-function readUsers() {
-    try {
-        if (fs.existsSync(usersFile)) {
-            return JSON.parse(fs.readFileSync(usersFile, 'utf8'));
-        }
-    } catch (error) {
-        console.error('Error reading users:', error);
-    }
-    return {};
-}
-
-function writeUsers(users) {
-    try {
-        fs.writeFileSync(usersFile, JSON.stringify(users, null, 2));
-        return true;
-    } catch (error) {
-        console.error('Error writing users:', error);
-        return false;
-    }
-}
-
-// API маршруты
-
-// Получение статуса анкеты
-app.post('/api/application/status', (req, res) => {
-    const { userId } = req.body;
-    const applications = readApplications();
+// Маршрут для получения времени до конца сезона
+app.get('/api/season-countdown', (req, res) => {
+    const now = new Date();
+    const timeLeft = SEASON_END_DATE - now;
     
-    const userApplication = applications.find(app => app.userId === userId && !app.deleted);
-    
-    if (userApplication) {
-        res.json({
-            status: true,
-            application: userApplication
-        });
-    } else {
-        res.json({
-            status: false
-        });
-    }
-});
-
-// Отправка анкеты
-app.post('/api/application/submit', (req, res) => {
-    const applicationData = req.body;
-    
-    // Проверяем есть ли уже анкета
-    const applications = readApplications();
-    const existingApplication = applications.find(app => 
-        app.userId === applicationData.userId && !app.deleted
-    );
-    
-    if (existingApplication) {
+    if (timeLeft <= 0) {
         return res.json({
-            success: false,
-            error: 'У вас уже есть активная анкета'
+            ended: true,
+            message: 'Сезон завершен!'
         });
     }
-    
-    // Создаем новую анкету
-    const newApplication = {
-        ...applicationData,
-        id: 'app_' + Date.now(),
-        status: 'pending',
-        createdAt: new Date().toISOString()
-    };
-    
-    applications.push(newApplication);
-    
-    if (writeApplications(applications)) {
-        // Отправляем уведомление в Telegram
-        sendApplicationToTelegram(newApplication);
-        
-        res.json({
-            success: true,
-            applicationId: newApplication.id
-        });
-    } else {
-        res.json({
-            success: false,
-            error: 'Ошибка сохранения анкеты'
-        });
-    }
+
+    // Расчет времени
+    const years = Math.floor(timeLeft / (1000 * 60 * 60 * 24 * 365));
+    const months = Math.floor((timeLeft % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+    const weeks = Math.floor((timeLeft % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24 * 7));
+    const days = Math.floor((timeLeft % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+    res.json({
+        ended: false,
+        timeLeft: timeLeft,
+        years: years,
+        months: months,
+        weeks: weeks,
+        days: days,
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds,
+        endDate: SEASON_END_DATE.toISOString()
+    });
 });
 
-// Функция отправки анкеты в Telegram
-function sendApplicationToTelegram(application) {
-    if (!bot) return;
+// API для анкет
+app.post('/api/application/submit', (req, res) => {
+    const application = req.body;
     
-    const message = `
+    // Сохраняем анкету
+    const applications = getApplications();
+    application.id = 'app_' + Date.now();
+    application.status = 'pending';
+    application.createdAt = new Date().toISOString();
+    applications.push(application);
+    saveApplications(applications);
+
+    // Отправляем в Telegram если бот активен
+    if (bot && ADMIN_CHAT_ID) {
+        try {
+            const message = `
 🎮 *Новая анкета на Jessie Minecraft SMP*
 
 *Никнейм:* ${application.nickname}
@@ -156,166 +114,121 @@ function sendApplicationToTelegram(application) {
 ${application.about}
 
 *ID анкеты:* ${application.id}
-*Время подачи:* ${new Date(application.createdAt).toLocaleString('ru-RU')}
-    `.trim();
-    
-    const keyboard = {
-        inline_keyboard: [
-            [
-                { text: '✅ Принять', callback_data: `approve_${application.id}` },
-                { text: '❌ Отклонить', callback_data: `reject_${application.id}` }
-            ]
-        ]
-    };
-    
-    bot.sendMessage(CONFIG.ADMIN_CHAT_ID, message, {
-        parse_mode: 'Markdown',
-        reply_markup: keyboard
-    }).catch(error => {
-        console.error('Error sending message to Telegram:', error);
-    });
-}
+            `.trim();
 
-// Обработка callback от Telegram бота
-if (bot) {
-    bot.on('callback_query', async (callbackQuery) => {
-        const { data, message, from } = callbackQuery;
-        const chatId = message.chat.id;
-        
-        // Проверяем права пользователя
-        const users = readUsers();
-        const userRoles = users[from.username] || [];
-        
-        const isMainAdmin = from.username === CONFIG.MAIN_ADMIN.replace('@', '');
-        const isAdmin = userRoles.includes('admin') || isMainAdmin;
-        const isOwner = userRoles.includes('owner') || isMainAdmin;
-        const isCurator = userRoles.includes('curator') || isAdmin || isOwner;
-        
-        if (!isCurator) {
-            bot.answerCallbackQuery(callbackQuery.id, {
-                text: 'У вас нет прав для этого действия'
-            });
-            return;
-        }
-        
-        const [action, applicationId] = data.split('_');
-        const applications = readApplications();
-        const application = applications.find(app => app.id === applicationId);
-        
-        if (!application) {
-            bot.answerCallbackQuery(callbackQuery.id, {
-                text: 'Анкета не найдена'
-            });
-            return;
-        }
-        
-        if (action === 'approve' || action === 'reject') {
-            application.status = action === 'approve' ? 'approved' : 'rejected';
-            application.reviewedBy = from.username;
-            application.reviewedAt = new Date().toISOString();
-            
-            if (writeApplications(applications)) {
-                let newKeyboard;
-                
-                if (isMainAdmin || isOwner) {
-                    newKeyboard = {
-                        inline_keyboard: [
-                            [
-                                { text: '🎮 Администратор', callback_data: `role_admin_${application.id}` },
-                                { text: '👑 Владелец', callback_data: `role_owner_${application.id}` },
-                                { text: '📋 Куратор', callback_data: `role_curator_${application.id}` }
-                            ],
-                            [
-                                { text: '✅ Принято', callback_data: 'already_approved' },
-                                { text: '❌ Отклонено', callback_data: 'already_rejected' }
-                            ]
-                        ]
-                    };
-                } else {
-                    newKeyboard = {
-                        inline_keyboard: [
-                            [
-                                { text: action === 'approve' ? '✅ Принято' : '❌ Отклонено', 
-                                  callback_data: action === 'approve' ? 'already_approved' : 'already_rejected' }
-                            ]
-                        ]
-                    };
-                }
-                
-                // Обновляем сообщение
-                bot.editMessageReplyMarkup(newKeyboard, {
-                    chat_id: chatId,
-                    message_id: message.message_id
-                });
-                
-                bot.answerCallbackQuery(callbackQuery.id, {
-                    text: `Анкета ${action === 'approve' ? 'принята' : 'отклонена'}`
-                });
-            }
-        } else if (action === 'role') {
-            const role = applicationId.split('_')[1];
-            const appId = applicationId.split('_')[2];
-            
-            const roleApplication = applications.find(app => app.id === appId);
-            if (!roleApplication) return;
-            
-            // Запрос на указание пользователя
-            bot.answerCallbackQuery(callbackQuery.id, {
-                text: `Введите @username пользователя для выдачи роли ${role}`
-            });
-            
-            // Здесь нужно реализовать логику запроса username
-            // Это упрощенная версия - в реальном приложении нужно использовать состояние бота
-        }
-    });
-}
+            const keyboard = {
+                inline_keyboard: [
+                    [
+                        { text: '✅ Принять', callback_data: `approve_${application.id}` },
+                        { text: '❌ Отклонить', callback_data: `reject_${application.id}` }
+                    ]
+                ]
+            };
 
-// Выдача ролей (упрощенная версия)
-app.post('/api/admin/give-role', (req, res) => {
-    const { username, role, adminUsername } = req.body;
-    
-    // Проверка прав
-    const users = readUsers();
-    const adminRoles = users[adminUsername] || [];
-    
-    const isMainAdmin = adminUsername === CONFIG.MAIN_ADMIN.replace('@', '');
-    const canGiveRole = isMainAdmin || 
-                       (role === 'curator' && adminRoles.includes('admin')) ||
-                       (adminRoles.includes('owner'));
-    
-    if (!canGiveRole) {
-        return res.json({ success: false, error: 'Недостаточно прав' });
+            bot.sendMessage(ADMIN_CHAT_ID, message, {
+                parse_mode: 'Markdown',
+                reply_markup: keyboard
+            });
+
+        } catch (error) {
+            console.error('Ошибка отправки в Telegram:', error);
+        }
     }
+
+    res.json({ success: true, applicationId: application.id });
+});
+
+// Проверка статуса анкеты
+app.post('/api/application/status', (req, res) => {
+    const { userId } = req.body;
+    const applications = getApplications();
+    const userApplication = applications.find(app => app.userId === userId);
     
-    if (!users[username]) {
-        users[username] = [];
-    }
+    res.json({
+        exists: !!userApplication,
+        application: userApplication || null
+    });
+});
+
+// Обновление статуса анкеты (для админов)
+app.post('/api/application/update', (req, res) => {
+    const { applicationId, status, adminUsername } = req.body;
+    const applications = getApplications();
+    const application = applications.find(app => app.id === applicationId);
     
-    if (!users[username].includes(role)) {
-        users[username].push(role);
-    }
-    
-    if (writeUsers(users)) {
+    if (application) {
+        application.status = status;
+        application.reviewedBy = adminUsername;
+        application.reviewedAt = new Date().toISOString();
+        saveApplications(applications);
+        
         res.json({ success: true });
     } else {
-        res.json({ success: false, error: 'Ошибка сохранения' });
+        res.json({ success: false, error: 'Анкета не найдена' });
     }
 });
+
+// Вспомогательные функции для работы с данными
+function getApplications() {
+    try {
+        if (fs.existsSync('./data/applications.json')) {
+            return JSON.parse(fs.readFileSync('./data/applications.json', 'utf8'));
+        }
+    } catch (error) {
+        console.error('Error reading applications:', error);
+    }
+    return [];
+}
+
+function saveApplications(applications) {
+    try {
+        if (!fs.existsSync('./data')) {
+            fs.mkdirSync('./data', { recursive: true });
+        }
+        fs.writeFileSync('./data/applications.json', JSON.stringify(applications, null, 2));
+    } catch (error) {
+        console.error('Error saving applications:', error);
+    }
+}
+
+function getPhotos() {
+    try {
+        if (fs.existsSync('./data/photos.json')) {
+            return JSON.parse(fs.readFileSync('./data/photos.json', 'utf8'));
+        }
+    } catch (error) {
+        console.error('Error reading photos:', error);
+    }
+    return [];
+}
+
+function savePhotos(photos) {
+    try {
+        if (!fs.existsSync('./data')) {
+            fs.mkdirSync('./data', { recursive: true });
+        }
+        fs.writeFileSync('./data/photos.json', JSON.stringify(photos, null, 2));
+    } catch (error) {
+        console.error('Error saving photos:', error);
+    }
+}
 
 // Основной маршрут
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Все остальные маршруты перенаправляем на index.html
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
 app.listen(port, () => {
     console.log(`🚀 Сервер Jessie Minecraft SMP запущен на порту ${port}`);
     console.log(`📍 URL: http://localhost:${port}`);
-    if (!bot) {
-        console.log('⚠️  Telegram бот не настроен. Проверьте переменные окружения.');
+    
+    if (bot) {
+        console.log('✅ Telegram бот активен');
+    } else {
+        console.log('⚠️ Telegram бот не активирован. Проверьте переменные окружения:');
+        console.log('   - TELEGRAM_BOT_TOKEN');
+        console.log('   - ADMIN_CHAT_ID');
     }
+    
+    console.log(`⏰ Сезон завершится: ${SEASON_END_DATE.toLocaleString('ru-RU')}`);
 });

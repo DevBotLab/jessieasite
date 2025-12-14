@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jessie Minecraft SMP — ЗДЕСЬ НОВЫЕ ПРИКЛЮЧЕНИЯ</title>
-    
-    <!-- Оптимизация для SEO -->
-    <meta name="description" content="Jessie Minecraft SMP - приватный ванильный сервер Minecraft. Присоединяйтесь к нашему сообществу!">
-    <meta name="keywords" content="minecraft, сервер, SMP, ванила, Jessie, JMSMP">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* НОВАЯ ЦВЕТОВАЯ ПАЛИТРА */
         :root {
@@ -17,360 +13,421 @@
             --accent-color: #2D439D;
             --light-blue: #426F84;
             --light-gray: #DEDEDE;
-            --text-color: #333333;
-            --bg-color: #f9f9f9;
-            --section-bg: #ffffff;
+            --dark-bg: #0a0a15;
+            --card-bg: #16213e;
+            --section-bg: #1a1a2e;
             --success-color: #27ae60;
             --error-color: #e74c3c;
             --warning-color: #f39c12;
         }
-        
+
+        /* АНИМАЦИИ */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px var(--primary-color); }
+            50% { box-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--secondary-color); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* СБРОС И БАЗОВЫЕ СТИЛИ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background: linear-gradient(135deg, var(--dark-bg), #0f1a32);
+            color: var(--light-gray);
             line-height: 1.6;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
+
+        /* НАВИГАЦИЯ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 15px 0;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--light-gray);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .profile-section-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--error-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(24, 42, 168, 0.4);
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
         /* ШАПКА */
         header {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 80px 0;
+            padding: 120px 0 80px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            margin-top: 60px;
         }
-        
-        .logo {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 30px;
-            background: rgba(255,255,255,0.95);
+
+        /* СЕКЦИИ */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        /* КОМАНДА ПРОЕКТА */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .team-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(24, 42, 168, 0.3);
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
-            font-weight: bold;
+            color: white;
+        }
+
+        .team-role {
             color: var(--primary-color);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 3px solid rgba(255,255,255,0.3);
-        }
-        
-        .project-name {
-            font-size: 2.5rem;
             font-weight: bold;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin: 10px 0;
         }
-        
-        .project-subtitle {
-            font-size: 1.5rem;
-            opacity: 0.9;
+
+        /* ПРОФИЛЬ */
+        .profile-header {
+            background: var(--section-bg);
+            padding: 40px 0;
+            border-bottom: 3px solid var(--primary-color);
+            position: relative;
+        }
+
+        .profile-banner {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            margin-bottom: -80px;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid var(--section-bg);
+            background: var(--card-bg);
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .profile-info {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .profile-nickname {
+            font-size: 28px;
+            font-weight: bold;
             margin-bottom: 5px;
         }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 25px 0;
-            flex-wrap: wrap;
-        }
-        
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 45px;
-            height: 45px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            color: white;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        
-        .social-link:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-2px);
-        }
-        
-        .auth-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.25);
-            padding: 12px 24px;
-            border-radius: 8px;
-            color: white;
-            text-decoration: none;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            border: 1px solid rgba(255,255,255,0.4);
-        }
-        
-        .auth-button:hover {
-            background: rgba(255,255,255,0.35);
-            transform: translateY(-2px);
-        }
-        
-        .server-info {
-            margin: 25px 0;
-        }
-        
-        .version-badge {
+
+        .profile-role {
             display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin: 5px;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        
-        .server-address {
             background: var(--primary-color);
             color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            margin: 15px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
-            border: 2px solid var(--accent-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .profile-status {
             display: inline-block;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .server-address:hover {
-            background: var(--accent-color);
-            transform: scale(1.03);
-        }
-        
-        .countdown {
-            margin: 30px 0;
-            font-size: 1.3rem;
-            background: rgba(255,255,255,0.15);
-            padding: 15px 25px;
-            border-radius: 10px;
-            display: inline-block;
-            backdrop-filter: blur(10px);
-        }
-        
-        .scroll-down {
-            margin-top: 40px;
-            animation: bounce 2s infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-8px); }
-            60% { transform: translateY(-4px); }
-        }
-        
-        /* ОСНОВНЫЕ РАЗДЕЛЫ */
-        section {
-            padding: 60px 0;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .section-title h2 {
-            position: relative;
-            display: inline-block;
-            padding-bottom: 15px;
-            font-size: 2.2rem;
-        }
-        
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--secondary-color), var(--light-blue));
-        }
-        
-        /* ШАГИ */
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
-        
-        .step {
-            text-align: center;
-            padding: 25px;
-            background: var(--light-gray);
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            border-top: 4px solid var(--light-blue);
-        }
-        
-        .step:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-        
-        .step-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 15px;
-            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 10px;
             color: white;
-            font-weight: bold;
         }
-        
-        .step-button {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            border: none;
-        }
-        
-        .step-button:hover {
-            background: linear-gradient(135deg, var(--accent-color), var(--light-blue));
-            transform: scale(1.05);
-        }
-        
-        /* ФОРМА АНКЕТЫ */
-        .application-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--section-bg);
+
+        .status-approved { background: var(--success-color); }
+        .status-pending { background: var(--warning-color); }
+        .status-rejected { background: var(--error-color); }
+
+        /* ФОРМЫ */
+        .auth-form {
+            background: var(--card-bg);
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+            border: 2px solid var(--primary-color);
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
-        .form-group label {
+
+        .form-label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-weight: bold;
             color: var(--primary-color);
         }
-        
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
+
+        .form-input {
             width: 100%;
             padding: 12px;
-            border: 2px solid var(--light-gray);
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            color: var(--light-gray);
         }
-        
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--accent-color);
+
+        .file-input {
+            display: none;
         }
-        
-        .form-group textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        
-        .submit-button {
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: bold;
+
+        .file-label {
+            display: block;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border: 2px dashed var(--primary-color);
+            border-radius: 8px;
+            text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
-        .submit-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(24, 42, 168, 0.3);
+
+        .file-label:hover {
+            background: rgba(255,255,255,0.2);
         }
-        
-        .submit-button:disabled {
-            background: var(--light-gray);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        /* СТАТУС АНКЕТЫ */
-        .application-status {
+
+        .preview-container {
+            margin-top: 15px;
             text-align: center;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-            font-weight: bold;
         }
-        
-        .status-pending {
-            background: var(--warning-color);
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        /* ГАЛЕРЕЯ БАННЕРОВ И АВАТАРОК */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            aspect-ratio: 1;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ФУТЕР */
+        footer {
+            background: var(--section-bg);
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 3px solid var(--primary-color);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-color);
             color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
         }
-        
-        .status-approved {
-            background: var(--success-color);
-            color: white;
-        }
-        
-        .status-rejected {
-            background: var(--error-color);
-            color: white;
-        }
-        
-        .profile-section {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        
-        /* МОДАЛЬНОЕ ОКНО */
+
+        /* МОДАЛЬНЫЕ ОКНА */
         .modal {
             display: none;
             position: fixed;
@@ -378,427 +435,935 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
             align-items: center;
             justify-content: center;
         }
-        
+
         .modal-content {
-            background: white;
+            background: var(--card-bg);
+            border-radius: 15px;
             padding: 30px;
-            border-radius: 12px;
             max-width: 500px;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
         }
-        
-        .close-modal {
-            float: right;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-color);
-        }
-        
-        /* ФУТЕР */
-        footer {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 30px 0;
-            text-align: center;
-            margin-top: auto;
-        }
-        
-        footer p {
-            opacity: 0.9;
-        }
-        
-        /* УТИЛИТЫ */
+
         .hidden {
             display: none;
         }
-        
-        .text-center { text-align: center; }
-        
+
         /* АДАПТИВНОСТЬ */
         @media (max-width: 768px) {
-            header { padding: 60px 0; }
-            .logo { width: 120px; height: 120px; font-size: 1.5rem; }
-            .project-name { font-size: 2rem; }
-            .project-subtitle { font-size: 1.2rem; }
-            .section-title h2 { font-size: 1.8rem; }
-            .steps { grid-template-columns: 1fr; }
-            .container { padding: 0 15px; }
-            .application-form { padding: 20px; }
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- ШАПКА -->
-    <header>
+    <!-- Навигация -->
+    <nav class="navbar">
         <div class="container">
-            <div class="logo">JMSMP</div>
-            <h1 class="project-name">Jessie Minecraft SMP</h1>
-            <p class="project-subtitle">ЗДЕСЬ НОВЫЕ ПРИКЛЮЧЕНИЯ</p>
-            
+            <div class="nav-container">
+                <div class="logo">JMSMP</div>
+                <div class="nav-links">
+                    <a href="#main" class="nav-link">Главная</a>
+                    <a href="#team" class="nav-link">Команда</a>
+                    <a href="#wiki" class="nav-link">Вики</a>
+                    <a href="#faq" class="nav-link">FAQ</a>
+                    
+                    <div class="profile-section-nav">
+                        <div class="notification-bell" id="notificationBell">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-count hidden" id="notificationCount">0</span>
+                        </div>
+                        <button class="btn" id="authBtn">
+                            <i class="fas fa-user"></i> Войти
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Главная секция -->
+    <header id="main">
+        <div class="container">
+            <h1>Jessie Minecraft SMP</h1>
+            <p>ЗДЕСЬ НОВЫЕ ПРИКЛЮЧЕНИЯ</p>
             <div class="server-info">
                 <span class="version-badge">Minecraft 1.21.8</span>
                 <span class="version-badge">Ванильный сервер</span>
-                <span class="version-badge">Лицензия не требуется</span>
             </div>
-            
-            <div class="social-links">
-                <a href="#" class="social-link" title="Discord">ДС</a>
-                <a href="#" class="social-link" title="Telegram">ТГ</a>
-                <a href="#" class="social-link" title="VK">VK</a>
-                <a href="#" class="social-link" title="Поддержка">ТГ</a>
-            </div>
-            
-            <a href="#" class="auth-button" id="profile-btn">Профиль</a>
-            
-            <div class="server-address" id="server-ip-header">play.jessiesmp.online:25565</div>
-            
-            <div class="countdown">
-                До конца сезона осталось: <span id="countdown-timer">Неизвестно</span>
-            </div>
-            
-            <a href="#how-to-play" class="scroll-down">
-                ▼
-            </a>
+            <div class="server-address">play.jessiesmp.online:25565</div>
+            <button class="btn" style="margin-top: 20px;">Начать играть</button>
         </div>
     </header>
 
-    <!-- ПРОФИЛЬ -->
-    <section class="profile-section hidden" id="profile-section">
+    <!-- Команда проекта -->
+    <section id="team">
         <div class="container">
             <div class="section-title">
-                <h2>ПРОФИЛЬ ИГРОКА</h2>
+                <h2>Команда проекта</h2>
+                <p>Знакомьтесь с создателями JMSMP</p>
             </div>
             
-            <div class="application-status" id="application-status">
-                <!-- Статус анкеты будет отображаться здесь -->
-            </div>
-            
-            <div class="text-center">
-                <button class="step-button" id="create-application-btn">Создать анкету</button>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">J</div>
+                    <h3>JessieMinecraftYT</h3>
+                    <div class="team-role">Сооснователь проекта</div>
+                    <p>Приветствую! Я один из основателей проекта JMSMP. Мы создали этот уютный сервер для настоящих ценителей ванильного Minecraft.</p>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-avatar">F</div>
+                    <h3>FRYT</h3>
+                    <div class="team-role">Основатель проекта</div>
+                    <p>Я стоял у истоков создания JMSMP. Наша цель - создать дружелюбное сообщество, где игроки могут наслаждаться чистой ванильной игрой.</p>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-avatar">C</div>
+                    <h3>---cReda_A8H---</h3>
+                    <div class="team-role">Сооснователь проекта</div>
+                    <p>Как сооснователь, я вложил душу в создание уникальной атмосферы сервера. Мы стремимся к созданию большого и дружного сообщества.</p>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-avatar">N</div>
+                    <h3>Nes_Stixxi</h3>
+                    <div class="team-role">Основатель сайта, Программист</div>
+                    <p>Отвечаю за техническую часть проекта. Создал этот сайт и обеспечиваю стабильную работу сервера для максимального комфорта игроков.</p>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-avatar">A</div>
+                    <h3>Alzy</h3>
+                    <div class="team-role">Моделлер</div>
+                    <p>Создаю уникальные модели и текстуры для нашего проекта. Каждый элемент продуман до мелочей для визуально приятного игрового мира.</p>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-avatar">S</div>
+                    <h3>Serega</h3>
+                    <div class="team-role">Программист</div>
+                    <p>Разрабатываю плагины и системы, которые делают наш сервер уникальным. Стремлюсь к созданию сбалансированного геймплея.</p>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-avatar">L</div>
+                    <h3>Lixiell</h3>
+                    <div class="team-role">Главный Аниматор</div>
+                    <p>Оживляю наш проект через анимации и визуальные эффекты. Моя работа - создавать магию для незабываемого приключения.</p>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-avatar">V</div>
+                    <h3>Vlabik</h3>
+                    <div class="team-role">Главный Программист</div>
+                    <p>Отвечаю за архитектуру сервера и сложные технические решения. Стремимся создать самый стабильный и оптимизированный сервер.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- КАК НАЧАТЬ ИГРАТЬ -->
-    <section class="how-to-play" id="how-to-play">
-        <div class="container">
-            <div class="section-title">
-                <h2>КАК НАЧАТЬ ИГРАТЬ?</h2>
-                <p><strong>ЗАПОЛНЯЙ. ИГРАЙ. КАЙФУЙ.</strong></p>
-            </div>
-            
-            <div class="steps">
-                <div class="step">
-                    <div class="step-icon">1</div>
-                    <h3>ЗАПОЛНИТЕ АНКЕТУ</h3>
-                    <p>Для игры на сервере Jessie Minecraft SMP нужна версия <span class="highlight">1.21.8</span></p>
-                    <button class="step-button" id="application-btn">Заполнить анкету</button>
-                </div>
-                
-                <div class="step">
-                    <div class="step-icon">2</div>
-                    <h3>УСТАНОВИТЕ ЛАУНЧЕР</h3>
-                    <p>Рекомендуем удобный лаунчер для лучшего опыта игры</p>
-                    <a href="#" class="step-button">EasyLauncher</a>
-                </div>
-                
-                <div class="step">
-                    <div class="step-icon">3</div>
-                    <h3>ДОБАВЬТЕ СЕРВЕР</h3>
-                    <p>Нажмите чтобы скопировать IP-адрес сервера</p>
-                    <a href="#" class="step-button" id="copy-server-btn">Скопировать IP</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ФОРМА АНКЕТЫ (МОДАЛЬНОЕ ОКНО) -->
-    <div class="modal" id="application-modal">
+    <!-- Модальное окно входа -->
+    <div class="modal" id="authModal">
         <div class="modal-content">
-            <span class="close-modal" id="close-modal">&times;</span>
-            <h2>АНКЕТА ДЛЯ СЕРВЕРА</h2>
-            <form id="application-form" class="application-form">
-                <div class="form-group">
-                    <label for="nickname">Никнейм в Minecraft:</label>
-                    <input type="text" id="nickname" name="nickname" required>
+            <span class="close-modal" id="closeAuthModal">&times;</span>
+            <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 30px;" id="authTitle">Вход в аккаунт</h2>
+            
+            <div id="loginForm">
+                <div class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">Никнейм</label>
+                        <input type="text" class="form-input" id="loginNickname" placeholder="Введите ваш никнейм">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Пароль</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="Введите пароль">
+                    </div>
+                    
+                    <button class="btn" onclick="login()" style="width: 100%; margin-bottom: 15px;">Войти</button>
+                    <button class="btn" onclick="showRegisterForm()" style="width: 100%; background: transparent; border: 2px solid var(--primary-color); color: var(--primary-color);">Регистрация</button>
                 </div>
-                
-                <div class="form-group">
-                    <label for="age">Ваш возраст:</label>
-                    <input type="number" id="age" name="age" min="12" max="99" required>
+            </div>
+            
+            <div id="registerForm" class="hidden">
+                <div class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">Никнейм</label>
+                        <input type="text" class="form-input" id="regNickname" placeholder="Придумайте никнейм">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Пароль</label>
+                        <input type="password" class="form-input" id="regPassword" placeholder="Придумайте пароль">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Подтверждение пароля</label>
+                        <input type="password" class="form-input" id="regConfirmPassword" placeholder="Повторите пароль">
+                    </div>
+                    
+                    <button class="btn" onclick="register()" style="width: 100%; margin-bottom: 15px;">Зарегистрироваться</button>
+                    <button class="btn" onclick="showLoginForm()" style="width: 100%; background: transparent; border: 2px solid var(--primary-color); color: var(--primary-color);">Назад ко входу</button>
                 </div>
-                
-                <div class="form-group">
-                    <label for="experience">Опыт игры в Minecraft:</label>
-                    <select id="experience" name="experience" required>
-                        <option value="">Выберите вариант</option>
-                        <option value="новичок">Новичок (менее 6 месяцев)</option>
-                        <option value="опытный">Опытный (6 месяцев - 2 года)</option>
-                        <option value="ветеран">Ветеран (более 2 лет)</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="playstyle">Предпочитаемый стиль игры:</label>
-                    <select id="playstyle" name="playstyle" required>
-                        <option value="">Выберите вариант</option>
-                        <option value="строитель">Строитель</option>
-                        <option value="исследователь">Исследователь</option>
-                        <option value="редстоун">Редстоун/техник</option>
-                        <option value="фермер">Фермер</option>
-                        <option value="pvp">PvP</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="about">Расскажите о себе:</label>
-                    <textarea id="about" name="about" placeholder="Почему хотите играть на нашем сервере?" required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="telegram">Telegram username (Опционально | Желательно):</label>
-                    <input type="text" id="telegram" name="telegram" placeholder="@username">
-                </div>
-                
-                <button type="submit" class="submit-button" id="submit-application">Отправить анкету</button>
-            </form>
+            </div>
         </div>
     </div>
 
-    <!-- ДОРОЖНАЯ КАРТА -->
-    <section class="roadmap">
-        <div class="container">
-            <div class="section-title">
-                <h2>Дорожная карта</h2>
-                <p>Развитие сервера по месяцам</p>
-            </div>
+    <!-- Модальное окно профиля -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeProfileModal">&times;</span>
             
-            <div class="roadmap-items">
-                <!-- ... остальной контент ... -->
+            <!-- Заголовок профиля -->
+            <div class="profile-header">
+                <div class="profile-banner" id="profileBanner">
+                    <button class="btn btn-small" onclick="openBannerModal()" style="position: absolute; top: 10px; right: 10px;">
+                        <i class="fas fa-camera"></i> Сменить баннер
+                    </button>
+                </div>
+                <div class="profile-avatar" id="profileAvatar">
+                    <button class="btn btn-small" onclick="openAvatarModal()" style="position: absolute; bottom: 5px; right: 5px;">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+                <div class="profile-info">
+                    <div class="profile-nickname" id="profileNickname">Гость</div>
+                    <div class="profile-role" id="profileRole">Игрок</div>
+                    <div class="profile-status status-pending" id="applicationStatus">Заявка на рассмотрении</div>
+                    <div id="lastSeen">Последний раз онлайн: только что</div>
+                </div>
+            </div>
+
+            <!-- Навигация профиля -->
+            <div style="display: flex; gap: 10px; margin: 20px 0; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; flex-wrap: wrap;">
+                <button class="btn" onclick="showProfileSection('gallery')">Галерея</button>
+                <button class="btn" onclick="showProfileSection('settings')">Настройки</button>
+                <button class="btn" onclick="showProfileSection('roles')">Управление ролями</button>
+                <button class="btn" onclick="showProfileSection('studio')">Анкета в студию</button>
+                <button class="btn" onclick="logout()" style="background: var(--error-color);">Выйти</button>
+            </div>
+
+            <!-- Секция галереи -->
+            <div id="gallerySection">
+                <h3>Моя галерея</h3>
+                <p>Все ваши фотографии</p>
+            </div>
+
+            <!-- Секция настроек -->
+            <div id="settingsSection" class="hidden">
+                <h3>Настройки аккаунта</h3>
+                <div class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">Сменить никнейм</label>
+                        <input type="text" class="form-input" id="newNickname" placeholder="Новый никнейм">
+                        <button class="btn" onclick="changeNickname()" style="margin-top: 10px; width: 100%;">Обновить</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секция управления ролями -->
+            <div id="rolesSection" class="hidden">
+                <h3>Управление ролями</h3>
+                <div class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">Никнейм игрока</label>
+                        <input type="text" class="form-input" id="roleNickname" placeholder="Введите никнейм">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Роль</label>
+                        <select class="form-input" id="roleSelect">
+                            <option value="Игрок">Игрок</option>
+                            <option value="Владелец сайта">Владелец сайта</option>
+                            <option value="Владелец">Владелец</option>
+                            <option value="Кодер">Кодер</option>
+                            <option value="Дата-Пакер">Дата-Пакер</option>
+                            <option value="Ресурспакер">Ресурспакер</option>
+                            <option value="Дизайнер">Дизайнер</option>
+                            <option value="Маркетолог">Маркетолог</option>
+                            <option value="Куратор">Куратор</option>
+                            <option value="Основатель">Основатель</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn" onclick="assignRole()" style="width: 100%;">Выдать роль</button>
+                </div>
+            </div>
+
+            <!-- Секция анкеты в студию -->
+            <div id="studioSection" class="hidden">
+                <h3>Анкета в студию</h3>
+                
+                <div id="studioStatus">
+                    <!-- Статус набора будет здесь -->
+                </div>
+                
+                <div id="studioApplicationForm" class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">Ваши навыки</label>
+                        <textarea class="form-input" id="studioSkills" placeholder="Опишите ваши умения" rows="4"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Опыт работы</label>
+                        <textarea class="form-input" id="studioExperience" placeholder="Расскажите о вашем опыте" rows="4"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Портфолио (ссылки)</label>
+                        <input type="text" class="form-input" id="studioPortfolio" placeholder="Ссылки на ваши работы">
+                    </div>
+                    
+                    <button class="btn" onclick="submitStudioApplication()" style="width: 100%;">Отправить анкету</button>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- ФУТЕР -->
+    <!-- Модальное окно смены баннера -->
+    <div class="modal" id="bannerModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeBannerModal()">&times;</span>
+            <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 20px;">Смена баннера</h2>
+            
+            <div class="auth-form">
+                <div class="form-group">
+                    <label class="form-label">Загрузить свой баннер</label>
+                    <input type="file" class="file-input" id="bannerUpload" accept="image/*">
+                    <label for="bannerUpload" class="file-label">
+                        <i class="fas fa-upload"></i> Выберите файл (JPG, PNG)
+                    </label>
+                    <div class="preview-container">
+                        <div id="bannerPreview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Или выберите из галереи</label>
+                    <div class="gallery-grid">
+                        <div class="gallery-item" onclick="selectBanner('https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800')">
+                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=200" alt="Горы">
+                        </div>
+                        <div class="gallery-item" onclick="selectBanner('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800')">
+                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200" alt="Океан">
+                        </div>
+                        <div class="gallery-item" onclick="selectBanner('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800')">
+                            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=200" alt="Лес">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="saveBanner()" style="width: 100%; margin-top: 20px;">Сохранить баннер</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно смены аватарки -->
+    <div class="modal" id="avatarModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeAvatarModal()">&times;</span>
+            <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 20px;">Смена аватарки</h2>
+            
+            <div class="auth-form">
+                <div class="form-group">
+                    <label class="form-label">Загрузить свою аватарку</label>
+                    <input type="file" class="file-input" id="avatarUpload" accept="image/*">
+                    <label for="avatarUpload" class="file-label">
+                        <i class="fas fa-upload"></i> Выберите файл (JPG, PNG)
+                    </label>
+                    <div class="preview-container">
+                        <div id="avatarPreview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Или выберите из галереи</label>
+                    <div class="gallery-grid">
+                        <div class="gallery-item" onclick="selectAvatar('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400')">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="Аватар 1">
+                        </div>
+                        <div class="gallery-item" onclick="selectAvatar('https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400')">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100" alt="Аватар 2">
+                        </div>
+                        <div class="gallery-item" onclick="selectAvatar('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400')">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Аватар 3">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="saveAvatar()" style="width: 100%; margin-top: 20px;">Сохранить аватарку</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Футер -->
     <footer>
         <div class="container">
-            <p>Jessie Minecraft SMP (JMSMP) — Приватный ванильный сервер Minecraft 1.21.8</p>
-            <p>© 2025 Jessie SMP Project. Все права защищены.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>JMSMP</h3>
+                    <p>Сервер JMSMP не относится к Mojang Studios или Microsoft. Не является официальным продуктом Minecraft.</p>
+                    <p>Открыт с 21 апреля 2024 - 2025</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Навигация</h3>
+                    <ul class="footer-links">
+                        <li><a href="#main">Главная</a></li>
+                        <li><a href="#team">Команда</a></li>
+                        <li><a href="#wiki">Вики</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </footer>
 
+    <!-- Кнопка наверх -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script>
-        // Переменные состояния
-        let userApplication = null;
-        const userId = localStorage.getItem('userId') || generateUserId();
+        // СИСТЕМА АККАУНТОВ С ФУНКЦИЕЙ СМЕНЫ БАННЕРА И АВАТАРКИ
+        const JMSMP = {
+            currentUser: null,
+            users: {},
+            studioRecruitment: true,
+            selectedBanner: null,
+            selectedAvatar: null,
 
-        // Генерация ID пользователя
-        function generateUserId() {
-            const id = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('userId', id);
-            return id;
-        }
+            init() {
+                this.loadUsers();
+                this.loadCurrentUser();
+                this.setupEventListeners();
+                this.createMainAccount();
+                this.setupFileUploads();
+            },
 
-        // Плавная прокрутка
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Модальное окно анкеты
-        const applicationModal = document.getElementById('application-modal');
-        const applicationBtn = document.getElementById('application-btn');
-        const createApplicationBtn = document.getElementById('create-application-btn');
-        const closeModal = document.getElementById('close-modal');
-        const profileBtn = document.getElementById('profile-btn');
-        const profileSection = document.getElementById('profile-section');
-        const applicationForm = document.getElementById('application-form');
-        const applicationStatus = document.getElementById('application-status');
-
-        // Открытие модального окна
-        function openApplicationModal() {
-            applicationModal.style.display = 'flex';
-            // Проверяем есть ли уже анкета
-            checkApplicationStatus();
-        }
-
-        // Закрытие модального окна
-        function closeApplicationModal() {
-            applicationModal.style.display = 'none';
-        }
-
-        applicationBtn.addEventListener('click', openApplicationModal);
-        createApplicationBtn.addEventListener('click', openApplicationModal);
-        closeModal.addEventListener('click', closeApplicationModal);
-
-        // Закрытие по клику вне модального окна
-        window.addEventListener('click', (e) => {
-            if (e.target === applicationModal) {
-                closeApplicationModal();
-            }
-        });
-
-        // Кнопка профиля
-        profileBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            profileSection.classList.toggle('hidden');
-            checkApplicationStatus();
-        });
-
-        // Проверка статуса анкеты
-        async function checkApplicationStatus() {
-            try {
-                const response = await fetch('/api/application/status', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ userId: userId })
+            setupFileUploads() {
+                // Настройка загрузки баннера
+                document.getElementById('bannerUpload').addEventListener('change', (e) => {
+                    this.handleFileUpload(e, 'banner');
                 });
-                
-                const data = await response.json();
-                
-                if (data.status) {
-                    userApplication = data.application;
-                    showApplicationStatus(data.application.status);
-                } else {
-                    userApplication = null;
-                    applicationStatus.innerHTML = '<p>У вас нет активной анкеты</p>';
-                    applicationStatus.className = 'application-status';
-                }
-            } catch (error) {
-                console.error('Ошибка проверки статуса:', error);
-            }
-        }
 
-        // Показ статуса анкеты
-        function showApplicationStatus(status) {
-            let statusText = '';
-            let statusClass = '';
-            
-            switch(status) {
-                case 'pending':
-                    statusText = '⏳ Ваша анкета на рассмотрении';
-                    statusClass = 'status-pending';
-                    break;
-                case 'approved':
-                    statusText = '✅ Ваша анкета принята!';
-                    statusClass = 'status-approved';
-                    break;
-                case 'rejected':
-                    statusText = '❌ Ваша анкета отклонена';
-                    statusClass = 'status-rejected';
-                    break;
-            }
-            
-            applicationStatus.innerHTML = `<p>${statusText}</p>`;
-            applicationStatus.className = `application-status ${statusClass}`;
-        }
-
-        // Отправка анкеты
-        applicationForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const submitButton = document.getElementById('submit-application');
-            submitButton.disabled = true;
-            submitButton.textContent = 'Отправка...';
-            
-            const formData = new FormData(applicationForm);
-            const applicationData = {
-                userId: userId,
-                nickname: formData.get('nickname'),
-                age: formData.get('age'),
-                experience: formData.get('experience'),
-                playstyle: formData.get('playstyle'),
-                about: formData.get('about'),
-                telegram: formData.get('telegram'),
-                timestamp: new Date().toISOString()
-            };
-            
-            try {
-                const response = await fetch('/api/application/submit', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(applicationData)
+                // Настройка загрузки аватарки
+                document.getElementById('avatarUpload').addEventListener('change', (e) => {
+                    this.handleFileUpload(e, 'avatar');
                 });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    alert('Анкета успешно отправлена! Ожидайте рассмотрения.');
-                    closeApplicationModal();
-                    checkApplicationStatus();
+            },
+
+            handleFileUpload(event, type) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        if (type === 'banner') {
+                            this.selectedBanner = e.target.result;
+                            this.showBannerPreview(e.target.result);
+                        } else {
+                            this.selectedAvatar = e.target.result;
+                            this.showAvatarPreview(e.target.result);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            },
+
+            showBannerPreview(imageSrc) {
+                const preview = document.getElementById('bannerPreview');
+                preview.innerHTML = `<img src="${imageSrc}" class="preview-image" alt="Предпросмотр баннера">`;
+            },
+
+            showAvatarPreview(imageSrc) {
+                const preview = document.getElementById('avatarPreview');
+                preview.innerHTML = `<img src="${imageSrc}" class="preview-image" alt="Предпросмотр аватарки">`;
+            },
+
+            createMainAccount() {
+                if (!this.users['IshiKavai']) {
+                    this.users['IshiKavai'] = {
+                        nickname: 'IshiKavai',
+                        password: 'SolusMC_250020082',
+                        role: 'Владелец сайта',
+                        banner: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800',
+                        avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400',
+                        registeredAt: new Date().toISOString(),
+                        lastSeen: new Date().toISOString()
+                    };
+                    this.saveUsers();
+                }
+            },
+
+            loadUsers() {
+                const saved = localStorage.getItem('jmsmp_users');
+                if (saved) {
+                    this.users = JSON.parse(saved);
+                }
+            },
+
+            saveUsers() {
+                localStorage.setItem('jmsmp_users', JSON.stringify(this.users));
+            },
+
+            loadCurrentUser() {
+                const saved = localStorage.getItem('jmsmp_current_user');
+                if (saved) {
+                    this.currentUser = JSON.parse(saved);
+                    this.updateAuthUI();
+                }
+            },
+
+            saveCurrentUser() {
+                if (this.currentUser) {
+                    localStorage.setItem('jmsmp_current_user', JSON.stringify(this.currentUser));
+                }
+            },
+
+            setupEventListeners() {
+                document.getElementById('authBtn').addEventListener('click', () => this.showAuthModal());
+                document.getElementById('closeAuthModal').addEventListener('click', () => this.hideAuthModal());
+                document.getElementById('closeProfileModal').addEventListener('click', () => this.hideProfileModal());
+
+                document.getElementById('backToTop').addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+
+                window.addEventListener('scroll', () => {
+                    const backToTop = document.getElementById('backToTop');
+                    backToTop.style.display = window.pageYOffset > 300 ? 'flex' : 'none';
+                });
+            },
+
+            showAuthModal() {
+                if (this.currentUser) {
+                    this.showProfileModal();
                 } else {
-                    alert('Ошибка при отправке анкеты: ' + result.error);
+                    document.getElementById('authModal').style.display = 'flex';
                 }
-            } catch (error) {
-                alert('Ошибка соединения. Попробуйте позже.');
-                console.error('Ошибка отправки анкеты:', error);
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Отправить анкету';
+            },
+
+            hideAuthModal() {
+                document.getElementById('authModal').style.display = 'none';
+            },
+
+            showProfileModal() {
+                this.updateProfileUI();
+                document.getElementById('profileModal').style.display = 'flex';
+            },
+
+            hideProfileModal() {
+                document.getElementById('profileModal').style.display = 'none';
+            },
+
+            login() {
+                const nickname = document.getElementById('loginNickname').value.trim();
+                const password = document.getElementById('loginPassword').value;
+
+                if (!nickname || !password) {
+                    alert('Заполните все поля!');
+                    return;
+                }
+
+                const user = this.users[nickname];
+                if (user && user.password === password) {
+                    this.currentUser = { ...user };
+                    this.currentUser.lastSeen = new Date().toISOString();
+                    this.users[nickname].lastSeen = this.currentUser.lastSeen;
+                    
+                    this.saveCurrentUser();
+                    this.saveUsers();
+                    this.updateAuthUI();
+                    this.hideAuthModal();
+                    this.showProfileModal();
+                    
+                    this.addNotification('Успешный вход в аккаунт!');
+                } else {
+                    alert('Неверный никнейм или пароль!');
+                }
+            },
+
+            register() {
+                const nickname = document.getElementById('regNickname').value.trim();
+                const password = document.getElementById('regPassword').value;
+                const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+                if (!nickname || !password) {
+                    alert('Заполните все поля!');
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    alert('Пароли не совпадают!');
+                    return;
+                }
+
+                if (this.users[nickname]) {
+                    alert('Этот никнейм уже занят!');
+                    return;
+                }
+
+                this.users[nickname] = {
+                    nickname: nickname,
+                    password: password,
+                    role: 'Игрок',
+                    banner: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
+                    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400',
+                    registeredAt: new Date().toISOString(),
+                    lastSeen: new Date().toISOString()
+                };
+
+                this.currentUser = { ...this.users[nickname] };
+                this.saveUsers();
+                this.saveCurrentUser();
+                this.updateAuthUI();
+                this.hideAuthModal();
+                this.showProfileModal();
+
+                this.addNotification('Аккаунт успешно создан!');
+            },
+
+            logout() {
+                this.currentUser = null;
+                localStorage.removeItem('jmsmp_current_user');
+                this.updateAuthUI();
+                this.hideProfileModal();
+                this.addNotification('Вы вышли из аккаунта');
+            },
+
+            updateAuthUI() {
+                const authBtn = document.getElementById('authBtn');
+                if (this.currentUser) {
+                    authBtn.innerHTML = `<i class="fas fa-user"></i> ${this.currentUser.nickname}`;
+                } else {
+                    authBtn.innerHTML = '<i class="fas fa-user"></i> Войти';
+                }
+            },
+
+            updateProfileUI() {
+                if (!this.currentUser) return;
+
+                document.getElementById('profileNickname').textContent = this.currentUser.nickname;
+                document.getElementById('profileRole').textContent = this.currentUser.role;
+                document.getElementById('lastSeen').textContent = `Последний раз онлайн: ${new Date(this.currentUser.lastSeen).toLocaleString('ru-RU')}`;
+
+                // Устанавливаем баннер и аватарку
+                if (this.currentUser.banner) {
+                    document.getElementById('profileBanner').style.backgroundImage = `url(${this.currentUser.banner})`;
+                }
+                if (this.currentUser.avatar) {
+                    document.getElementById('profileAvatar').style.backgroundImage = `url(${this.currentUser.avatar})`;
+                }
+
+                this.updateStudioStatus();
+            },
+
+            openBannerModal() {
+                this.selectedBanner = this.currentUser.banner;
+                if (this.selectedBanner) {
+                    this.showBannerPreview(this.selectedBanner);
+                }
+                document.getElementById('bannerModal').style.display = 'flex';
+            },
+
+            closeBannerModal() {
+                document.getElementById('bannerModal').style.display = 'none';
+                this.selectedBanner = null;
+                document.getElementById('bannerPreview').innerHTML = '';
+                document.getElementById('bannerUpload').value = '';
+            },
+
+            openAvatarModal() {
+                this.selectedAvatar = this.currentUser.avatar;
+                if (this.selectedAvatar) {
+                    this.showAvatarPreview(this.selectedAvatar);
+                }
+                document.getElementById('avatarModal').style.display = 'flex';
+            },
+
+            closeAvatarModal() {
+                document.getElementById('avatarModal').style.display = 'none';
+                this.selectedAvatar = null;
+                document.getElementById('avatarPreview').innerHTML = '';
+                document.getElementById('avatarUpload').value = '';
+            },
+
+            selectBanner(url) {
+                this.selectedBanner = url;
+                this.showBannerPreview(url);
+            },
+
+            selectAvatar(url) {
+                this.selectedAvatar = url;
+                this.showAvatarPreview(url);
+            },
+
+            saveBanner() {
+                if (this.selectedBanner) {
+                    this.currentUser.banner = this.selectedBanner;
+                    this.users[this.currentUser.nickname].banner = this.selectedBanner;
+                    this.saveUsers();
+                    this.saveCurrentUser();
+                    this.updateProfileUI();
+                    this.closeBannerModal();
+                    this.addNotification('Баннер успешно изменен!');
+                }
+            },
+
+            saveAvatar() {
+                if (this.selectedAvatar) {
+                    this.currentUser.avatar = this.selectedAvatar;
+                    this.users[this.currentUser.nickname].avatar = this.selectedAvatar;
+                    this.saveUsers();
+                    this.saveCurrentUser();
+                    this.updateProfileUI();
+                    this.closeAvatarModal();
+                    this.addNotification('Аватарка успешно изменена!');
+                }
+            },
+
+            // ... остальные функции остаются без изменений ...
+            updateStudioStatus() {
+                const studioStatus = document.getElementById('studioStatus');
+                const applicationForm = document.getElementById('studioApplicationForm');
+
+                if (this.studioRecruitment) {
+                    studioStatus.innerHTML = `
+                        <div style="background: var(--success-color); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
+                            <i class="fas fa-check-circle"></i> Набор в студию ОТКРЫТ!
+                        </div>
+                    `;
+                    applicationForm.style.display = 'block';
+                } else {
+                    studioStatus.innerHTML = `
+                        <div style="background: var(--error-color); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
+                            <i class="fas fa-times-circle"></i> Набор в студию ЗАКРЫТ!
+                        </div>
+                    `;
+                    applicationForm.style.display = 'none';
+                }
+            },
+
+            assignRole() {
+                if (this.currentUser.role !== 'Владелец сайта' && this.currentUser.role !== 'Владелец') {
+                    alert('У вас нет прав для выдачи ролей!');
+                    return;
+                }
+
+                const targetNickname = document.getElementById('roleNickname').value.trim();
+                const newRole = document.getElementById('roleSelect').value;
+
+                if (!targetNickname) {
+                    alert('Введите никнейм игрока!');
+                    return;
+                }
+
+                if (!this.users[targetNickname]) {
+                    alert('Игрок с таким никнеймом не найден!');
+                    return;
+                }
+
+                this.users[targetNickname].role = newRole;
+                this.saveUsers();
+
+                if (targetNickname === this.currentUser.nickname) {
+                    this.currentUser.role = newRole;
+                    this.saveCurrentUser();
+                    this.updateProfileUI();
+                }
+
+                document.getElementById('roleNickname').value = '';
+                this.addNotification(`Роль "${newRole}" выдана игроку ${targetNickname}`);
+            },
+
+            submitStudioApplication() {
+                if (!this.studioRecruitment) {
+                    alert('Набор в студию закрыт!');
+                    return;
+                }
+
+                const skills = document.getElementById('studioSkills').value;
+                const experience = document.getElementById('studioExperience').value;
+                const portfolio = document.getElementById('studioPortfolio').value;
+
+                if (!skills || !experience) {
+                    alert('Заполните обязательные поля!');
+                    return;
+                }
+
+                this.addNotification('Анкета в студию отправлена на рассмотрение!');
+                
+                document.getElementById('studioSkills').value = '';
+                document.getElementById('studioExperience').value = '';
+                document.getElementById('studioPortfolio').value = '';
+            },
+
+            addNotification(message) {
+                const notifications = JSON.parse(localStorage.getItem('jmsmp_notifications') || '[]');
+                notifications.push({
+                    id: Date.now(),
+                    message: message,
+                    timestamp: new Date().toISOString(),
+                    read: false
+                });
+                localStorage.setItem('jmsmp_notifications', JSON.stringify(notifications));
+                this.updateNotificationBadge();
+            },
+
+            updateNotificationBadge() {
+                const notifications = JSON.parse(localStorage.getItem('jmsmp_notifications') || '[]');
+                const unreadCount = notifications.filter(n => !n.read).length;
+                const badge = document.getElementById('notificationCount');
+
+                if (unreadCount > 0) {
+                    badge.textContent = unreadCount;
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
             }
-        });
+        };
 
-        // Копирование IP сервера
-        const serverIpHeader = document.getElementById('server-ip-header');
-        const copyBtn = document.getElementById('copy-server-btn');
-        const serverIp = 'play.jessiesmp.online:25565';
-        
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                // Визуальная обратная связь
-                const originalText = serverIpHeader.textContent;
-                serverIpHeader.textContent = 'Скопировано! ✓';
-                serverIpHeader.style.background = '#27ae60';
-                
-                if (copyBtn) {
-                    copyBtn.textContent = 'Скопировано!';
-                    copyBtn.style.background = '#27ae60';
-                }
-                
-                setTimeout(() => {
-                    serverIpHeader.textContent = originalText;
-                    serverIpHeader.style.background = '';
-                    if (copyBtn) {
-                        copyBtn.textContent = 'скопировать IP';
-                        copyBtn.style.background = '';
-                    }
-                }, 2000);
-            }).catch(err => {
-                console.error('Ошибка копирования: ', err);
-            });
-        }
-        
-        serverIpHeader.addEventListener('click', () => copyToClipboard(serverIp));
-        if (copyBtn) {
-            copyBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                copyToClipboard(serverIp);
-            });
+        // Глобальные функции
+        function showLoginForm() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('authTitle').textContent = 'Вход в аккаунт';
         }
 
-        // Инициализация
+        function showRegisterForm() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+            document.getElementById('authTitle').textContent = 'Регистрация';
+        }
+
+        function showProfileSection(sectionName) {
+            ['gallery', 'settings', 'roles', 'studio'].forEach(section => {
+                document.getElementById(section + 'Section').classList.add('hidden');
+            });
+            document.getElementById(sectionName + 'Section').classList.remove('hidden');
+        }
+
+        function login() { JMSMP.login(); }
+        function register() { JMSMP.register(); }
+        function logout() { JMSMP.logout(); }
+        function assignRole() { JMSMP.assignRole(); }
+        function changeNickname() { 
+            const newNickname = document.getElementById('newNickname').value.trim();
+            if (newNickname && newNickname !== JMSMP.currentUser.nickname) {
+                // Обновляем никнейм
+                delete JMSMP.users[JMSMP.currentUser.nickname];
+                JMSMP.currentUser.nickname = newNickname;
+                JMSMP.users[newNickname] = JMSMP.currentUser;
+                JMSMP.saveUsers();
+                JMSMP.saveCurrentUser();
+                JMSMP.updateAuthUI();
+                JMSMP.updateProfileUI();
+                JMSMP.addNotification('Никнейм успешно изменен!');
+                document.getElementById('newNickname').value = '';
+            }
+        }
+        function submitStudioApplication() { JMSMP.submitStudioApplication(); }
+        function openBannerModal() { JMSMP.openBannerModal(); }
+        function closeBannerModal() { JMSMP.closeBannerModal(); }
+        function openAvatarModal() { JMSMP.openAvatarModal(); }
+        function closeAvatarModal() { JMSMP.closeAvatarModal(); }
+        function selectBanner(url) { JMSMP.selectBanner(url); }
+        function selectAvatar(url) { JMSMP.selectAvatar(url); }
+        function saveBanner() { JMSMP.saveBanner(); }
+        function saveAvatar() { JMSMP.saveAvatar(); }
+
+        // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
-            checkApplicationStatus();
+            JMSMP.init();
+            
+            // Загружаем статус набора в студию
+            const savedRecruitment = localStorage.getItem('jmsmp_studio_recruitment');
+            if (savedRecruitment !== null) {
+                JMSMP.studioRecruitment = savedRecruitment === 'true';
+            }
+
+            // Показываем/скрываем кнопку наверх при скролле
+            window.addEventListener('scroll', function() {
+                const backToTop = document.getElementById('backToTop');
+                if (window.pageYOffset > 300) {
+                    backToTop.style.display = 'flex';
+                } else {
+                    backToTop.style.display = 'none';
+                }
+            });
+
+            // Закрытие модальных окон по клику вне области
+            window.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal')) {
+                    JMSMP.hideAuthModal();
+                    JMSMP.hideProfileModal();
+                    JMSMP.closeBannerModal();
+                    JMSMP.closeAvatarModal();
+                }
+            });
         });
+
+        // Функция для управления набором в студию (только для владельцев)
+        function toggleStudioRecruitment() {
+            if (JMSMP.currentUser && (JMSMP.currentUser.role === 'Владелец сайта' || JMSMP.currentUser.role === 'Владелец')) {
+                JMSMP.studioRecruitment = !JMSMP.studioRecruitment;
+                localStorage.setItem('jmsmp_studio_recruitment', JMSMP.studioRecruitment);
+                JMSMP.updateStudioStatus();
+                JMSMP.addNotification(`Набор в студию ${JMSMP.studioRecruitment ? 'ОТКРЫТ' : 'ЗАКРЫТ'}`);
+            } else {
+                alert('У вас нет прав для этого действия!');
+            }
+        }
+
+        // Функция для быстрого доступа к управлению набором (можно добавить кнопку в профиль владельца)
+        function addStudioToggleButton() {
+            if (JMSMP.currentUser && (JMSMP.currentUser.role === 'Владелец сайта' || JMSMP.currentUser.role === 'Владелец')) {
+                const studioSection = document.getElementById('studioSection');
+                if (!document.getElementById('studioToggleBtn')) {
+                    const toggleBtn = document.createElement('button');
+                    toggleBtn.id = 'studioToggleBtn';
+                    toggleBtn.className = 'btn';
+                    toggleBtn.style.marginBottom = '20px';
+                    toggleBtn.style.background = JMSMP.studioRecruitment ? 'var(--error-color)' : 'var(--success-color)';
+                    toggleBtn.textContent = JMSMP.studioRecruitment ? 'Закрыть набор' : 'Открыть набор';
+                    toggleBtn.onclick = toggleStudioRecruitment;
+                    
+                    const studioStatus = document.getElementById('studioStatus');
+                    studioStatus.parentNode.insertBefore(toggleBtn, studioStatus);
+                }
+            }
+        }
+
+        // Обновляем кнопку управления набором при открытии секции студии
+        const originalShowProfileSection = showProfileSection;
+        showProfileSection = function(sectionName) {
+            originalShowProfileSection(sectionName);
+            if (sectionName === 'studio') {
+                setTimeout(addStudioToggleButton, 100);
+            }
+        };
+
     </script>
 </body>
 </html>
+           
