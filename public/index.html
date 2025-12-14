@@ -3,467 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jessie Minecraft SMP — Ванильный сервер</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Jessie Minecraft SMP | JMSMP</title>
     <style>
         :root {
             --primary: #182AA8;
             --secondary: #AA00AA;
             --accent: #2D439D;
-            --light-blue: #426F84;
-            --light-gray: #DEDEDE;
-            --dark-bg: #0a0a15;
-            --section-bg: #1a1a2e;
-            --card-bg: #16213e;
+            --background: #426F84;
+            --light: #DEDEDE;
+            --neon-glow: 0 0 10px currentColor, 0 0 20px currentColor;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            transition: all 0.3s ease;
         }
 
         body {
-            background-color: var(--dark-bg);
-            color: var(--light-gray);
-            line-height: 1.6;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--background), #2a4a6b);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        /* Неоновые эффекты */
+        .neon-border {
+            border: 2px solid var(--primary);
+            box-shadow: var(--neon-glow);
+            animation: neon-pulse 2s infinite alternate;
         }
 
-        /* Навигация */
-        .navbar {
+        @keyframes neon-pulse {
+            from { box-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary); }
+            to { box-shadow: 0 0 15px var(--primary), 0 0 30px var(--primary), 0 0 45px var(--secondary); }
+        }
+
+        /* Падающие эффекты */
+        .particle {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: var(--section-bg);
+            pointer-events: none;
             z-index: 1000;
-            padding: 15px 0;
-            border-bottom: 2px solid var(--primary);
         }
 
-        .nav-container {
+        /* Шапка */
+        header {
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 2px solid var(--primary);
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 2rem;
             font-weight: bold;
-            color: var(--primary);
-            text-decoration: none;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(24, 42, 168, 0.5);
         }
 
-        .nav-links {
+        nav ul {
             display: flex;
-            gap: 30px;
-            align-items: center;
+            list-style: none;
+            gap: 2rem;
         }
 
-        .nav-link {
-            color: var(--light-gray);
+        nav a {
+            color: var(--light);
             text-decoration: none;
-            padding: 10px 20px;
+            padding: 0.5rem 1rem;
             border-radius: 5px;
-            transition: background 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .nav-link:hover {
-            background: rgba(255,255,255,0.1);
+        nav a:hover {
+            background: rgba(24, 42, 168, 0.3);
+            transform: translateY(-2px);
         }
 
-        .auth-section {
+        /* Профиль и уведомления */
+        .user-menu {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 1rem;
         }
 
         .notification-bell {
             position: relative;
             cursor: pointer;
-            padding: 10px;
-            border-radius: 50%;
-            transition: background 0.3s ease;
-        }
-
-        .notification-bell:hover {
-            background: rgba(255,255,255,0.1);
+            font-size: 1.5rem;
         }
 
         .notification-count {
             position: absolute;
             top: -5px;
             right: -5px;
-            background: var(--accent);
+            background: red;
             color: white;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 12px;
+            padding: 2px 6px;
+            font-size: 0.8rem;
+        }
+
+        /* Главный контент */
+        .hero {
+            padding: 120px 2rem 2rem;
+            text-align: center;
+            min-height: 100vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-        }
-
-        .btn {
-            background: var(--primary);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background 0.3s ease;
-        }
-
-        .btn:hover {
-            background: var(--accent);
-        }
-
-        /* Шапка */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 120px 0 80px;
-            text-align: center;
-            margin-top: 60px;
-        }
-
-        .server-info {
-            margin: 20px 0;
-        }
-
-        .version-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            margin: 5px;
-            font-size: 14px;
-        }
-
-        .server-address {
-            background: var(--primary);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 5px;
-            font-family: monospace;
-            display: inline-block;
-            margin: 15px 0;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .server-address:hover {
-            background: var(--accent);
-        }
-
-        /* Секции */
-        section {
-            padding: 80px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-title h2 {
-            color: var(--primary);
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-
-        /* Как начать играть */
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .step {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            border-top: 4px solid var(--accent);
-        }
-
-        .step-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--primary);
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: white;
         }
 
-        /* Уведомления */
-        .notification-panel {
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px var(--primary);
+        }
+
+        .season-selector {
             position: fixed;
-            top: 80px;
+            top: 100px;
             right: 20px;
-            width: 350px;
-            background: var(--section-bg);
-            border: 1px solid var(--primary);
+            z-index: 99;
+        }
+
+        /* Таймер сезона */
+        .season-timer {
+            background: rgba(0,0,0,0.7);
+            padding: 1rem;
             border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            z-index: 999;
-            display: none;
+            margin: 2rem 0;
+            border: 1px solid var(--accent);
         }
 
-        .notification-panel.show {
-            display: block;
-        }
-
-        .notification-header {
-            padding: 15px;
-            border-bottom: 1px solid var(--primary);
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .notification-item {
-            padding: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .notification-item:last-child {
-            border-bottom: none;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .steps {
-                grid-template-columns: 1fr;
-            }
+        .timer-digits {
+            font-size: 2rem;
+            font-family: monospace;
+            color: var(--secondary);
+            text-shadow: 0 0 10px var(--secondary);
         }
     </style>
 </head>
 <body>
-    <!-- Навигация -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-container">
-                <a href="/" class="logo">JMSMP</a>
-                <div class="nav-links">
-                    <a href="/" class="nav-link">Главная</a>
-                    <a href="/team" class="nav-link">Команда</a>
-                    <a href="/wiki" class="nav-link">Вики</a>
-                    <a href="/faq" class="nav-link">FAQ</a>
-                    
-                    <div class="auth-section">
-                        <div class="notification-bell" id="notificationBell">
-                            <i class="fas fa-bell"></i>
-                            <span class="notification-count hidden" id="notificationCount">0</span>
-                        </div>
-                        <a href="/profile" class="btn">Профиль</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Уведомления -->
-    <div class="notification-panel" id="notificationPanel">
-        <div class="notification-header">
-            <i class="fas fa-bell"></i> Уведомления
-        </div>
-        <div id="notificationList">
-            <!-- Уведомления загружаются через JS -->
-        </div>
-    </div>
+    <!-- Падающие частицы -->
+    <div id="particles-container"></div>
 
     <!-- Шапка -->
     <header>
-        <div class="container">
-            <h1>Jessie Minecraft SMP</h1>
-            <h2>ЗДЕСЬ НОВЫЕ ПРИКЛЮЧЕНИЯ</h2>
-            
-            <div class="server-info">
-                <span class="version-badge">Minecraft 1.21.8</span>
-                <span class="version-badge">Ванильный сервер</span>
-                <span class="version-badge">Лицензия не требуется</span>
+        <div class="logo">JMSMP</div>
+        <nav>
+            <ul>
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#wiki">Вики</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#team">Команда</a></li>
+            </ul>
+        </nav>
+        <div class="user-menu">
+            <div class="notification-bell">
+                🔔 <span class="notification-count">0</span>
             </div>
-
-            <div class="server-address" id="serverAddress" style="display: none;">
-                IP сервера будет доступен после одобрения анкеты
-            </div>
-
-            <div style="margin-top: 30px;">
-                <a href="/profile#application" class="btn" style="padding: 15px 30px; font-size: 1.1rem;">
-                    Начать играть
-                </a>
-            </div>
+            <div class="profile-btn">Профиль</div>
+            <select class="season-selector">
+                <option value="winter">❄️ Зима</option>
+                <option value="spring">🌱 Весна</option>
+                <option value="summer">☀️ Лето</option>
+                <option value="autumn">🍂 Осень</option>
+            </select>
         </div>
     </header>
 
-    <!-- Как начать играть -->
-    <section style="background: var(--section-bg);">
-        <div class="container">
-            <div class="section-title">
-                <h2>КАК НАЧАТЬ ИГРАТЬ?</h2>
-                <p>ЗАПОЛНЯЙ. ИГРАЙ. КАЙФУЙ.</p>
-            </div>
-
-            <div class="steps">
-                <div class="step">
-                    <div class="step-icon">1</div>
-                    <h3>ЗАПОЛНИТЕ АНКЕТУ</h3>
-                    <p>Для игры на сервере нужна версия 1.21.8</p>
-                    <a href="/profile#application" class="btn" style="margin-top: 15px;">Заполнить</a>
-                </div>
-
-                <div class="step">
-                    <div class="step-icon">2</div>
-                    <h3>УСТАНОВИТЕ ЛАУНЧЕР</h3>
-                    <p>Рекомендуем EasyLauncher для лучшего опыта</p>
-                    <a href="https://easylauncher.org/" class="btn" style="margin-top: 15px;">Скачать</a>
-                </div>
-
-                <div class="step">
-                    <div class="step-icon">3</div>
-                    <h3>ПОЛУЧИТЕ ДОСТУП</h3>
-                    <p>После одобрения анкеты получите IP сервера</p>
-                    <a href="/profile" class="btn" style="margin-top: 15px;">Профиль</a>
-                </div>
-            </div>
+    <!-- Главный экран -->
+    <section class="hero" id="home">
+        <h1>Jessie Minecraft SMP</h1>
+        <p>Версия 1.21.8</p>
+        
+        <div class="season-timer">
+            <h3>До конца сезона осталось:</h3>
+            <div class="timer-digits" id="season-timer">1 год 3 месяца 1 неделя 6 дней 21 час</div>
         </div>
+
+        <button class="neon-border" style="padding: 1rem 2rem; margin: 2rem 0;">
+            Начать играть
+        </button>
     </section>
 
-    <!-- Дополнительные секции... -->
+    <!-- Другие разделы будут добавлены позже -->
+
+    <footer>
+        <p>Сервер JMSMP не относится к Mojang Studios или Microsoft. Не является официальным продуктом Minecraft.</p>
+        <div class="footer-links">
+            <div class="navigation">
+                <h4>Навигация</h4>
+                <a href="#home">Главная</a>
+                <a href="#wiki">Вики</a>
+                <a href="#faq">FAQ</a>
+            </div>
+            <div class="contacts">
+                <h4>Связь с нами</h4>
+                <a href="#">Discord</a>
+                <a href="#">Telegram</a>
+                <a href="#">ВКонтакте</a>
+                <a href="#">Email</a>
+            </div>
+        </div>
+        <p>Открыт с 21 апреля 2024 - 2025</p>
+        <button onclick="scrollToTop()">↑ Наверх</button>
+    </footer>
 
     <script>
-        class JMSMP {
-            constructor() {
-                this.userId = localStorage.getItem('userId') || 'user_' + Date.now();
-                this.notifications = [];
-                this.init();
-            }
-
-            init() {
-                this.setupEventListeners();
-                this.loadNotifications();
-                this.checkServerAccess();
-            }
-
-            setupEventListeners() {
-                // Уведомления
-                document.getElementById('notificationBell').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    this.toggleNotifications();
-                });
-
-                document.addEventListener('click', (e) => {
-                    if (!e.target.closest('#notificationPanel') && !e.target.closest('#notificationBell')) {
-                        this.closeNotifications();
-                    }
-                });
-            }
-
-            async loadNotifications() {
-                try {
-                    const response = await fetch(`/api/notifications/${this.userId}`);
-                    const data = await response.json();
-                    this.notifications = data.notifications || [];
-                    this.updateNotificationUI();
-                } catch (error) {
-                    this.notifications = this.getDefaultNotifications();
-                    this.updateNotificationUI();
-                }
-            }
-
-            getDefaultNotifications() {
-                return [
-                    {
-                        id: '1',
-                        title: 'Добро пожаловать на Jessie SMP!',
-                        message: 'Заполните анкету для доступа к серверу',
-                        type: 'info',
-                        createdAt: new Date().toISOString(),
-                        read: false
-                    }
-                ];
-            }
-
-            updateNotificationUI() {
-                const unreadCount = this.notifications.filter(n => !n.read).length;
-                const countElement = document.getElementById('notificationCount');
-                const listElement = document.getElementById('notificationList');
-
-                countElement.textContent = unreadCount;
-                countElement.classList.toggle('hidden', unreadCount === 0);
-
-                listElement.innerHTML = this.notifications.map(notif => `
-                    <div class="notification-item">
-                        <strong>${notif.title}</strong>
-                        <p style="margin: 5px 0; font-size: 0.9rem;">${notif.message}</p>
-                        <small style="color: #666;">${this.formatDate(notif.createdAt)}</small>
-                    </div>
-                `).join('');
-            }
-
-            async checkServerAccess() {
-                try {
-                    const response = await fetch(`/api/user-ip/${this.userId}`);
-                    const data = await response.json();
-                    
-                    if (data.hasAccess) {
-                        document.getElementById('serverAddress').style.display = 'inline-block';
-                        document.getElementById('serverAddress').textContent = data.ip;
-                        document.getElementById('serverAddress').onclick = () => this.copyToClipboard(data.ip);
-                    }
-                } catch (error) {
-                    console.log('Ошибка проверки доступа:', error);
-                }
-            }
-
-            formatDate(dateString) {
-                return new Date(dateString).toLocaleDateString('ru-RU');
-            }
-
-            toggleNotifications() {
-                document.getElementById('notificationPanel').classList.toggle('show');
-            }
-
-            closeNotifications() {
-                document.getElementById('notificationPanel').classList.remove('show');
-            }
-
-            copyToClipboard(text) {
-                navigator.clipboard.writeText(text).then(() => {
-                    const original = document.getElementById('serverAddress').textContent;
-                    document.getElementById('serverAddress').textContent = 'Скопировано!';
-                    setTimeout(() => {
-                        document.getElementById('serverAddress').textContent = original;
-                    }, 2000);
-                });
+        // Система частиц для сезонных эффектов
+        function createParticles(season) {
+            const container = document.getElementById('particles-container');
+            container.innerHTML = '';
+            
+            const particles = {
+                winter: ['❄️', '️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️❄️'],
+                spring: ['🌸', '🌱', '🌷'],
+                summer: ['🌻', '☀️', '🌊'],
+                autumn: ['🍂', '🍁', '🌾']
+            };
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.innerHTML = particles[season][Math.floor(Math.random() * particles[season].length)];
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                particle.style.opacity = Math.random() * 0.7 + 0.3;
+                particle.style.animation = `fall ${Math.random() * 5 + 5}s linear infinite`;
+                
+                container.appendChild(particle);
             }
         }
 
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', () => {
-            window.jmsmp = new JMSMP();
+        // Таймер сезона
+        function updateSeasonTimer() {
+            // Здесь будет реальная логика отсчета времени
+            const timer = document.getElementById('season-timer');
+            // Пока демо-таймер
+        }
+
+        // Смена сезона
+        document.querySelector('.season-selector').addEventListener('change', function(e) {
+            createParticles(e.target.value);
         });
+
+        // Инициализация
+        createParticles('winter');
+        updateSeasonTimer();
+
+        function scrollToTop() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Анимация падения частиц
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to { transform: translateY(100vh) rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
